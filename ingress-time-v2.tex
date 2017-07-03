@@ -1,0 +1,109 @@
+\def \InputVersion{4}
+\input{diagrams}
+
+\def \FastRender{0}
+
+\newcommand{\FrameA}[1] {
+\TriggersDiagram{#1}{
+}
+}
+
+\FrameA{.01}
+\if \FastRender 0
+\FrameA{.111}
+\FrameA{.222}
+\FrameA{.333}
+\FrameA{.444}
+\FrameA{.555}
+\FrameA{.666}
+\FrameA{.777}
+
+\newcommand{\FrameB}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{4}{6}{0.000}{#1}{7}
+}
+}
+\FrameB{.888}
+
+\newcommand{\FrameC}[1] {
+\TriggersDiagram{#1}{
+	\DrawOutput{4}{6}{0.000}{1.000}{7}
+}
+}
+\FrameC{1.000}
+
+\newcommand{\FrameE}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{4}{6}{0.000}{1.000}{7}
+	\DrawState{6}{8}{0.000}{#1}{#2}
+}
+}
+\FrameE{1.111}{3}
+\FrameE{1.222}{3}
+\FrameE{1.333}{12}
+\FrameE{1.444}{12}
+\FrameE{1.555}{12}
+\FrameE{1.666}{12}
+\FrameE{1.777}{20}
+\FrameE{1.888}{20}
+\FrameE{2.000}{23}
+\FrameE{2.111}{28}
+\FrameE{2.222}{28}
+\FrameE{2.333}{28}
+\FrameE{2.444}{28}
+\FrameE{2.555}{36}
+\FrameE{2.666}{36}
+\FrameE{2.777}{36}
+\FrameE{2.888}{36}
+\fi % \FastRender 0
+
+\newcommand{\FrameF}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{4}{6}{0.000}{1.000}{7}
+	\DrawOutput{6}{8}{0.000}{3.000}{36}
+	\DrawState{8}{10}{0.000}{#1}{#2}
+}
+}
+\FrameF{3.000}{}
+\if \FastRender 0
+\FrameF{3.111}{}
+
+\newcommand{\FrameG}[2] {
+\FrameF{#1}{#2}
+}
+\FrameG{3.222}{1}
+\FrameG{3.333}{1}
+\FrameG{3.444}{1}
+\FrameG{3.555}{1}
+\FrameG{3.666}{1}
+\FrameG{3.777}{1}
+\FrameG{3.888}{4}
+\FrameG{4.000}{4}
+\FrameG{4.111}{4}
+\FrameG{4.222}{4}
+\FrameG{4.333}{4}
+\FrameG{4.444}{4}
+\FrameG{4.555}{4}
+\FrameG{4.666}{4}
+\FrameG{4.777}{4}
+\FrameG{4.888}{4}
+
+\newcommand{\FrameH}[1] {
+\TriggersDiagram{#1}{
+	\DrawOutput{4}{6}{0.000}{1.000}{7}
+	\DrawOutput{6}{8}{0.000}{3.000}{36}
+	\DrawOutput{8}{10}{0.000}{5.000}{4}
+}
+}
+\FrameH{5.000}
+\fi % \FastRender 0
+
+\newcommand{\FrameI} {
+\TriggersDiagram[c_back]{5.222}{
+	\DrawOutput{4}{6}{0.000}{1.000}{7}
+	\DrawOutput{6}{8}{0.000}{3.000}{36}
+	\DrawOutput{8}{10}{0.000}{5.000}{4}
+}
+}
+\DrawFinalFrames{\FrameI}
+\end{document}

@@ -1,0 +1,132 @@
+% convert -density 600 -delay 10 -loop 0 classic-batch.pdf classic-batch-pdf.gif
+%   or
+% convert -density 600 classic-batch.pdf classic-batch-%02d.png
+% convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
+
+\input{diagrams}
+
+\def \FastRender{0}
+\def \ShowWatermarks{0}
+\def \StreamsTables{1}
+\def \DiagramName{Fun}
+\def \DebugStreamTable{0}
+\def \DrawTriggerLineBottom{0}
+\def \FlushLeftWatermark{1}
+\def \ShowFrame{1}
+
+\newcommand{\DrawOutputStream} {
+	\DrawOutput{\stX}{\stX + \stW}{6 + \stInputY}{6.5 + \stInputY}{51}
+}
+
+\newcommand{\BatchDiagram}[3] {
+\TriggersMulti{
+	\def \stYoff{#1}
+	\def \oyBase{6.5}
+
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{4.5}
+	\def \stH{2}
+	\def \stYMinBase{3}
+	\def \stYBoundBoost{0}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(INPUT BYTES)}
+	\StreamInline{
+		\DrawWatermarkA
+		\DrawBytesA
+	}
+	
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{2.5}
+	\def \stH{2}
+	\def \stYMinBase{1}
+	\def \stYBoundBoost{0}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(USER SCORES)}
+	\StreamInline{
+		\DrawWatermarkA
+		\DrawInputsA{c_datum_back}{c_datum_text}
+	}
+
+	\def \stY{4.5}
+	\DrawDivider{4.5}{1}{3.5}
+	\node[s_timepoint, rotate=0, c_white] at (\stX - 2.25, \stY) {PARSE};		
+
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{2}
+	\def \stH{0.5}
+	\def \stYBoundBoost{0}
+	\def \stLabel{SUM}
+	\TableInline{
+		\DrawWatermarkA
+		\DrawInputsA{c_ghost}{c_ghost_text}
+		\def \diOffset{4}
+		\DrawIn{\stYoff}{0.333}{3.222}{\DrawTableCell{0}{2}{5}}
+		\DrawIn{\stYoff}{3.333}{12.000}{\DrawTableCell{0}{2}{14}}
+
+		\DrawIn{\stYoff}{0.666}{1.111}{\DrawTableCell{2}{4}{7}}
+		\DrawIn{\stYoff}{1.222}{1.333}{\DrawTableCell{2}{4}{10}}
+		\DrawIn{\stYoff}{1.444}{2.111}{\DrawTableCell{2}{4}{14}}
+		\DrawIn{\stYoff}{2.111}{12.000}{\DrawTableCell{2}{4}{22}}
+		
+		\DrawIn{\stYoff}{1.666}{12.000}{\DrawTableCell{4}{6}{3}}
+
+		\DrawIn{\stYoff}{2.333}{3.555}{\DrawTableCell{6}{8}{3}}
+		\DrawIn{\stYoff}{3.666}{3.888}{\DrawTableCell{6}{8}{11}}
+		\DrawIn{\stYoff}{4.000}{12.000}{\DrawTableCell{6}{8}{12}}
+	}
+	
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{-2}
+	\def \stH{4}
+	\def \stYMinBase{-3.5}
+	\def \stYBoundBoost{0.5}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(TEAM SCORES)}
+	\StreamInline{
+		\def \diOffset{4}
+		\begin{scope}
+			\clip (\stX, \stY) rectangle (\stXW, \stYH);
+			\DrawWatermarkA
+		\end{scope}
+		\DrawIn{\stYoff}{3.333}{12.0}{\DrawOutputz{0}{2}{2.833}{3.333}{14}{late}}
+		\DrawIn{\stYoff}{1.000}{12.0}{\DrawOutputz{0}{2}{0.500}{1.000}{5}{on-time}}		
+
+		\DrawIn{\stYoff}{2.500}{12.0}{\DrawOutputz{2}{4}{2.000}{2.500}{22}{on-time}}
+		\DrawIn{\stYoff}{2.000}{12.0}{\DrawOutputz{2}{4}{1.500}{2.000}{14}{early}}
+		\DrawIn{\stYoff}{1.000}{12.0}{\DrawOutputz{2}{4}{0.500}{1.000}{7}{early}}
+		
+		\DrawIn{\stYoff}{2.675}{12.0}{\DrawOutputz{4}{6}{2.175}{2.675}{3}{on-time}}
+		\DrawIn{\stYoff}{2.675}{12.0}{\DrawOutputz{4}{6}{1.5}{2.000}{3}{early}}
+		
+		\DrawIn{\stYoff}{4.37}{12.0}{\DrawOutputz{6}{8}{3.87}{4.37}{12}{on-time}}
+		\DrawIn{\stYoff}{4.000}{12.0}{\DrawOutputz{6}{8}{3.500}{4.000}{12}{early}}
+		\DrawIn{\stYoff}{3.000}{12.0}{\DrawOutputz{6}{8}{2.500}{3.000}{3}{early}}
+	}
+	
+	\DrawXAxis{6.5}{1}
+	\DrawXAxis{-2}{0}
+} 
+}
+
+\newcommand{\Frame}[1] {
+\BatchDiagram{#1}{
+	
+}{}
+}
+
+\newcommand{\FastFrames}{0,8,23,75,96}
+\newcommand{\AllFrames}{0,1,...,124}
+\RenderFrames
+
+\end{document}

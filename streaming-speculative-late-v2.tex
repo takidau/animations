@@ -1,0 +1,252 @@
+\input{diagrams}
+
+\def \InputVersion{2}
+
+\newcommand{\FrameA}[1] {
+\TriggersDiagram{#1}{
+}
+}
+
+\FrameA{.01}
+\FrameA{.111}
+\FrameA{.222}
+\FrameA{.333}
+\FrameA{.444}
+\FrameA{.555}
+\FrameA{.666}
+\FrameA{.777}
+
+\newcommand{\FrameB}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{2}{4}{0.000}{#1}{7}
+}
+}
+\FrameB{.888}
+
+\newcommand{\FrameC}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{2}{4}{0.000}{#1}{7}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+}
+}
+\FrameC{1.000}
+
+\newcommand{\FrameD}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+}
+}
+\FrameD{1.111}{}
+\FrameD{1.222}{}
+
+\newcommand{\FrameE}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+}
+}
+\FrameE{1.333}{}
+\FrameE{1.444}{}
+\FrameE{1.555}{}
+\FrameE{1.666}{}
+
+\newcommand{\FrameF}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+}
+}
+\FrameF{1.777}
+
+\newcommand{\FrameFF}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+}
+}
+\FrameFF{1.888}
+
+\newcommand{\FrameG}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\FrameG{2.000}
+
+\newcommand{\FrameH}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutput{0}{2}{0.000}{2.111}{14}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\FrameH{2.111}
+\FrameH{2.222}
+\FrameH{2.333}
+\FrameH{2.444}
+
+\newcommand{\FrameHH}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutput{0}{2}{0.000}{2.111}{14}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\FrameHH{2.555}
+\FrameHH{2.666}
+\FrameHH{2.777}
+
+\newcommand{\FrameI}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutput{0}{2}{0.000}{2.111}{14}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\FrameI{2.888}
+
+\newcommand{\FrameJ}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutput{0}{2}{0.000}{2.111}{14}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutput{2}{4}{0.000}{3.000}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutput{6}{8}{0.000}{3.000}{11}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\FrameJ{3.000}
+\FrameJ{3.111}
+
+\newcommand{\FrameK}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutput{0}{2}{0.000}{2.111}{14}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutput{2}{4}{0.000}{3.000}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutput{6}{8}{0.000}{3.000}{11}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\FrameK{3.222}
+\FrameK{3.333}
+\FrameK{3.444}
+\FrameK{3.555}
+
+\newcommand{\FrameL}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutput{0}{2}{0.000}{2.111}{14}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutput{2}{4}{0.000}{3.000}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutput{6}{8}{0.000}{3.616}{12}
+	\DrawOutput{6}{8}{0.000}{3.000}{11}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\FrameL{3.666}
+\FrameL{3.777}
+
+\newcommand{\FrameM}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutput{0}{2}{0.000}{2.111}{14}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutput{2}{4}{0.000}{3.000}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutput{4}{6}{0.000}{3.888}{3}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutput{6}{8}{0.000}{3.616}{12}
+	\DrawOutput{6}{8}{0.000}{3.000}{11}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\FrameM{3.888}
+\FrameM{4.000}
+\FrameM{4.111}
+\FrameM{4.222}
+\FrameM{4.333}
+\FrameM{4.444}
+\FrameM{4.555}
+\FrameM{4.666}
+\FrameM{4.777}
+\FrameM{4.888}
+\FrameM{5.000}
+
+\newcommand{\FrameN}[1] {
+\TriggersDiagram[c_back]{5.222}{
+	\DrawState[#1]{0}{2}{0.000}{5.000}{14}
+	\DrawOutput{0}{2}{0.000}{2.111}{14}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawState[#1]{2}{4}{0.000}{5.000}{22}
+	\DrawOutput{2}{4}{0.000}{3.000}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState[#1]{4}{6}{0.000}{5.000}{3}
+	\DrawOutput{4}{6}{0.000}{3.888}{3}
+	\DrawState[#1]{6}{8}{0.000}{5.000}{12}
+	\DrawOutput{6}{8}{0.000}{3.616}{12}
+	\DrawOutput{6}{8}{0.000}{3.000}{11}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\FrameN{\ofadeA}
+\FrameN{\ofadeB}
+\FrameN{\ofadeC}
+
+\newcommand{\FrameO} {
+\TriggersDiagram[c_back]{5.222}{
+	\DrawOutput{0}{2}{0.000}{2.111}{14}
+	\DrawOutput{0}{2}{0.000}{1.8}{9}
+	\DrawOutput{2}{4}{0.000}{3.000}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{18}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawOutput{4}{6}{0.000}{3.888}{3}
+	\DrawOutput{6}{8}{0.000}{3.616}{12}
+	\DrawOutput{6}{8}{0.000}{3.000}{11}
+	\DrawOutput{6}{8}{0.000}{2.000}{3}
+}
+}
+\DrawFinalFrames{\FrameO}
+\end{document}

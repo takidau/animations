@@ -1,0 +1,162 @@
+\input{diagrams}
+
+\def \FastRender{0}
+\def \ShowWatermarks{0}
+\def \ShowIdealWatermarkOnly{1}
+\def \InputVersion{8}
+
+\newcommand {\DrawToggle}[9] {
+	% #1 = value
+	% #2 = x
+	% #3 = frame
+	% #4 = fill 1
+	% #5 = draw 1
+	% #6 = y1 (bottom)
+	% #7 = fill 2
+	% #8 = draw 2
+	% #9 = y2 (top)
+	
+	\def \NumFrames{24}
+	\def \Half{\NumFrames / 2}
+	\def \tx{\ox + #2}
+	\def \ty{{\oy + #6 + (#9 - #6) * #3 / \NumFrames}}
+	\def \OpacityA{#3 / \NumFrames}
+	\def \OpacityB{1 - \OpacityA}
+
+        \pgfmathparse{ifthenelse(#3<\Half, #3 / \Half, (#3 - \Half) / \Half} 
+        \def \OpacityMid{\pgfmathresult}
+
+	\draw[c_back_light,-,densely dotted,line width=.75pt] (\tx, \oy + #6) -- (\tx, \oy + #9);
+	\filldraw[c_back_light] (\tx, \oy + #6) circle [radius=1pt];
+	\filldraw[c_back_light] (\tx, \oy + #9) circle [radius=1pt];
+	
+	\filldraw[#4, draw=#5] (\tx, \ty) circle [radius=6pt];
+	\filldraw[#7, draw=#8,opacity=\OpacityB] (\tx, \ty) circle [radius=6pt];
+	%\node[#5,font=\bf\sffamily] at (\tx, \ty) {#1};
+	%\node[#8,font=\bf\sffamily,text opacity=\OpacityB] at (\tx, \ty) {#1};
+	\node[red,font=\bf\sffamily] at (\tx, \ty) {#1};
+}
+
+\newcommand{\DrawToggles}[1] {
+	\def \FillA{c_datum_text}
+	\def \DrawA{c_datum_back}
+	\def \FillB{c_datum_back}
+	\def \DrawB{c_datum_text}
+	
+	\DrawToggle{5}{0.444}{#1}{\FillA}{\DrawA}{.333}{\FillB}{\DrawB}{2.111}
+	\DrawToggle{7}{2.444}{#1}{\FillA}{\DrawA}{.666}{\FillB}{\DrawB}{.888}
+	\DrawToggle{8}{3.111}{#1}{\FillA}{\DrawA}{2.111}{\FillB}{\DrawB}{1.777}
+	\DrawToggle{3}{3.666}{#1}{\FillA}{\DrawA}{1.222}{\FillB}{\DrawB}{1.111}
+	\DrawToggle{4}{3.888}{#1}{\FillA}{\DrawA}{1.444}{\FillB}{\DrawB}{2.888}
+	\DrawToggle{3}{4.333}{#1}{\FillA}{\DrawA}{1.666}{\FillB}{\DrawB}{3.888}
+	\DrawToggle{3}{6.666}{#1}{\FillA}{\DrawA}{2.333}{\FillB}{\DrawB}{1.999}
+	\DrawToggle{8}{7.444}{#1}{\FillA}{\DrawA}{3.666}{\FillB}{\DrawB}{2.555}
+	\DrawToggle{1}{7.777}{#1}{\FillA}{\DrawA}{4.0}{\FillB}{\DrawB}{3.222}
+	\DrawToggle{9}{1.444}{#1}{\FillA}{\DrawA}{3.333}{\FillB}{\DrawB}{1.333}
+}
+
+\newcommand{\ToggleDiagram}[1] {
+\TriggersDiagram[c_back_dark]{5.222}{
+  \DrawToggles{#1}
+}
+}
+
+\ToggleDiagram{0}
+
+\if \FastRender 0
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{0}
+\ToggleDiagram{1}
+\ToggleDiagram{2}
+\ToggleDiagram{3}
+\ToggleDiagram{4}
+\fi % \FastRender 0
+
+\ToggleDiagram{5}
+
+\if \FastRender 0
+\ToggleDiagram{6}
+\ToggleDiagram{7}
+\ToggleDiagram{8}
+\ToggleDiagram{9}
+\ToggleDiagram{10}
+\ToggleDiagram{11}
+\ToggleDiagram{12}
+\ToggleDiagram{13}
+\ToggleDiagram{14}
+\ToggleDiagram{15}
+\ToggleDiagram{16}
+\ToggleDiagram{17}
+\ToggleDiagram{18}
+\ToggleDiagram{19}
+\ToggleDiagram{20}
+\ToggleDiagram{21}
+\ToggleDiagram{22}
+\ToggleDiagram{23}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\ToggleDiagram{24}
+\fi % \FastRender 0
+
+\ToggleDiagram{24}
+
+\if \FastRender 0
+\ToggleDiagram{23}
+\ToggleDiagram{22}
+\ToggleDiagram{21}
+\ToggleDiagram{20}
+\ToggleDiagram{19}
+\ToggleDiagram{18}
+\ToggleDiagram{17}
+\ToggleDiagram{16}
+\ToggleDiagram{15}
+\ToggleDiagram{14}
+\ToggleDiagram{13}
+\ToggleDiagram{12}
+\ToggleDiagram{11}
+\ToggleDiagram{10}
+\ToggleDiagram{9}
+\ToggleDiagram{8}
+\ToggleDiagram{7}
+\ToggleDiagram{6}
+\ToggleDiagram{5}
+\ToggleDiagram{4}
+\ToggleDiagram{3}
+\ToggleDiagram{2}
+\ToggleDiagram{1}
+\fi % \FastRender 0
+
+\end{document}

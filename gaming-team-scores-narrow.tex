@@ -1,0 +1,228 @@
+% convert -density 600 -delay 10 -loop 0 classic-batch.pdf classic-batch-pdf.gif
+%   or
+% convert -density 600 classic-batch.pdf classic-batch-%02d.png
+% convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
+\input{gaming-diagrams}
+
+\def \FastRender{0}
+\def \ShowWatermarks{0}
+
+\SetJointVars{0}{1}
+\def \maxx{10}
+
+\def \JointLeftInput{1}
+\def \JointMidInput{2}
+\def \IsNarrow{1}
+
+\newcommand{\GamingInlineA}[3][c_timeline] {
+\GamingInline[#1]{#2}{#3}{1,2}
+}
+
+\newcommand{\GamingInlineB}[3][c_timeline] {
+\GamingInline[#1]{#2}{#3}{3}
+}
+
+\newcommand{\FrameFinal} {
+\JointTeam{
+    \GamingInlineA[c_back]{5.222}{
+	\DrawOutput{0}{2}{0.000}{5.000}{8}
+	\DrawOutput{2}{4}{0.000}{5.000}{13}
+	\DrawOutput{4}{6}{0.000}{5.000}{2}
+    }
+  }{
+    \GamingInlineB[c_back]{5.222}{
+	\DrawOutput{2}{4}{0.000}{5.000}{5}
+	\DrawOutput{4}{6}{0.000}{5.000}{15}
+    }
+  }
+}
+\DrawInitialFrame{\FrameFinal}
+
+\newcommand{\FrameA}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+    }
+  }{
+    \GamingInlineB{#1}{
+    }
+  }
+}
+\FrameA{.001}
+
+\if \FastRender 0
+\FrameA{.111}
+\FrameA{.222}
+
+\newcommand{\FrameB}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+    }
+  }
+}
+\FrameB{.333}
+\FrameB{.444}
+\FrameB{.555}
+\FrameB{.666}
+
+\newcommand{\FrameC}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+    }
+  }
+}
+\FrameC{.777}
+\FrameC{.888}
+\FrameC{1.000}
+\FrameC{1.111}
+
+\newcommand{\FrameD}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawState{2}{4}{0.000}{#1}{9}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+    }
+  }
+}
+\FrameD{1.222}
+\FrameD{1.333}
+\FrameD{1.444}
+\FrameD{1.555}
+\FrameD{1.666}
+\FrameD{1.777}
+\FrameD{1.888}
+\FrameD{2.000}
+\FrameD{2.111}
+
+\newcommand{\FrameE}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawState{2}{4}{0.000}{#1}{9}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawState{4}{6}{0.000}{#1}{7}
+    }
+  }
+}
+\FrameE{2.222}
+\FrameE{2.333}
+\FrameE{2.444}
+\FrameE{2.555}
+\FrameE{2.666}
+
+\newcommand{\FrameF}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawState{2}{4}{0.000}{#1}{9}
+	\DrawState{4}{6}{0.000}{#1}{2}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawState{4}{6}{0.000}{#1}{7}
+    }
+  }
+}
+\FrameF{2.777}
+\FrameF{2.888}
+
+\newcommand{\FrameG}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawState{4}{6}{0.000}{#1}{2}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawState{4}{6}{0.000}{#1}{7}
+    }
+  }
+}
+\FrameG{3.000}
+\FrameG{3.111}
+\FrameG{3.222}
+\FrameG{3.333}
+\FrameG{3.444}
+\FrameG{3.555}
+\FrameG{3.666}
+\FrameG{3.777}
+
+\newcommand{\FrameH}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawState{2}{4}{0.000}{#1}{13}
+	\DrawState{4}{6}{0.000}{#1}{2}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawState{4}{6}{0.000}{#1}{7}
+    }
+  }
+}
+\FrameH{3.888}
+\FrameH{4.000}
+
+\newcommand{\FrameI}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawState{2}{4}{0.000}{#1}{13}
+	\DrawState{4}{6}{0.000}{#1}{2}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawState{4}{6}{0.000}{#1}{15}
+    }
+  }
+}
+\FrameI{4.111}
+\FrameI{4.222}
+\FrameI{4.333}
+\FrameI{4.444}
+\FrameI{4.555}
+\FrameI{4.666}
+\FrameI{4.777}
+\FrameI{4.888}
+
+\newcommand{\FrameJ}[1] {
+\JointTeam{
+    \GamingInlineA{#1}{
+	\DrawOutput{0}{2}{0.000}{5.000}{8}
+	\DrawOutput{2}{4}{0.000}{5.000}{13}
+	\DrawOutput{4}{6}{0.000}{5.000}{2}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawOutput{2}{4}{0.000}{5.000}{5}
+	\DrawOutput{4}{6}{0.000}{5.000}{15}
+    }
+  }
+}
+\FrameJ{5.000}
+
+\fi % \FastRender 0
+
+\DrawFinalFrames{\FrameFinal}
+
+\end{document}

@@ -1,0 +1,127 @@
+% convert -density 600 -delay 10 -loop 0 classic-batch.pdf classic-batch-pdf.gif
+%   or
+% convert -density 600 classic-batch.pdf classic-batch-%02d.png
+% convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
+
+\input{diagrams}
+
+\def \ShowWatermarks{0}
+
+\newcommand{\FrameA}[1] {
+\TriggersDiagram{#1}{
+}
+}
+
+\FrameA{.01}
+\FrameA{.111}
+\FrameA{.222}
+
+% +5
+\newcommand{\FrameB}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{\maxx}{0}{#1}{#2}
+}
+}
+\FrameB{.333}{5}
+\FrameB{.444}{5}
+\FrameB{.555}{5}
+\FrameB{0.666}{12}
+\FrameB{0.777}{12}
+\FrameB{0.888}{12}
+\newcommand{\FrameC}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{\maxx}{0}{1.000}{12}
+        #2
+}
+}
+\FrameC{1.000}{}
+\FrameC{1.111}{}
+
+\newcommand{\FrameD}[2] {
+\FrameC{#1}{
+	\DrawState{0}{\maxx}{1.000}{#1}{#2}
+}
+}
+\FrameD{1.222}{3}
+\FrameD{1.333}{3}
+\FrameD{1.444}{7}
+\FrameD{1.555}{7}
+\FrameD{1.666}{10}
+\FrameD{1.777}{10}
+\FrameD{1.888}{10}
+
+\newcommand{\FrameE}[2] {
+\FrameC{#1}{
+	\DrawOutput{0}{\maxx}{1.000}{2.000}{10}
+	#2
+}
+}
+
+\FrameE{2.000}{}
+
+\newcommand{\FrameF}[2] {
+\FrameE{#1}{
+	\DrawState{0}{\maxx}{2.000}{#1}{#2}
+}
+}
+
+\FrameF{2.111}{8}
+\FrameF{2.222}{8}
+\FrameF{2.333}{11}
+\FrameF{2.444}{11}
+\FrameF{2.555}{11}
+\FrameF{2.666}{11}
+\FrameF{2.777}{11}
+\FrameF{2.888}{11}
+\newcommand{\FrameG}[2] {
+\FrameE{#1}{
+	\DrawOutput{0}{\maxx}{2.000}{3.000}{11}
+	#2
+}
+}
+\FrameG{3.000}{}
+\FrameG{3.111}{}
+\FrameG{3.222}{}
+
+\newcommand{\FrameH}[2] {
+\FrameG{#1}{
+	\DrawState{0}{\maxx}{3.000}{#1}{#2}
+}
+}
+
+\FrameH{3.333}{9}
+\FrameH{3.444}{9}
+\FrameH{3.555}{9}
+\FrameH{3.666}{17}
+\FrameH{3.777}{17}
+\FrameH{3.888}{17}
+
+\newcommand{\FrameI}[1] {
+\FrameG{#1}{
+	\DrawOutput{0}{\maxx}{3.000}{4.000}{18}
+}
+}
+
+\FrameI{4.000}
+\FrameI{4.111}
+\FrameI{4.222}
+\FrameI{4.333}
+\FrameI{4.444}
+\FrameI{4.555}
+\FrameI{4.666}
+\FrameI{4.777}
+\FrameI{4.888}
+\FrameI{5.000}
+
+\newcommand{\FrameJ}[0]{
+\TriggersDiagram[c_back]{5.222}{
+	\DrawOutput{0}{\maxx}{0}{1.000}{12}
+	\DrawOutput{0}{\maxx}{1.000}{2.000}{10}
+	\DrawOutput{0}{\maxx}{2.000}{3.000}{11}
+	\DrawOutput{0}{\maxx}{3.000}{4.000}{18}
+}
+}
+\DrawFinalFrames{\FrameJ}
+\begin{comment}
+\end{comment}
+\end{document}

@@ -1,0 +1,397 @@
+% convert -density 600 -delay 10 -loop 0 classic-batch.pdf classic-batch-pdf.gif
+%   or
+% convert -density 600 classic-batch.pdf classic-batch-%02d.png
+% convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
+\input{gaming-diagrams}
+
+\def \FastRender{0}
+\def \ShowWatermarks{0}
+
+\SetJointVars{0}{1}
+\def \maxx{10}
+
+\def \JointLeftInput{1}
+\def \JointMidInput{2}
+\def \IsNarrow{1}
+
+\newcommand{\GamingInlineA}[3][c_timeline] {
+\GamingInline[#1]{#2}{#3}{1,2}
+}
+
+\newcommand{\GamingInlineB}[3][c_timeline] {
+\GamingInline[#1]{#2}{#3}{3}
+}
+
+\newcommand{\FrameFinal} {
+\JointEvent{
+    \GamingInlineA[c_back]{5.222}{
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawOutputz{2}{4}{0.000}{2.666}{13}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+
+	\DrawOutputz{4}{6}{0.000}{4.666}{2}{late}
+    }
+  }{
+    \GamingInlineB[c_back]{5.222}{
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+
+	\DrawOutputz{4}{6}{0.000}{4.333}{15}{late}
+	\DrawOutputz{4}{6}{0.000}{3.333}{8}{early}
+    }
+  }
+}
+\FrameFinal
+
+\newcommand{\FrameA}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+    }
+  }{
+    \GamingInlineB{#1}{
+    }
+  }
+}
+\FrameA{.001}
+\if \FastRender 0
+\FrameA{.111}
+\FrameA{.222}
+\FrameA{.333}
+\FrameA{.444}
+\FrameA{.555}
+
+\newcommand{\FrameB}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+    }
+  }
+}
+\FrameB{.666}
+\FrameB{.777}
+
+\newcommand{\FrameC}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{9}
+    }
+  }{
+    \GamingInlineB{#1}{
+    }
+  }
+}
+\FrameC{.888}
+
+\newcommand{\FrameD}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{9}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+    }
+  }
+}
+\FrameD{1.000}
+\FrameD{1.111}
+\FrameD{1.222}
+\FrameD{1.333}
+\FrameD{1.444}
+\FrameD{1.555}
+\FrameD{1.666}
+
+\newcommand{\FrameE}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+    }
+  }
+}
+\FrameE{1.777}
+
+\newcommand{\FrameF}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+    }
+  }
+}
+\FrameF{1.888}
+\FrameF{2.000}
+
+\newcommand{\FrameFF}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+    }
+  }
+}
+\FrameFF{2.111}
+
+\newcommand{\FrameG}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+    }
+  }
+}
+\FrameG{2.222}
+\FrameG{2.333}
+\FrameG{2.444}
+
+\newcommand{\FrameH}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{13}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+    }
+  }
+}
+\FrameH{2.555}
+
+\newcommand{\FrameI}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{13}
+	\DrawOutputz{2}{4}{0.000}{2.666}{13}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+    }
+  }
+}
+\FrameI{2.666}
+\FrameI{2.777}
+\FrameI{2.888}
+\FrameI{3.000}
+\FrameI{3.111}
+
+\newcommand{\FrameJJ}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{13}
+	\DrawOutputz{2}{4}{0.000}{2.666}{13}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+	\DrawState{4}{6}{0.000}{#1}{8}
+    }
+  }
+}
+\FrameJJ{3.222}
+
+\newcommand{\FrameJ}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{13}
+	\DrawOutputz{2}{4}{0.000}{2.666}{13}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+
+	\DrawState{4}{6}{0.000}{#1}{8}
+	\DrawOutputz{4}{6}{0.000}{3.333}{8}{early}
+    }
+  }
+}
+\FrameJ{3.333}
+\FrameJ{3.444}
+\FrameJ{3.555}
+\FrameJ{3.666}
+\FrameJ{3.777}
+\FrameJ{3.888}
+\FrameJ{4.000}
+\FrameJ{4.111}
+\FrameJ{4.222}
+
+\newcommand{\FrameK}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{13}
+	\DrawOutputz{2}{4}{0.000}{2.666}{13}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+
+	\DrawState{4}{6}{0.000}{#1}{15}
+	\DrawOutputz{4}{6}{0.000}{4.333}{15}{late}
+	\DrawOutputz{4}{6}{0.000}{3.333}{8}{early}
+    }
+  }
+}
+\FrameK{4.333}
+
+\newcommand{\FrameL}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{13}
+	\DrawOutputz{2}{4}{0.000}{2.666}{13}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+
+	\DrawState{4}{6}{0.000}{#1}{2}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+
+	\DrawState{4}{6}{0.000}{#1}{15}
+	\DrawOutputz{4}{6}{0.000}{4.333}{15}{late}
+	\DrawOutputz{4}{6}{0.000}{3.333}{8}{early}
+    }
+  }
+}
+\FrameL{4.444}
+\FrameL{4.555}
+
+\newcommand{\FrameM}[1] {
+\JointEvent{
+    \GamingInlineA{#1}{
+	\DrawState{0}{2}{0.000}{#1}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState{2}{4}{0.000}{#1}{13}
+	\DrawOutputz{2}{4}{0.000}{2.666}{13}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+
+	\DrawState{4}{6}{0.000}{#1}{2}
+	\DrawOutputz{4}{6}{0.000}{4.666}{2}{late}
+    }
+  }{
+    \GamingInlineB{#1}{
+	\DrawState{2}{4}{0.000}{#1}{5}
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+
+	\DrawState{4}{6}{0.000}{#1}{15}
+	\DrawOutputz{4}{6}{0.000}{4.333}{15}{late}
+	\DrawOutputz{4}{6}{0.000}{3.333}{8}{early}
+    }
+  }
+}
+\FrameM{4.666}
+\FrameM{4.777}
+\FrameM{4.888}
+\FrameM{5.000}
+
+\newcommand{\FrameFade}[1] {
+\JointEvent{
+    \GamingInlineA[c_back]{5.222}{
+	\DrawState[#1]{0}{2}{0.000}{5.000}{8}
+	\DrawOutputz{0}{2}{0.000}{0.666}{8}{early}
+
+	\DrawState[#1]{2}{4}{0.000}{5.000}{13}
+	\DrawOutputz{2}{4}{0.000}{2.666}{13}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+
+	\DrawState[#1]{4}{6}{0.000}{5.000}{2}
+	\DrawOutputz{4}{6}{0.000}{4.666}{2}{late}
+    }
+  }{
+    \GamingInlineB[c_back]{5.222}{
+	\DrawState[#1]{2}{4}{0.000}{5.000}{5}
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+
+	\DrawState[#1]{4}{6}{0.000}{5.000}{15}
+	\DrawOutputz{4}{6}{0.000}{4.333}{15}{late}
+	\DrawOutputz{4}{6}{0.000}{3.333}{8}{early}
+    }
+  }
+}
+\FrameFade{\ofadeA}
+\FrameFade{\ofadeB}
+\FrameFade{\ofadeC}
+
+\fi % \FastRender 0
+
+\DrawFinalFrames{\FrameFinal}
+
+\end{document}

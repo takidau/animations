@@ -1,0 +1,103 @@
+% convert -density 600 -delay 10 -loop 0 classic-batch.pdf classic-batch-pdf.gif
+%   or
+% convert -density 600 classic-batch.pdf classic-batch-%02d.png
+% convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
+
+\input{diagrams}
+
+\def \ShowWatermarks{0}
+
+\newcommand{\FrameA}[1] {
+\TriggersDiagram{#1}{
+}
+}
+
+\FrameA{.01}
+\FrameA{.111}
+\FrameA{.222}
+
+% +5
+\newcommand{\FrameB}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{\maxx}{0}{#1}{#2}
+}
+}
+\FrameB{.333}{5}
+\FrameB{.444}{5}
+\FrameB{.555}{5}
+\FrameB{0.666}{12}
+\FrameB{0.777}{12}
+\FrameB{0.888}{12}
+\newcommand{\FrameC}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{\maxx}{0}{1.000}{12}
+	#2
+}
+}
+\FrameC{1.000}{}
+\FrameC{1.111}{}
+
+\newcommand{\FrameD}[2] {
+\FrameC{#1}{
+	\DrawState{0}{\maxx}{1.000}{#1}{#2}
+}
+}
+\FrameD{1.222}{3}
+\FrameD{1.333}{3}
+\FrameD{1.444}{7}
+\FrameD{1.555}{7}
+\FrameD{1.666}{10}
+\FrameD{1.777}{10}
+\FrameD{1.888}{10}
+\FrameD{2.000}{10}
+\FrameD{2.111}{18}
+\FrameD{2.222}{18}
+\FrameD{2.333}{21}
+\FrameD{2.444}{21}
+\FrameD{2.555}{21}
+\FrameD{2.666}{21}
+\FrameD{2.777}{21}
+\FrameD{2.888}{21}
+
+\newcommand{\FrameE}[2] {
+\FrameC{#1}{
+	\DrawOutput{0}{\maxx}{1.000}{3.000}{21}
+	#2
+}
+}
+\FrameE{3.000}{}
+\FrameE{3.111}{}
+\FrameE{3.222}{}
+
+\newcommand{\FrameF}[2] {
+\FrameE{#1}{
+	\DrawState{0}{\maxx}{3.000}{#1}{#2}
+}
+}
+\FrameF{3.333}{9}
+\FrameF{3.444}{9}
+\FrameF{3.555}{9}
+\FrameF{3.666}{17}
+\FrameF{3.777}{17}
+\FrameF{3.888}{17}
+\FrameF{4.000}{18}
+\FrameF{4.111}{18}
+\FrameF{4.222}{18}
+\FrameF{4.333}{18}
+\FrameF{4.444}{18}
+\FrameF{4.555}{18}
+\FrameF{4.666}{18}
+\FrameF{4.777}{18}
+\FrameF{4.888}{18}
+
+\newcommand{\FrameG}[0]{
+\TriggersDiagram[c_back]{5.222}{
+	\DrawOutput{0}{\maxx}{0}{1.000}{12}
+	\DrawOutput{0}{\maxx}{1.000}{3.000}{21}
+	\DrawOutput{0}{\maxx}{3.000}{5.000}{18}
+}
+}
+\FrameG{5.000}
+\DrawFinalFrames{\FrameG}
+
+\end{document}

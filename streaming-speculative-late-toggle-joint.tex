@@ -1,0 +1,727 @@
+\input{diagrams}
+\SetJointVars{1}{1}
+\ifdefined \XAxisToTen
+\else
+	\def \XAxisToTen{0}
+\fi
+\if \XAxisToTen 1
+	\def \maxx{10}
+\else
+	\def \maxx{9}
+\fi
+\def \FastRender{0}
+\def \JointLeftInput{1}
+\def \JointRightInput{2}
+\def \DisableTiming{0} % timing override
+
+\newcommand{\FrameFinal} {
+\JointFrame{
+    \TriggersInline[c_back]{5.222}{
+	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline[c_back]{5.222}{
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{3.888}{3}{late}
+	\DrawOutputz{6}{8}{0.000}{3.616}{12}{on-time}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\DrawInitialFrame{\FrameFinal}
+
+\newcommand{\FrameA}[1] {
+\JointFrame{
+    \TriggersInline{#1}{}
+  }{
+    \TriggersInline{#1}{}
+  }
+}
+
+\FrameA{.01}
+\if \FastRender 0
+\FrameA{.111}
+\FrameA{.222}
+
+\newcommand{\FrameB}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+    }
+  }{
+    \TriggersInline{#1}{
+    }
+  }
+}
+\FrameB{.333}
+\FrameB{.444}
+\FrameB{.555}
+
+\newcommand{\FrameC}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+    }
+  }{
+    \TriggersInline{#1}{
+    }
+  }
+}
+\FrameC{.666}
+\FrameC{.777}
+
+\newcommand{\FrameD}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{2}{4}{0.000}{#1}{7}
+    }
+  }
+}
+\FrameD{.888}
+
+\newcommand{\FrameE}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{2}{4}{0.000}{#1}{7}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }
+}
+\FrameE{1.000}
+
+\newcommand{\FrameF}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }
+}
+\FrameF{1.111}
+
+\newcommand{\FrameG}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }
+}
+\FrameG{1.222}
+
+\newcommand{\FrameH}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }
+}
+\FrameH{1.333}
+
+\newcommand{\FrameI}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }
+}
+\FrameI{1.444}
+\FrameI{1.555}
+
+\newcommand{\FrameJ}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }
+}
+\FrameJ{1.666}
+
+\newcommand{\FrameK}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }
+}
+\FrameK{1.777}
+
+\newcommand{\FrameL}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+    }
+  }
+}
+\FrameL{1.888}
+
+\newcommand{\FrameM}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{9}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameM{2.000}
+
+\newcommand{\FrameN}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameN{2.111}
+\FrameN{2.222}
+
+\newcommand{\FrameO}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameO{2.333}
+\FrameO{2.444}
+
+
+\newcommand{\FrameP}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameP{2.555}
+\FrameP{2.666}
+\FrameP{2.777}
+
+\newcommand{\FrameQ}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameQ{2.888}
+
+\newcommand{\FrameR}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameR{3.000}
+
+\newcommand{\FrameS}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameR{3.111}
+
+\newcommand{\FrameT}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameT{3.222}
+
+\newcommand{\FrameU}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameU{3.333}
+
+\newcommand{\FrameV}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameV{3.444}
+\FrameV{3.555}
+
+\newcommand{\FrameW}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutputz{6}{8}{0.000}{3.616}{12}{on-time}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameW{3.666}
+\FrameW{3.777}
+
+\newcommand{\FrameX}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{3.888}{3}{late}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutputz{6}{8}{0.000}{3.616}{12}{on-time}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameX{3.888}
+
+\newcommand{\FrameY}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{3.888}{3}{late}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutputz{6}{8}{0.000}{3.616}{12}{on-time}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameY{4.000}
+
+\newcommand{\FrameZ}[1] {
+\JointFrame{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{3.888}{3}{late}
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutputz{6}{8}{0.000}{3.616}{12}{on-time}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameZ{4.111}
+\FrameZ{4.222}
+\FrameZ{4.333}
+\FrameZ{4.444}
+\FrameZ{4.555}
+\FrameZ{4.666}
+\FrameZ{4.777}
+\FrameZ{4.888}
+\FrameZ{5.000}
+
+\newcommand{\FrameFade}[1] {
+\JointFrame{
+    \TriggersInline[c_back]{5.222}{
+	\DrawState[#1]{0}{2}{0.000}{5.000}{14}
+	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState[#1]{2}{4}{0.000}{5.000}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState[#1]{4}{6}{0.000}{5.000}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState[#1]{6}{8}{0.000}{5.000}{12}
+	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+    }
+  }{
+    \TriggersInline[c_back]{5.222}{
+	\DrawState[#1]{0}{2}{0.000}{5.000}{14}
+	\DrawOutputz{0}{2}{0.000}{2.111}{14}{late}
+	\DrawOutputz{0}{2}{0.000}{1.8}{9}{on-time}
+	\DrawState[#1]{2}{4}{0.000}{5.000}{22}
+	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState[#1]{4}{6}{0.000}{5.000}{3}
+	\DrawOutputz{4}{6}{0.000}{3.888}{3}{late}
+	\DrawState[#1]{6}{8}{0.000}{5.000}{12}
+	\DrawOutputz{6}{8}{0.000}{3.616}{12}{on-time}
+	\DrawOutputz{6}{8}{0.000}{3.000}{11}{early}
+	\DrawOutputz{6}{8}{0.000}{2.000}{3}{early}
+    }
+  }
+}
+\FrameFade{\ofadeA}
+\FrameFade{\ofadeB}
+\FrameFade{\ofadeC}
+
+\fi % \FastRender 0
+
+\DrawFinalFrames{\FrameFinal}
+
+\end{document}

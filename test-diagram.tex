@@ -1,0 +1,132 @@
+\input{diagrams}
+
+% Inputs only
+\TriggersDiagram{
+	\DrawInputs
+	\DrawWatermarks
+}
+
+% Classic Batch
+\TriggersDiagram{
+	\DrawInputs
+	\DrawWatermarks[\DrawGlobalBatchWatermark]
+	\DrawOutput{0}{8}{0}{.33}{5}
+}
+
+% Classic Batch
+\TriggersDiagram{
+	\DrawInputs
+	\DrawWatermarks[\DrawGlobalBatchWatermark]
+	\DrawOutput{0}{8}{0}{.66}{12}
+}
+
+% Classic Batch
+\TriggersDiagram{
+	\DrawInputs
+	\DrawWatermarks[\DrawGlobalBatchWatermark]
+	\DrawOutput{0}{8}{0}{4.2825+.099}{51}
+}
+
+% Global, AtPeriod(1), Accumulating
+\TriggersDiagram{
+	\DrawInputs
+	\DrawOutput{0}{8}{0}{4}{51}
+	\DrawOutput{0}{8}{0}{3}{33}
+	\DrawOutput{0}{8}{0}{2}{22}
+	\DrawOutput{0}{8}{0}{1}{12}
+}
+
+% Global, AtPeriod(1min)
+\TriggersDiagramz{
+	\DrawInputs
+	\DrawOutput{0}{8}{0}{1}{12}
+	\DrawOutput{0}{8}{1}{2}{10}
+	\DrawOutput{0}{8}{2}{3}{11}
+	\DrawOutput{0}{8}{3}{4}{18}
+}
+
+% Global, AtCount(2)
+\TriggersDiagram{
+	\DrawInputs
+	\DrawOutput{0}{8}{0}{.666}{12}
+	\DrawOutput{0}{8}{.666}{1.444}{7}
+	\DrawOutput{0}{8}{1.444}{2.111}{11}
+	\DrawOutput{0}{8}{2.111}{3.333}{12}
+	\DrawOutput{0}{8}{3.333}{4.000}{9}
+}
+
+% BATCH Fixed(2m)
+\TriggersDiagram{
+	\DrawWatermarks[\DrawGlobalBatchWatermark]
+	\DrawInputs
+	\DrawOutput{0}{2}{0}{4.2825}{14}
+	\DrawOutput{2}{4}{0}{4.2825+0.033}{22}
+	\DrawOutput{4}{6}{0}{4.2825+0.066}{3}
+	\DrawOutput{6}{8}{0}{4.2825+0.099}{12}
+}
+
+% BATCH Fixed(2m)
+\TriggersDiagram{
+	\DrawWatermarks[\DrawMicroBatchWatermarks]
+	\DrawInputs
+
+	\DrawOutput{0}{2}{0}{4.033}{14}
+	\DrawOutput{6}{8}{0}{4.033+.099}{12}
+
+	\DrawOutput{2}{4}{0}{3.033+.033}{22}
+	\DrawOutput{6}{8}{0}{3.033+.099}{3}
+
+	\DrawOutput{2}{4}{0}{2.033+.033}{14}
+	\DrawOutput{4}{6}{0}{2.033+.066}{3}
+
+	\DrawOutput{0}{2}{0}{1.033}{5}
+	\DrawOutput{2}{4}{0}{1.033+.033}{7}
+}
+
+% STREAMING Fixed(2m)
+\TriggersDiagram{
+	\DrawWatermarks
+	\DrawInputs
+	\DrawOutput{6}{8}{0}{4.6-.25}{12}
+	\DrawOutput{0}{2}{0}{3.333}{14}
+	\DrawOutput{4}{6}{0}{2.92-.25}{3}
+	\DrawOutput{2}{4}{0}{2.75-.25}{22}
+	\DrawOutput{0}{2}{0}{1.23-.25}{5}
+}
+
+% Fixed(2m).SequenceOf(
+%   RepeatUntil(
+%     AtPeriod(1m),
+%     AtWatermark()),
+%   Repeat(AtWatermark()))
+\TriggersDiagram{
+	\DrawInputs
+	\DrawWatermarks
+	\DrawState{6}{8}{0}{4}{12}
+	\DrawState{0}{2}{0}{3.333}{14}
+	\DrawOutput{6}{8}{0}{3}{3}
+	\DrawOutput{2}{4}{0}{2.75-.25}{22}
+	\DrawOutput{2}{4}{0}{2}{14}
+	\DrawOutput{4}{6}{0}{2}{3}
+	\DrawState{0}{2}{0}{1}{5}
+	\DrawState{2}{4}{0}{1}{7}
+}
+
+\TriggersDiagram{
+	\DrawInputs
+	\DrawWatermarks
+	\DrawOutput{6.666}{8.777}{0}{4}{12}
+	\DrawRetraction{6.666}{7.666}{0}{4}{3}
+	\DrawOutput{0.444}{5.333}{0}{3.333}{39}
+	\DrawRetraction{2.444}{5.333}{0}{3.333}{25}
+	\DrawRetraction{0.444}{1.444}{0}{3.333}{5}
+	\DrawOutput{6.666}{7.666}{0}{3}{3}
+	\DrawOutput{2.444}{5.333}{0}{2.87-.25}{25}
+	\DrawRetraction{2.444}{3.444}{0}{2.87-.25}{7}
+	\DrawRetraction{3.666}{5.333}{0}{2.87-.25}{10}
+	\DrawOutput{3.666}{5.333}{0}{2}{10}
+	\DrawOutput{2.444}{3.444}{0}{1}{7}
+	\DrawOutput{0.444}{1.444}{0}{1}{5}
+}
+
+\end{document}

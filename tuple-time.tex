@@ -1,0 +1,140 @@
+% convert -density 600 -delay 10 -loop 0 classic-batch.pdf classic-batch-pdf.gif
+%   or
+% convert -density 600 classic-batch.pdf classic-batch-%02d.png
+% convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
+\input{diagrams}
+
+\def \ShowWatermarks{0}
+
+\newcommand{\FrameA}[1] {
+\TriggersDiagram{#1}{
+}
+}
+
+\FrameA{.01}
+\FrameA{.111}
+\FrameA{.222}
+
+% +5
+\newcommand{\FrameB}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{\maxx}{0}{#1}{#2}
+}
+}
+\FrameB{.333}{5}
+\FrameB{.444}{5}
+\FrameB{.555}{5}
+
+\newcommand{\FrameC}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{\maxx}{0}{0.666}{12}
+        #2
+}
+}
+
+\FrameC{0.666}{}
+\FrameC{0.777}{}
+\FrameC{0.888}{}
+\FrameC{1.000}{}
+\FrameC{1.111}{}
+
+\newcommand{\FrameD}[2] {
+\FrameC{#1}{
+	\DrawState{0}{\maxx}{0.666}{#1}{#2}
+}
+}
+\FrameD{1.222}{3}
+\FrameD{1.333}{3}
+\newcommand{\FrameE}[2] {
+\FrameC{#1}{
+	\DrawOutput{0}{\maxx}{0.666}{1.444}{7}
+	#2
+}
+}
+\FrameE{1.444}{}
+\FrameE{1.555}{}
+\newcommand{\FrameF}[2] {
+\FrameE{#1}{
+	\DrawState{0}{\maxx}{1.444}{#1}{#2}
+}
+}
+\FrameF{1.666}{3}
+\FrameF{1.777}{3}
+\FrameF{1.888}{3}
+\FrameF{2.000}{3}
+
+\newcommand{\FrameG}[2] {
+\FrameE{#1}{
+	\DrawOutput{0}{\maxx}{1.444}{2.111}{11}
+	#2
+}
+}
+
+\FrameG{2.111}{}
+\FrameG{2.222}{}
+
+\newcommand{\FrameH}[2] {
+\FrameG{#1}{
+	\DrawState{0}{\maxx}{2.111}{#1}{#2}
+}
+}
+
+\FrameH{2.333}{3}
+\FrameH{2.444}{3}
+\FrameH{2.555}{3}
+\FrameH{2.666}{3}
+\FrameH{2.777}{3}
+\FrameH{2.888}{3}
+\FrameH{3.000}{3}
+\FrameH{3.111}{3}
+\FrameH{3.222}{3}
+
+\newcommand{\FrameI}[2] {
+\FrameG{#1}{
+	\DrawOutput{0}{\maxx}{2.111}{3.333}{12}
+	#2
+}
+}
+
+\FrameI{3.333}{}
+\FrameI{3.444}{}
+\FrameI{3.555}{}
+
+\newcommand{\FrameJ}[2] {
+\FrameI{#1}{
+	\DrawState{0}{\maxx}{3.333}{#1}{#2}
+}
+}
+
+\FrameJ{3.666}{8}
+\FrameJ{3.777}{8}
+\FrameJ{3.888}{8}
+
+\newcommand{\FrameK}[1] {
+\FrameI{#1}{
+	\DrawOutput{0}{\maxx}{3.333}{4.000}{9}
+}
+}
+
+\FrameK{4.000}
+\FrameK{4.111}
+\FrameK{4.222}
+\FrameK{4.333}
+\FrameK{4.444}
+\FrameK{4.555}
+\FrameK{4.666}
+\FrameK{4.777}
+\FrameK{4.888}
+\FrameK{5.000}
+
+\newcommand{\FrameL}[0]{
+\TriggersDiagram[c_back]{5.222}{
+	\DrawOutput{0}{\maxx}{0}{0.666}{12}
+	\DrawOutput{0}{\maxx}{0.666}{1.444}{7}
+	\DrawOutput{0}{\maxx}{1.444}{2.111}{11}
+	\DrawOutput{0}{\maxx}{2.111}{3.333}{12}
+	\DrawOutput{0}{\maxx}{3.333}{4.000}{9}
+}
+}
+\DrawFinalFrames{\FrameL}
+\end{document}

@@ -1,0 +1,321 @@
+\def \lateness{.5}
+\input{diagrams}
+\def \ShowLateness{1}
+\begin{comment}
+\newcommand{\FrameA}[1] {
+\TriggersDiagram{#1}{
+}
+}
+
+\FrameA{.01}
+\FrameA{.111}
+\FrameA{.222}
+
+\newcommand{\FrameB}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+}
+}
+\FrameB{.333}
+\FrameB{.444}
+\FrameB{.555}
+
+\newcommand{\FrameC}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+}
+}
+\FrameC{.666}
+\FrameC{.777}
+\FrameC{.888}
+
+\newcommand{\FrameD}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+}
+}
+\FrameD{1.000}
+
+\newcommand{\FrameE}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	#2
+}
+}
+\FrameE{1.111}{}
+
+\newcommand{\FrameF}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+}
+}
+\FrameF{1.222}
+\FrameF{1.333}
+
+\newcommand{\FrameG}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+}
+}
+\FrameG{1.444}
+\FrameG{1.555}
+
+\newcommand{\FrameH}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{4}{6}{0.000}{#1}{3}
+}
+}
+\FrameH{1.666}
+\FrameH{1.777}
+\FrameH{1.888}
+
+\newcommand{\FrameI}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+}
+}
+\FrameI{2.000}
+
+\newcommand{\FrameJ}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	#2
+}
+}
+\FrameJ{2.111}{}
+\FrameJ{2.222}{}
+
+\newcommand{\FrameK}[1] {
+\FrameJ{#1}{
+	\DrawState{6}{8}{0.000}{#1}{3}
+}
+}
+\FrameK{2.333}
+\FrameK{2.444}
+
+\newcommand{\FrameL}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+}
+}
+\FrameL{2.555}{}
+
+\newcommand{\FrameLL}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+}
+}
+
+\FrameLL{2.666}{}
+\FrameLL{2.777}{}
+\FrameLL{2.888}{}
+
+\newcommand{\FrameN}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	#2
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutput{6}{8}{0.000}{3.000}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+}
+}
+\FrameN{3.000}{}
+
+\newcommand{\FrameO}[2] {
+\FrameN{#1}{
+}
+}
+\FrameO{3.111}{}
+\newcommand{\FrameOO}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutput{6}{8}{0.000}{3.000}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.111}
+}
+}
+\FrameOO{3.222}{}
+
+\newcommand{\FrameP}[2] {
+\TriggersDiagram{#1}{
+	#2
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutput{6}{8}{0.000}{3.000}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.111}
+}
+}
+\FrameP{3.333}{}
+
+\newcommand{\FrameQ}[2] {
+\FrameP{#1}{
+}
+}
+\FrameQ{3.444}{}
+\FrameQ{3.555}{}
+
+\newcommand{\FrameR}[1] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutput{6}{8}{0.000}{3.000}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.111}
+}
+}
+\FrameR{3.666}
+\FrameR{3.777}
+\FrameR{3.888}
+
+\newcommand{\FrameS}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	#2
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutput{6}{8}{0.000}{4.000}{12}
+	\DrawOutput{6}{8}{0.000}{3.000}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.111}
+}
+}
+\FrameS{4.000}{}
+
+\newcommand{\FrameT}[2] {
+\FrameS{#1}{
+}
+}
+\FrameT{4.111}{}
+\FrameT{4.222}{}
+\FrameT{4.333}{}
+\newcommand{\FrameTT}[2] {
+\TriggersDiagram{#1}{
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	\DrawOutput{6}{8}{0.000}{4.000}{12}
+	\DrawOutput{6}{8}{0.000}{3.000}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.111}
+	\DrawTombstone{6}{8}{0.000}{4.42}
+}
+}
+\FrameTT{4.444}{}
+\FrameTT{4.555}{}
+\FrameTT{4.666}{}
+\FrameTT{4.777}{}
+\FrameTT{4.888}{}
+\FrameTT{5.000}{}
+
+\newcommand{\FrameU}[1] {
+\TriggersDiagram[c_back]{5.222}{
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	\DrawOutput{6}{8}{0.000}{4.000}{12}
+	\DrawOutput{6}{8}{0.000}{3.000}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.111}
+	\DrawTombstone{6}{8}{0.000}{4.42}
+}
+}
+\FrameU{\ofadeA}
+\FrameU{\ofadeB}
+\FrameU{\ofadeC}
+\end{comment}
+\newcommand{\FrameV}[1] {
+\TriggersDiagram[c_back]{5.222}{
+	\DrawOutput{0}{2}{0.000}{1.000}{5}
+	\DrawOutput{2}{4}{0.000}{2.500}{22}
+	\DrawOutput{2}{4}{0.000}{2.000}{14}
+	\DrawOutput{2}{4}{0.000}{1.000}{7}
+	\DrawOutput{4}{6}{0.000}{2.000}{3}
+	\DrawOutput{6}{8}{0.000}{4.000}{12}
+	\DrawOutput{6}{8}{0.000}{3.000}{3}
+	\DrawTombstone{0}{2}{0.000}{1.01}
+	\DrawTombstone{2}{4}{0.000}{2.55}
+	\DrawTombstone{4}{6}{0.000}{2.7}
+	\DrawTombstone{6}{8}{0.000}{4.4}
+}
+}
+\DrawFinalFrames{\FrameV}
+
+\end{document}

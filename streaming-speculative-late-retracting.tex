@@ -1,0 +1,307 @@
+\input{diagrams}
+\def \FastRender{0}
+
+\newcommand{\pad}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\newcommand{\padLate}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\newcommand{\padOnTime}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\newcommand{\padEarly}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+%\newcommand{\pad}{      }
+
+\newcommand{\FrameV} {
+\TriggersDiagram[c_back]{5.222}{
+	\DrawRetractionz{0}{2}{0.000}{3.333}{5,\pad}{late \padLate}
+	\DrawOutputz{0}{2}{0.000}{3.333}{\pad14}{\padLate late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawRetractionz{2}{4}{0.000}{2.500}{14,\pad}{on-time \padOnTime}
+	\DrawOutputz{2}{4}{0.000}{2.500}{\pad22}{\padOnTime on-time}
+	\DrawRetractionz{2}{4}{0.000}{2.000}{7,\pad}{early \padEarly}
+	\DrawOutputz{2}{4}{0.000}{2.000}{\pad14}{\padEarly early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawRetractionz{6}{8}{0.000}{4.000}{-3,\pad}{early \padEarly}
+	\DrawOutputz{6}{8}{0.000}{4.000}{\pad12}{\padEarly early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+}
+}
+\DrawInitialFrame{\FrameV}
+
+\newcommand{\FrameA}[1] {
+\TriggersDiagram{#1}{
+}
+}
+
+\FrameA{.01}
+\if \FastRender 0
+\FrameA{.111}
+\FrameA{.222}
+
+\newcommand{\FrameB}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+}
+}
+\FrameB{.333}
+\FrameB{.444}
+\FrameB{.555}
+
+\newcommand{\FrameC}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+}
+}
+\FrameC{.666}
+\FrameC{.777}
+\FrameC{.888}
+
+\newcommand{\FrameD}[1] {
+\TriggersDiagram{#1}{
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+}
+}
+\FrameD{1.000}
+
+\newcommand{\FrameE}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	#2
+}
+}
+\FrameE{1.111}{}
+
+\newcommand{\FrameF}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+}
+}
+\FrameF{1.222}
+\FrameF{1.333}
+
+\newcommand{\FrameG}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+}
+}
+\FrameG{1.444}
+\FrameG{1.555}
+
+\newcommand{\FrameH}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+}
+}
+\FrameH{1.666}
+\FrameH{1.777}
+\FrameH{1.888}
+\newcommand{\FrameI}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawRetractionz{2}{4}{0.000}{2.000}{7,\pad}{early \padEarly}
+	\DrawOutputz{2}{4}{0.000}{2.000}{\pad14}{\padEarly early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+}
+}
+\FrameI{2.000}
+\newcommand{\FrameJ}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawRetractionz{2}{4}{0.000}{2.000}{7,\pad}{early \padEarly}
+	\DrawOutputz{2}{4}{0.000}{2.000}{\pad14}{\padEarly early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	#2
+}
+}
+\FrameJ{2.111}{}
+\FrameJ{2.222}{}
+
+\newcommand{\FrameK}[1] {
+\FrameJ{#1}{
+	\DrawState{6}{8}{0.000}{#1}{3}
+}
+}
+\FrameK{2.333}
+\FrameK{2.444}
+
+\newcommand{\FrameL}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawRetractionz{2}{4}{0.000}{2.500}{14,\pad}{on-time \padOnTime}
+	\DrawOutputz{2}{4}{0.000}{2.500}{\pad22}{\padOnTime on-time}
+	\DrawRetractionz{2}{4}{0.000}{2.000}{7,\pad}{early \padEarly}
+	\DrawOutputz{2}{4}{0.000}{2.000}{\pad14}{\padEarly early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+}
+}
+\FrameL{2.555}{}
+\FrameL{2.666}{}
+\FrameL{2.777}{}
+\FrameL{2.888}{}
+\fi % \FastRender 0
+
+\newcommand{\FrameN}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawRetractionz{2}{4}{0.000}{2.500}{14,\pad}{on-time \padOnTime}
+	\DrawOutputz{2}{4}{0.000}{2.500}{\pad22}{\padOnTime on-time}
+	\DrawRetractionz{2}{4}{0.000}{2.000}{7,\pad}{early \padEarly}
+	\DrawOutputz{2}{4}{0.000}{2.000}{\pad14}{\padEarly early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	#2
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+}
+}
+\FrameN{3.000}{}
+
+\if \FastRender 0
+\newcommand{\FrameO}[2] {
+\FrameN{#1}{
+	\DrawState{6}{8}{0.000}{#1}{3}
+}
+}
+\FrameO{3.111}{}
+\FrameO{3.222}{}
+
+\newcommand{\FrameP}[2] {
+\TriggersDiagram{#1}{
+	#2
+	\DrawRetractionz{0}{2}{0.000}{3.333}{5,\pad}{late \padLate}
+	\DrawOutputz{0}{2}{0.000}{3.333}{\pad14}{\padLate late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawRetractionz{2}{4}{0.000}{2.500}{14,\pad}{on-time \padOnTime}
+	\DrawOutputz{2}{4}{0.000}{2.500}{\pad22}{\padOnTime on-time}
+	\DrawRetractionz{2}{4}{0.000}{2.000}{7,\pad}{early \padEarly}
+	\DrawOutputz{2}{4}{0.000}{2.000}{\pad14}{\padEarly early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+}
+}
+\FrameP{3.333}{}
+
+\newcommand{\FrameQ}[2] {
+\FrameP{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+}
+}
+\FrameQ{3.444}{}
+\FrameQ{3.555}{}
+
+\newcommand{\FrameR}[1] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawRetractionz{0}{2}{0.000}{3.333}{5,\pad}{late \padLate}
+	\DrawOutputz{0}{2}{0.000}{3.333}{\pad14}{\padLate late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawRetractionz{2}{4}{0.000}{2.500}{14,\pad}{on-time \padOnTime}
+	\DrawOutputz{2}{4}{0.000}{2.500}{\pad22}{\padOnTime on-time}
+	\DrawRetractionz{2}{4}{0.000}{2.000}{7,\pad}{early \padEarly}
+	\DrawOutputz{2}{4}{0.000}{2.000}{\pad14}{\padEarly early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+}
+}
+\FrameR{3.666}
+\FrameR{3.777}
+\FrameR{3.888}
+
+\newcommand{\FrameS}[2] {
+\TriggersDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{14}
+	\DrawRetractionz{0}{2}{0.000}{3.333}{5,\pad}{late \padLate}
+	\DrawOutputz{0}{2}{0.000}{3.333}{\pad14}{\padLate late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawRetractionz{2}{4}{0.000}{2.500}{14,\pad}{on-time \padOnTime}
+	\DrawOutputz{2}{4}{0.000}{2.500}{\pad22}{\padOnTime on-time}
+	\DrawRetractionz{2}{4}{0.000}{2.000}{7,\pad}{early \padEarly}
+	\DrawOutputz{2}{4}{0.000}{2.000}{\pad14}{\padEarly early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	#2
+	\DrawRetractionz{6}{8}{0.000}{4.000}{-3,\pad}{early \padEarly}
+	\DrawOutputz{6}{8}{0.000}{4.000}{\pad12}{\padEarly early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+}
+}
+\FrameS{4.000}{}
+
+\newcommand{\FrameT}[2] {
+\FrameS{#1}{
+	\DrawState{6}{8}{0.000}{#1}{12}
+}
+}
+\FrameT{4.111}{}
+\FrameT{4.222}{}
+\FrameT{4.333}{}
+\FrameT{4.444}{}
+\FrameT{4.555}{}
+\FrameT{4.666}{}
+\FrameT{4.777}{}
+\FrameT{4.888}{}
+\FrameT{5.000}{}
+
+\newcommand{\FrameU}[1] {
+\TriggersDiagram[c_back]{5.222}{
+	\DrawState[#1]{0}{2}{0.000}{5.000}{14}
+	\DrawRetractionz{0}{2}{0.000}{3.333}{5,\pad}{late \padLate}
+	\DrawOutputz{0}{2}{0.000}{3.333}{\pad14}{\padLate late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState[#1]{2}{4}{0.000}{5.000}{22}
+	\DrawRetractionz{2}{4}{0.000}{2.500}{14,\pad}{on-time \padOnTime}
+	\DrawOutputz{2}{4}{0.000}{2.500}{\pad22}{\padOnTime on-time}
+	\DrawRetractionz{2}{4}{0.000}{2.000}{7,\pad}{early \padEarly}
+	\DrawOutputz{2}{4}{0.000}{2.000}{\pad14}{\padEarly early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState[#1]{4}{6}{0.000}{5.000}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState[#1]{6}{8}{0.000}{5.000}{12}
+	\DrawRetractionz{6}{8}{0.000}{4.000}{-3,\pad}{early \padEarly}
+	\DrawOutputz{6}{8}{0.000}{4.000}{\pad12}{\padEarly early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+}
+}
+\FrameU{\ofadeA}
+\FrameU{\ofadeB}
+\FrameU{\ofadeC}
+\fi % \FastRender 0
+
+\DrawFinalFrames{\FrameV}
+
+\end{document}

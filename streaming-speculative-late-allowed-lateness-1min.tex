@@ -1,0 +1,352 @@
+\def \lateness{1}
+\input{diagrams}
+\def \ShowLateness{1}
+
+\def \FastRender{0}
+
+\newcommand{\LatenessDiagram}[3][c_timeline] {
+\TriggersDiagram[#1]{#2}{
+  % Render some empty text to push the width of the diagram out enough
+  % that the final windows "Lateness Horizon" text doesn't get cropped.
+  \node[] at (\ox + \maxx + .6, \oy) {};
+  #3
+}
+}
+
+\newcommand{\FrameV} {
+\LatenessDiagram[c_back]{5.222}{
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.777}
+	\DrawTombstone{6}{8}{0.000}{4.4}
+}
+}
+\DrawInitialFrame{\FrameV}
+
+\newcommand{\FrameA}[1] {
+\LatenessDiagram{#1}{
+}
+}
+
+\FrameA{.01}
+\if \FastRender 0
+\FrameA{.111}
+\FrameA{.222}
+
+\newcommand{\FrameB}[1] {
+\LatenessDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+}
+}
+\FrameB{.333}
+\FrameB{.444}
+\FrameB{.555}
+
+\newcommand{\FrameC}[1] {
+\LatenessDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+}
+}
+\FrameC{.666}
+\FrameC{.777}
+\FrameC{.888}
+
+\newcommand{\FrameD}[1] {
+\LatenessDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{7}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+}
+}
+\FrameD{1.000}
+
+\newcommand{\FrameE}[2] {
+\LatenessDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{7}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	#2
+}
+}
+\FrameE{1.111}{}
+
+\newcommand{\FrameF}[1] {
+\LatenessDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{10}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+}
+}
+\FrameF{1.222}
+\FrameF{1.333}
+
+\newcommand{\FrameG}[1] {
+\LatenessDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{5}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+}
+}
+\FrameG{1.444}
+\FrameG{1.555}
+
+\newcommand{\FrameH}[1] {
+\LatenessDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{11}
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+}
+}
+\FrameH{1.666}
+\FrameH{1.777}
+\FrameH{1.888}
+\fi % \FastRender 0
+
+\newcommand{\FrameI}[1] {
+\LatenessDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{11}
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+}
+}
+\FrameI{2.000}
+
+\if \FastRender 0
+\newcommand{\FrameJ}[2] {
+\LatenessDiagram{#1}{
+	\DrawState{0}{2}{0.000}{#1}{11}
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	#2
+}
+}
+\FrameJ{2.111}{}
+\FrameJ{2.222}{}
+
+\newcommand{\FrameK}[1] {
+\FrameJ{#1}{
+	\DrawState{6}{8}{0.000}{#1}{3}
+}
+}
+\FrameK{2.333}
+\FrameK{2.444}
+
+\newcommand{\FrameL}[2] {
+\LatenessDiagram{#1}{
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawState{2}{4}{0.000}{#1}{22}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+}
+}
+\FrameL{2.555}{}
+
+\newcommand{\FrameLL}[2] {
+\LatenessDiagram{#1}{
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+}
+}
+
+\FrameLL{2.666}{}
+\FrameLL{2.777}{}
+\FrameLL{2.888}{}
+
+\newcommand{\FrameN}[2] {
+\LatenessDiagram{#1}{
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	#2
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+}
+}
+\FrameN{3.000}{}
+
+\newcommand{\FrameO}[2] {
+\FrameN{#1}{
+}
+}
+\FrameO{3.111}{}
+\FrameO{3.222}{}
+
+\newcommand{\FrameP}[2] {
+\LatenessDiagram{#1}{
+	#2
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{3}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+}
+}
+\FrameP{3.333}{}
+
+\newcommand{\FrameQ}[2] {
+\FrameP{#1}{
+}
+}
+\FrameQ{3.444}{}
+\FrameQ{3.555}{}
+
+\newcommand{\FrameR}[1] {
+\LatenessDiagram{#1}{
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+}
+}
+\FrameR{3.666}
+
+\newcommand{\FrameRR}[1] {
+\LatenessDiagram{#1}{
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{6}{8}{0.000}{#1}{11}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.777}
+}
+}
+\FrameRR{3.777}
+\FrameRR{3.888}
+
+\newcommand{\FrameS}[2] {
+\LatenessDiagram{#1}{
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	#2
+	\DrawState{6}{8}{0.000}{#1}{12}
+	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.777}
+}
+}
+\FrameS{4.000}{}
+
+\newcommand{\FrameT}[2] {
+\FrameS{#1}{
+}
+}
+\FrameT{4.111}{}
+\FrameT{4.222}{}
+\FrameT{4.333}{}
+\newcommand{\FrameTT}[2] {
+\LatenessDiagram{#1}{
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.777}
+	\DrawTombstone{6}{8}{0.000}{4.4}
+}
+}
+\FrameTT{4.444}{}
+\FrameTT{4.555}{}
+\FrameTT{4.666}{}
+\FrameTT{4.777}{}
+\FrameTT{4.888}{}
+\FrameTT{5.000}{}
+
+\newcommand{\FrameU}[1] {
+\LatenessDiagram[c_back]{5.222}{
+	\DrawOutputz{0}{2}{0.000}{1.666}{11}{late}
+	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
+	\DrawTombstone{0}{2}{0.000}{2.45}
+	\DrawTombstone{2}{4}{0.000}{2.6}
+	\DrawTombstone{4}{6}{0.000}{3.777}
+	\DrawTombstone{6}{8}{0.000}{4.4}
+}
+}
+\FrameU{\ofadeA}
+\FrameU{\ofadeB}
+\FrameU{\ofadeC}
+\fi % \FastRender 0
+
+\DrawFinalFrames{\FrameV}
+
+\end{document}

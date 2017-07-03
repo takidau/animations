@@ -1,0 +1,94 @@
+% convert -density 600 -delay 10 -loop 0 classic-batch.pdf classic-batch-pdf.gif
+%   or
+% convert -density 600 classic-batch.pdf classic-batch-%02d.png
+% convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
+\input{gaming-diagrams}
+
+\def \FastRender{1}
+\def \ShowWatermarks{0}
+
+\SetJointVars{0}{1}
+\def \maxx{10}
+
+\def \JointLeftInput{1}
+\def \JointMidInput{2}
+\def \JointRightInput{3}
+
+\newcommand{\FrameUser} {
+\JointUser{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutput{0}{\maxx}{0.000}{5.000}{11}
+    }{1}
+  }{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutput{0}{\maxx}{0.000}{5.000}{12}
+    }{2}
+  }{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutput{0}{\maxx}{0.000}{5.000}{20}
+    }{3}
+  }
+}
+\FrameUser
+
+\newcommand{\FrameTeam} {
+\JointTeam{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutput{0}{2}{0.000}{5.000}{8}
+	\DrawOutput{2}{4}{0.000}{5.000}{13}
+	\DrawOutput{6}{8}{0.000}{5.000}{2}
+    }{1,2}
+  }{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutput{2}{4}{0.000}{5.000}{5}
+	\DrawOutput{4}{6}{0.000}{5.000}{15}
+    }{3}
+  }
+}
+\FrameTeam
+
+\newcommand{\FrameProc} {
+\JointProc{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutput{0}{\maxx}{0.000}{2.666}{11}
+	\DrawOutput{0}{\maxx}{0.000}{0.666}{8}
+    }{1}
+  }{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutput{0}{\maxx}{0.000}{4.666}{12}
+	\DrawOutput{0}{\maxx}{0.000}{2.000}{10}
+	\DrawOutput{0}{\maxx}{0.000}{1.000}{9}
+    }{2}
+  }{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutput{0}{\maxx}{0.000}{4.333}{20}
+	\DrawOutput{0}{\maxx}{0.000}{3.333}{12}
+	\DrawOutput{0}{\maxx}{0.000}{2.333}{5}
+    }{3}
+  }
+}
+\FrameProc
+
+\newcommand{\FrameEvent} {
+\JointEvent{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutputz{0}{2}{0.000}{0.833}{8}{early}
+
+	\DrawOutputz{2}{4}{0.000}{2.666}{13}{on-time}
+	\DrawOutputz{2}{4}{0.000}{1.833}{10}{early}
+	\DrawOutputz{2}{4}{0.000}{1.000}{9}{early}
+
+	\DrawOutputz{6}{8}{0.000}{4.5}{2}{early}
+    }{1,2}
+  }{
+    \GamingInline[c_back]{5.222}{
+	\DrawOutputz{2}{4}{0.000}{2.166}{5}{early}
+
+	\DrawOutputz{4}{6}{0.000}{4.333}{15}{late}
+	\DrawOutputz{4}{6}{0.000}{3.333}{8}{early}
+    }{3}
+  }
+}
+\FrameEvent
+
+\end{document}

@@ -1,0 +1,463 @@
+% NAME=streaming-wm && time convert -density 300 -delay 15 -loop 0 $NAME.pdf $NAME.gif && convert "$NAME.gif[-1]" $NAME-final.png
+
+\documentclass[usenames,dvipsnames,tikz,convert={outfile=\jobname.png}]{standalone}
+\usepackage{graphicx}
+\usepackage{balance}  % for  \balance command ON LAST PAGE  (only there!)
+\usepackage{color}
+\usepackage{listings}
+\usepackage{courier}
+%\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{textgreek}
+\usepackage{verbatim}
+\usepackage{setspace}
+\usepackage[outline]{contour}
+\usepackage{lmodern}
+\usepackage{ifthen}
+
+% Roboto
+% http://www.tug.dk/FontCatalogue/robotoregular/
+%\usepackage[sfdefault]{roboto}  %% Option 'sfdefault' only if the base font of the document is to be sans serif
+%\usepackage[T1]{fontenc}
+
+% UWR Nimbus Sans
+% http://www.tug.dk/FontCatalogue/urwnimbussans/
+%\usepackage[scaled]{helvet}
+%\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+%\usepackage[T1]{fontenc}
+
+% Fira Sans
+% http://www.tug.dk/FontCatalogue/firasansnewtxsf/
+\usepackage[T1]{fontenc}
+\usepackage[sfdefault,scaled=.85]{FiraSans}
+\usepackage{newtxsf}
+
+\SetSymbolFont{letters}{bold}{OML}{cmbr}{bx}{it}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{tikz}
+\usetikzlibrary{calc} % for let
+\usetikzlibrary{shapes,snakes} % for let
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{backgrounds}
+\usepackage[active,tightpage]{preview}
+
+\begin{document}
+
+\definecolor{c_back}{HTML}{FFFFFF}
+\definecolor{c_datum_back}{HTML}{7BCFA9}%E57368}
+\definecolor{c_datum_back_ghost}{HTML}{DDDDDD}%E57368}
+\definecolor{c_datum_text}{rgb}{0, 0, 0}
+\definecolor{c_state_back}{HTML}{999999} %7BCFA9} 
+\definecolor{c_state_text}{rgb}{0, 0, 0}
+%\definecolor{c_state_text}{rgb}{255, 255, 255}
+\definecolor{c_out_back}{HTML}{A0C3FF}%76A7FA}%FFFFFF} %A0C3FF}
+\definecolor{c_out_text}{rgb}{0, 0, 0}
+%\definecolor{c_out_text}{HTML}{A0C3FF}%76A7FA}%FFFFFF} %A0C3FF}
+\definecolor{c_trigger}{HTML}{FFFFFF}%76A7FA}
+\definecolor{c_retraction_back}{HTML}{E57368}%FFE168}
+\definecolor{c_retraction_text}{rgb}{0, 0, 0}
+\definecolor{c_timeline}{HTML}{000000}%76A7FA}
+\definecolor{c_proc_time}{HTML}{76A7FA}
+\definecolor{c_event_time}{HTML}{C8C843}
+\definecolor{c_watermark}{HTML}{ED9D97}
+\definecolor{c_ideal}{rgb}{.5, .5, .5}
+\definecolor{c_boundary}{HTML}{76A7FA}%{rgb}{.7, .7, .5}
+\definecolor{c_tomb}{HTML}{FFFFFF}%5D5D5D}
+\definecolor{c_watermark_legend}{HTML}{000000}
+
+% Opacities
+\def \ostate{.111}%.333} %.7070}
+\def \oout{.333} %0.796875
+\def \oretraction{.333} % 0.75
+\def \otrigger{.5}
+
+\def \ofadeA{.1} %.2
+\def \ofadeB{.05} %.1
+\def \ofadeC{.01} 
+
+\newcommand{\TikzDiagram}[2][8cm] {
+\begin{tikzpicture}
+[color=white,show background rectangle, background rectangle/.style={fill=c_back},font=\sffamily]
+	#2
+\end{tikzpicture}
+\newpage
+}
+
+\newcommand{\WindowBrace}[5] {
+	\draw [line width=1pt,gray] (#1, #2) -- (#1 - #4, #2);
+	\draw [line width=1pt,gray] (#1, #3) -- (#1 - #4, #3);
+	\draw [line width=1pt,gray] (#1 - #4, #2) -- (#1 - #4, #3);
+	\draw [line width=1pt,gray] (#1 - #4, {#2 - (#2 - #3) / 2}) -- (#1 - #4 - #4, {#2 - (#2 - #3) / 2});
+	\node [gray,font=\large] at (#1 - #4 - #4 - #4, {#2 - (#2 - #3) / 2}) {#5};
+}
+
+
+\tikzstyle{s_ideal}=[loosely dotted,line width=1.5pt,color=c_ideal]
+\tikzstyle{s_watermark}=[line width=1.5pt, solid, color=c_watermark]
+\tikzstyle{s_legend}=[font=\small]
+\tikzstyle{s_timepoint}=[font=\small]
+\tikzstyle{s_timeline}=[solid,line width=1.5pt,color=c_timeline]
+\tikzstyle{s_boundary}=[color=c_boundary, densely dashed]
+\tikzstyle{s_late}=[color=c_state_back,pattern=north west lines,pattern color=c_state_back]
+\tikzstyle{s_tomb}=[color=white,densely dotted, line width=.5pt] 
+\tikzstyle{s_tomb_late}=[color=white,densely dotted, line width=.5pt] 
+%\tikzstyle{s_tomb_late}=[color=white,densely dotted,pattern=crosshatch dots,pattern color=c_tomb] 
+
+% Default to input version #1
+\ifdefined \InputVersion
+\else
+	\def \InputVersion{1}
+\fi
+
+\newcommand{\Version}[4] {
+	\if \InputVersion 1
+		#1
+	\else
+		\if \InputVersion 2
+			#2
+		\else
+			\if \InputVersion 3
+				#3
+			\else
+				#4
+			\fi
+		\fi
+	\fi
+}
+
+\Version
+  {\def \maxx{9}}
+  {\def \maxx{9}}
+  {\def \maxx{10}}
+  {\def \maxx{10}}
+  
+
+\def \maxy{5}
+\def \yoff{5}
+\def \scale{.9}
+\def \trioff{0.0265}
+
+\newcommand {\DrawAxes}[0] {
+	
+	% X Axis
+	\draw[color=c_event_time, line width=1.5pt] (0,0) -- (\maxx,0);
+	% X Axis Tick Marks
+	\foreach \x in {1,...,\maxx} {
+		\draw[color=c_event_time] (\x, .1) -- (\x, -.1);
+		\node[s_timepoint,color=c_event_time] at (\x, -.25) {12:0\x};
+	}
+	% X Axis Label
+	\node[s_legend,color=c_event_time] at (\maxx / 2, -.666) {Event Time};
+
+	% Y Axis
+	\draw[c_proc_time, line width=1.5pt] (0,-0.0265) -- (0,\maxy);
+	% Y Axis Tick Marks
+	\foreach \y / \t in {1/06, 2/07, 3/08, 4/09, 5/10} {
+		\draw[c_proc_time] (.1, \y) -- (-.1, \y);
+		\node[s_timepoint, rotate=90, c_proc_time] at (-.25, \y) {12:\t};
+	}
+	% Y Axis Label
+	\node[s_legend,rotate=90, c_proc_time] at (-.666, \maxy / 2) {Processing Time};	
+	
+	% Corner beautification
+	\fill[c_event_time, line width=0pt] (-\trioff, -\trioff) -- (\trioff, \trioff) -- (\trioff, -\trioff) -- (-\trioff, -\trioff);
+}
+
+\newcommand {\DrawInput}[4][c_datum_back] {
+	\filldraw[#1, draw=c_datum_text] (#2, #3) circle [radius=6pt];
+	\node[c_datum_text,font=\bf\sffamily] at (#2, #3) {#4};
+}
+
+	% A inputs, in sorted order (by processing-time)
+	%\DrawInput{0.444}{.333}{5}
+	%\DrawInput{2.444}{.666}{7}
+	%\DrawInput{3.666}{1.222}{3}
+	%\DrawInput{3.888}{1.444}{4}
+	%\DrawInput{4.333}{1.666}{3}
+	%\DrawInput{3.111}{2.111}{8}
+	%\DrawInput{6.666}{2.333}{3}
+	%\DrawInput{1.444}{3.333}{9}
+	%\DrawInput{7.444}{3.666}{8}
+	%\DrawInput{7.777}{4.0}{1}
+
+\newcommand {\DrawInputsA} {
+	\DrawInput{0.444}{.333}{5}
+	\DrawInput{2.444}{.666}{7}
+	\DrawInput{3.111}{2.111}{8}
+	\DrawInput{3.666}{1.222}{3}
+	\DrawInput{3.888}{1.444}{4}
+	\DrawInput{4.333}{1.666}{3}
+	\DrawInput{6.666}{2.333}{3}
+	\DrawInput{7.444}{3.666}{8}
+	\DrawInput{7.777}{4.0}{1}
+	\DrawInput{1.444}{3.333}{9}
+}
+
+	% B inputs, in sorted order (by processing-time)
+	%\DrawInput[#1]{2.444}{.888}{7}
+	%\DrawInput[#1]{3.666}{1.111}{3}
+	%\DrawInput[#1]{1.444}{1.333}{9}
+	%\DrawInput[#1]{3.111}{1.777}{8}
+	%\DrawInput[#1]{6.666}{1.999}{3}
+	%\DrawInput[#1]{0.444}{2.111}{5}
+	%\DrawInput[#1]{7.444}{2.555}{8}
+	%\DrawInput[#1]{3.888}{2.888}{4}
+	%\DrawInput[#1]{7.777}{3.222}{1}
+	%\DrawInput[#1]{4.333}{3.888}{3}
+
+\newcommand {\DrawInputsB} {
+	\DrawInput{0.444}{2.111}{5}
+	\DrawInput{2.444}{.888}{7}
+	\DrawInput{3.111}{1.777}{8}
+	\DrawInput{3.666}{1.111}{3}
+	\DrawInput{3.888}{2.888}{4}
+	\DrawInput{4.333}{3.888}{3}
+	\DrawInput{6.666}{1.999}{3}
+	\DrawInput{7.444}{2.555}{8}
+	\DrawInput{7.777}{3.222}{1}
+	\DrawInput{1.444}{1.333}{9}
+}
+
+\tikzstyle{s_datum_ghost}=[color=c_datum_back_ghost,opacity=.333]
+
+\newcommand{\DrawShiftedInput}[2] {
+	\DrawInput{5 + #1}{#1}{#2}
+}
+
+\newdimen \deltaDim
+\newdimen \offDim
+
+\newcommand{\DrawIngressInput}[3] {
+	\def \xL{#1}
+	\def \xR{5 + #2}
+	\def \arrowOff{.3}
+
+	% Floating point calculations have to be done via
+	% dimensions, which have to be set using evaluated
+	% numbers, which appears to doable with \pgfmathparse
+	% and \pgfmathresult...
+	\pgfmathparse{\xR - \xL}
+	\deltaDim=\pgfmathresult pt
+	
+	\pgfmathparse{\arrowOff * 2}
+	\offDim=\pgfmathresult pt
+
+	\DrawInput[s_datum_ghost]{\xL}{#2}{#3}
+	\ifthenelse{\lengthtest{\deltaDim > \offDim}}
+		{\draw[s_datum_ghost,-stealth,densely dotted,line width=.75pt] (\xL + \arrowOff, #2) -- (\xR - \arrowOff, #2);}
+		{}
+	\DrawInput{\xR}{#2}{#3}
+}
+
+\newcommand {\DrawInputsC} {
+	\DrawIngressInput{0.444}{.333}{5}
+	\DrawIngressInput{2.444}{.666}{7}
+	\DrawIngressInput{3.111}{2.111}{8}
+	\DrawIngressInput{3.666}{1.222}{3}
+	\DrawIngressInput{3.888}{1.444}{4}
+	\DrawIngressInput{4.333}{1.666}{3}
+	\DrawIngressInput{6.666}{2.333}{3}
+	\DrawIngressInput{7.444}{3.666}{8}
+	\DrawIngressInput{7.777}{4.0}{1}
+	\DrawIngressInput{1.444}{3.333}{9}
+}
+
+\newcommand {\DrawInputsD} {
+	\DrawIngressInput{0.444}{2.111}{5}
+	\DrawIngressInput{2.444}{.888}{7}
+	\DrawIngressInput{3.111}{1.777}{8}
+	\DrawIngressInput{3.666}{1.111}{3}
+	\DrawIngressInput{3.888}{2.888}{4}
+	\DrawIngressInput{4.333}{3.888}{3}
+	\DrawIngressInput{6.666}{1.999}{3}
+	\DrawIngressInput{7.444}{2.555}{8}
+	\DrawIngressInput{7.777}{3.222}{1}
+	\DrawIngressInput{1.444}{1.333}{9}
+}
+
+\newcommand {\DrawInputs} {
+	\Version{\DrawInputsA}{\DrawInputsB}{\DrawInputsC}{\DrawInputsD}
+}
+
+\newcommand {\DrawMicroBatchBoundaries}[0] {
+	\DrawBatchBoundary{1}
+	%\DrawBatchBoundary{2}
+	\DrawBatchBoundary{3}
+	%\DrawBatchBoundary{4}
+	\DrawBatchBoundary{5}
+}
+
+\newcommand{\DrawBatchBoundary}[1] {
+	\draw[s_boundary] (0,#1) -- (\maxx,#1);
+}
+
+\newcommand {\DrawWatermarkA}[1][c_watermark] {
+	\draw [-, s_watermark, #1] 
+		(0.111,0.01)
+		to [out=80,in=180] (0.444, .666) % 5
+		to [out=0, in=180] (2.444, .999) % 7
+		to [out=0, in=180] (3.111, 2.444) % 8
+		to [out=0, in=180] (6.555, 2.666) % 3 (rightmost)
+		to [out=0, in=180] (7.333, 4.000) % 8
+		to [out=0, in=180] (7.7, 4.333) % 1
+		to [out=0, in=180] (9.000, 4.37) % end
+	;
+}
+
+\newcommand {\DrawWatermarkB}[1][c_watermark] {
+	\draw [-, s_watermark, #1] 
+		(0.111,0.01)
+		to [out=80,in=180] (1.444, 1.666) % 9
+		to [out=0, in=180] (3.111, 2.111) % 8
+		to [out=0, in=180] (3.888, 3.222) % 4
+		to [out=0, in=180] (7.333, 3.333) % 8
+		to [out=0, in=180] (7.666, 3.555) % 1
+		to [out=0, in=180] (9.000, 3.777) % end
+	;
+}
+
+\newcommand{\DrawIdealWatermark}[1][s_ideal] {
+	\draw [-,#1] (\yoff,0) -- (\maxx, \maxx - \yoff);
+}
+
+\newcommand{\DrawWatermark}[1][c_watermark] {
+	\Version
+	  {\DrawWatermarkA[#1]}
+	  {\DrawWatermarkB[#1]}
+	  {\DrawIdealWatermark[s_watermark]}
+	  {\DrawIdealWatermark[s_watermark]}
+}
+
+\newcommand {\DrawBatchWatermarkAtTo}[3][c_watermark] {
+	\draw [->, s_watermark, #1] (0, #2) -- (#3, #2 + #3 / 8 * .125);
+}
+
+\newcommand{\DrawTerminatedWatermark}[3][c_watermark] {
+	\DrawBatchWatermarkAtTo[#1]{#2}{#3};
+	\draw [#1,s_watermark, ->] (#3, #2 + #3 / 8 * .125) -- (8, #2 + #3 / 8 * .125);
+}
+
+\newcommand {\DrawBatchWatermarkAt}[2][c_watermark] {
+	\DrawBatchWatermarkAtTo[#1]{#2}{8}
+}
+
+\newcommand {\DrawGlobalBatchWatermark}[1][c_watermark] {
+	\DrawBatchWatermarkAt[#1]{4.25}
+}
+
+\newcommand {\DrawMicroBatchWatermarks}[1][c_watermark] {
+	\DrawBatchWatermarkAt[#1]{4}
+	\DrawBatchWatermarkAt[#1]{3}
+	\DrawTerminatedWatermark[#1,-]{2}{7}
+	\DrawTerminatedWatermark[#1,-]{1}{6}
+}
+
+\newcommand{\DrawWatermarks}[2][\DrawWatermark] {
+	% Ideal watermark line
+	\DrawIdealWatermark;
+	
+	% Watermark s_legends
+	\node[s_legend, color=c_watermark_legend] at (2.5, -1.55) {Ideal watermark:};
+	\draw [s_ideal, -] (4.5, -1.55) -- (6.5, -1.55);
+	\node[s_legend,color=c_watermark_legend] at (2.5, -1.15) {Actual watermark:};
+	\draw [s_watermark, -] (4.5, -1.15) -- (6.5, -1.15);
+
+	#1
+	
+	% Blocker
+	\fill[color=c_back,line width=.5cm] (0.01, 5) rectangle (\maxx, #2);
+
+}
+
+\contourlength{1pt}
+
+\newcommand {\DrawCustomOutput}[8] {
+	% arguments: 
+	% #1 = x1
+	% #2 = x2
+	% #3 = y1
+	% #4 = y2
+	% #5 = text
+	% #6 = box formatting
+	% #7 = border + text formatting
+	% #8 = opacity
+	\fill[#6,#8,line width=.5cm] (#1, #3) rectangle (#2, #4);
+	\draw[#6] (#1, #3) rectangle (#2, #4);
+	\node[#7,font=\bf\sffamily\normalsize] at ({#1 + (#2 - #1) / 2}, {#4 - .25}) {#5};  %{\contour{white}{#5}}; 
+}
+
+\def \ShowLateness{0}
+\def \latey{.1}
+\newcommand{\DrawLatenessHorizonText}[3]{
+		\node[font=\sffamily\tiny] at (#2 + \lateness, #3 +.4) {[12:0#1, 12:0#2)};
+		\node[font=\sffamily\tiny] at (#2 + \lateness, #3 +.25) {Lateness Horizon};
+}
+
+\newdimen \lateXDim
+\newdimen \maxXDim
+
+\newcommand {\DrawState}[6][\ostate] {
+	\DrawCustomOutput{#2}{#3}{#4}{#5}{#6}{c_state_back}{c_state_text}{opacity=#1} 
+	\if \ShowLateness 1
+	
+		\pgfmathparse{#3 + \lateness}
+		\lateXDim=\pgfmathresult pt
+	
+		\maxXDim=\maxx pt
+
+		\ifthenelse{\lengthtest{\lateXDim > \maxXDim}}
+			{\def \lateX{\maxx}}
+			{\def \lateX{#3 + \lateness}}
+	
+		\draw [s_timeline] ({#3 + \lateness}, {#5 - \latey}) -- ({#3 + \lateness}, {#5 + \latey});
+		\DrawLatenessHorizonText{#2}{#3}{#5}
+		%\DrawCustomOutput{#3}{#3 + 1}{#4}{#5}{}{s_late}{c_state_text}{opacity=#1} 
+	\fi
+}
+
+\newcommand {\DrawOutput}[6][c_out_back] {
+	\DrawCustomOutput{#2}{#3}{#4}{#5}{#6}{#1}{c_out_text}{opacity=\oout} 
+}
+
+\newcommand {\DrawTrigger}[5] {
+	\DrawCustomOutput{#1}{#2}{#3}{#4}{#5\phantom{---------------}}{white,densely dashed, line width=1pt,draw opacity=1}{white,text opacity=1}{opacity=0} 
+}
+
+\newcommand{\offx}[1]{#1 - .04}
+\newcommand{\offy}[1]{#1 + .04}
+
+\newcommand{\DrawRetraction}[5]{
+	\DrawCustomOutput{#1}{#2}{#3}{#4}{-#5\phantom{-}}{c_retraction_back}{c_retraction_text}{opacity=\oretraction}
+}
+
+\newcommand{\DrawTombstone}[4]{
+	\DrawCustomOutput{#1}{#2}{#3}{#4}{}{s_tomb}{}{opacity=0}
+	\draw [s_tomb_late] (#2, #4) -- ({#2 + \lateness}, #4);
+	\draw [s_tomb_late] ({#2 + \lateness}, {#4 - \latey}) -- ({#2 + \lateness}, {#4 + \latey});
+	\DrawLatenessHorizonText{#1}{#2}{#4}
+}
+
+\newcommand{\DrawTimeline}[2]{
+	\draw [s_timeline,#1] (0, #2) -- (\maxx, #2);
+}
+
+\def \ShowWatermarks{1}
+
+\newcommand {\TriggersDiagram}[3][c_timeline] {
+\TikzDiagram[7cm]{
+	\if \ShowWatermarks 1
+		\DrawWatermarks{#2} 
+	\fi
+	\DrawAxes 
+	\DrawInputs
+	#3
+	\DrawTimeline{#1}{#2}
+}
+}
+
+\newcommand{\DrawFinalFrames}[2][20] {
+	\foreach \i in {1,...,#1} {
+		#2
+	}
+}
