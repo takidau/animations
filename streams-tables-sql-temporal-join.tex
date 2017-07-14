@@ -14,6 +14,11 @@
 \def \FlushLeftWatermark{1}
 \def \ShowFrame{1}
 
+\colorlet{c_rate}{c_white}
+\colorlet{c_order}{c_yellow}
+\colorlet{c_redo}{c_green}
+\colorlet{c_undo}{c_red}
+
 \newcommand{\DrawOutputStream} {
 	\DrawOutput{\stX}{\stX + \stW}{6 + \stInputY}{6.5 + \stInputY}{51}
 }
@@ -48,12 +53,13 @@
 	\def \stYAxisLabel{0}
 	\def \stLabel{(INPUT BYTES)}
 	\StreamInline{
-		\DrawCurrency{0}{0.333}{114 \textyen /\texteuro}
-		\DrawCurrency{2}{3.111}{116 \textyen /\texteuro}
-		\DrawCurrency{6}{1.555}{119 \textyen /\texteuro}
+		\DrawCurrency{0.5}{1.333}{c_rate}{114 \textyen /\texteuro}
+		\DrawCurrency{3}{4.111}{c_rate}{116 \textyen /\texteuro}
+		\DrawCurrency{6}{2.555}{c_rate}{119 \textyen /\texteuro}
 
-		\DrawCurrency{4}{2.000}{5 \texteuro}
-		\DrawCurrency{7.75}{3.555}{3 \texteuro}
+		\DrawCurrency{2}{0.111}{c_order}{2 \texteuro}
+		\DrawCurrency{5}{3.000}{c_order}{5 \texteuro}
+		\DrawCurrency{7.75}{4.555}{c_order}{3 \texteuro}
 	}
 	
 	\def \DebugStreamTable{0}
@@ -67,12 +73,13 @@
 	\def \stYAxisLabel{0}
 	\def \stLabel{(USER SCORES)}
 	\StreamInline{
-		\DrawCurrency[10]{0}{0.333}{114 \textyen /\texteuro}
-		\DrawCurrency[10]{2}{3.111}{116 \textyen /\texteuro}
-		\DrawCurrency[10]{6}{1.555}{119 \textyen /\texteuro}
+		\DrawCurrency[10]{0.5}{1.333}{c_rate}{114 \textyen /\texteuro}
+		\DrawCurrency[10]{3}{4.111}{c_rate}{116 \textyen /\texteuro}
+		\DrawCurrency[10]{6}{2.555}{c_rate}{119 \textyen /\texteuro}
 
-		\DrawCurrency{4}{2.000}{5 \texteuro}
-		\DrawCurrency{7.75}{3.555}{3 \texteuro}
+		\DrawCurrency{2}{0.111}{c_order}{2 \texteuro}
+		\DrawCurrency{5}{3.000}{c_order}{5 \texteuro}
+		\DrawCurrency{7.75}{4.555}{c_order}{3 \texteuro}
 	}
 
 	\def \stY{4.5}
@@ -87,20 +94,35 @@
 	\def \stYBoundBoost{0}
 	\def \stLabel{RATES}
 	\TableInline{
-		\DrawIn{\stYoff}{0}{4.555}{\DrawCurrency[10]{0}{0.333}{114 \textyen /\texteuro}}
-		\DrawIn{\stYoff}{0}{6.777}{\DrawCurrency[10]{2}{3.111}{116 \textyen /\texteuro}}
-		\DrawIn{\stYoff}{6.888}{7.333}{\DrawCurrency[4]{2}{3.111}{116 \textyen /\texteuro}}
-		\DrawIn{\stYoff}{0}{5.777}{\DrawCurrency[10]{6}{1.555}{119 \textyen /\texteuro}}
+		\def \yStatic{2.25 - \oy}
+		\DrawIn{\stYoff}{0}{5.555}{\DrawCurrency[10]{0.5}{1.333}{c_rate}{114 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{0}{7.777}{\DrawCurrency[10]{4}{4.111}{c_rate}{116 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{6.888}{8.333}{\DrawCurrency[3]{3}{4.111}{c_rate}{116 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{0}{6.777}{\DrawCurrency[10]{6}{2.555}{c_rate}{119 \textyen /\texteuro}}
 		%\DrawInputsA{c_ghost}{c_ghost_text}
 		%\def \diOffset{4}
-		\DrawIn{\stYoff}{4.666}{5.222}{\DrawCurrency[10]{0}{2.25 - \oy}{114 \textyen /\texteuro}}
-		\DrawIn{\stYoff}{5.333}{6.777}{\DrawCurrency[6]{0}{2.25 - \oy}{114 \textyen /\texteuro}}
-		\DrawIn{\stYoff}{6.888}{15}{\DrawCurrency[2]{0}{2.25 - \oy}{114 \textyen /\texteuro}}
-		\DrawIn{\stYoff}{7.444}{15}{\DrawCurrency[4]{2}{2.25 - \oy}{116 \textyen /\texteuro}}
-		\DrawIn{\stYoff}{5.888}{15}{\DrawCurrency[10]{6}{2.25 - \oy}{119 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{5.666}{6.222}{\DrawCurrency[10]{0.5}{\yStatic}{c_rate}{114 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{6.333}{7.777}{\DrawCurrency[5.5]{0.5}{\yStatic}{c_rate}{114 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{7.888}{15}{\DrawCurrency[2.5]{0.5}{\yStatic}{c_rate}{114 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{8.444}{15}{\DrawCurrency[3]{3}{\yStatic}{c_rate}{116 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{6.888}{15}{\DrawCurrency[10]{6}{\yStatic}{c_rate}{119 \textyen /\texteuro}}
 
-		\DrawCurrency{4}{2.000}{5 \texteuro}
-		\DrawCurrency{7.75}{3.555}{3 \texteuro}
+		\DrawIn{\stYoff}{0}{4.222}{\DrawCurrency{2}{0.111}{c_order}{2 \texteuro}}
+		\DrawIn{\stYoff}{4.333}{15}{\DrawCurrency{2}{\yStatic}{c_order}{2 \texteuro}}
+		\DrawIn{\stYoff}{5.666}{15}{\DrawCurrency{2}{\yStatic}{c_redo}{228 \texteuro}}
+		\DrawIn{\stYoff}{5.666}{15}{\DrawCurrency{2}{1.333}{c_redo}{228 \texteuro}}
+
+		\DrawIn{\stYoff}{0}{7.222}{\DrawCurrency{5}{3.000}{c_order}{5 \texteuro}}
+		\DrawIn{\stYoff}{7.333}{15}{\DrawCurrency{5}{\yStatic}{c_order}{5 \texteuro}}
+		\DrawIn{\stYoff}{7.333}{15}{\DrawCurrency{5}{3.000}{c_redo}{570 \textyen}}
+		\DrawIn{\stYoff}{7.333}{7.777}{\DrawCurrency{5}{\yStatic}{c_redo}{570 \textyen}}
+		\DrawIn{\stYoff}{7.888}{15}{\DrawCurrency{5}{3.666}{c_undo}{-570 \textyen}}
+		\DrawIn{\stYoff}{8.444}{15}{\DrawCurrency{5}{\yStatic}{c_redo}{580 \textyen}}
+		
+		\DrawIn{\stYoff}{0}{8.777}{\DrawCurrency{7.75}{4.555}{c_order}{3 \texteuro}}
+		\DrawIn{\stYoff}{8.888}{15}{\DrawCurrency{7.75}{\yStatic}{c_order}{3 \texteuro}}
+		\DrawIn{\stYoff}{8.888}{15}{\DrawCurrency{7.75}{\yStatic}{c_redo}{357 \textyen}}
+		\DrawIn{\stYoff}{8.888}{15}{\DrawCurrency{7.75}{4.555}{c_redo}{357 \textyen}}
 	}
 	
 	\def \DebugStreamTable{0}
@@ -114,6 +136,13 @@
 	\def \stYAxisLabel{0}
 	\def \stLabel{(TEAM SCORES)}
 	\StreamInline{
+		\DrawIn{\stYoff}{5.666}{15}{\DrawCurrency{2}{1.333}{c_redo}{228 \texteuro}}
+
+		\DrawIn{\stYoff}{7.333}{15}{\DrawCurrency{5}{3.000}{c_redo}{570 \textyen}}
+		\DrawIn{\stYoff}{7.888}{15}{\DrawCurrency{5}{3.666}{c_undo}{-570 \textyen}}
+		\DrawIn{\stYoff}{8.444}{15}{\DrawCurrency{5}{4.111}{c_redo}{580 \textyen}}
+
+		\DrawIn{\stYoff}{8.888}{15}{\DrawCurrency{7.75}{4.555}{c_redo}{357 \textyen}}
 	}
 	
 	\DrawXAxis{6.5}{1}
@@ -127,9 +156,9 @@
 }{}
 }
 
-\newcommand{\FastFrames}{10,35,40,50,61,62,63,64,65,66,67,68,70,75}
-%\newcommand{\AllFrames}{0,1,...,124}
-\newcommand{\AllFrames}{0,1,...,80}
+\newcommand{\FastFrames}{0,1,2,...,55}
+\newcommand{\AllFrames}{0,1,...,124}
+%\newcommand{\AllFrames}{0,1,...,80}
 \RenderFrames
 
 \end{document}

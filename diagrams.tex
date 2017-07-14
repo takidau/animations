@@ -1706,11 +1706,12 @@
 	\DrawState[\ostate]{\dwrXstart}{\dwrXend}{\dwrY - \dwrDelta}{\dwrY + \dwrDelta}{\dwrText}
 }
 
-\newcommand {\DrawCurrency}[4][0] {
+\newcommand {\DrawCurrency}[5][0] {
 	\def \dcW{#1}
 	\def \dcX{#2}
 	\def \dcY{#3}
-	\def \dcText{#4}
+	\colorlet{c_dc_text_color}{#4}
+	\def \dcText{#5}
 	\if \dcW 0
 		\filldraw[white, draw=c_state_text!25!black] (\ox + \dcX, \oy + \dcY) circle [radius=2pt];
 	\else
@@ -1718,7 +1719,7 @@
 		\draw[c_state_text] (\ox + \dcX, \oy +  \dcY - 0.25) rectangle (\ox + \dcX + \dcW, \oy +  \dcY + 0.25);
 	\fi
 	\contourlength{1pt}
-	\node[c_state_text,font=\bf\sffamily\normalsize,text width=2cm] at ({\ox + \dcX + 1 + .15}, \oy + \dcY) {\contour{c_state_text!25!black}{\dcText}}; 	
+	\node[c_dc_text_color,font=\bf\sffamily\normalsize,text width=2cm] at ({\ox + \dcX + 1 + .15}, \oy + \dcY) {\contour{c_state_text!25!black}{\dcText}}; 	
 }
 
 \newcommand{\DrawTableCell}[4][\ostate] {
