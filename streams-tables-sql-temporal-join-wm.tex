@@ -1,0 +1,177 @@
+% convert -density 600 -delay 10 -loop 0 classic-batch.pdf classic-batch-pdf.gif
+%   or
+% convert -density 600 classic-batch.pdf classic-batch-%02d.png
+% convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
+
+\input{diagrams}
+
+\def \FastRender{0}
+\def \ShowWatermarks{0}
+\def \StreamsTables{1}
+\def \DiagramName{Fun}
+\def \DebugStreamTable{1}
+\def \DrawTriggerLineBottom{0}
+\def \FlushLeftWatermark{1}
+\def \ShowFrame{1}
+
+\colorlet{c_rate}{c_white}
+\colorlet{c_order}{c_yellow}
+\colorlet{c_redo}{c_green}
+\colorlet{c_undo}{c_red}
+
+\newcommand{\DrawOutputStream} {
+	\DrawOutput{\stX}{\stX + \stW}{6 + \stInputY}{6.5 + \stInputY}{51}
+}
+
+\newcommand{\DrawTemporalJoinWatermark}[1] {
+		\draw [-, s_watermark, #1] 
+			(\ox - 0.333, \oy + 0.01)
+			to [out=80,in=210] (\ox - 0.333, \oy +  1.222) % 5
+			to [out=30, in=195] (\ox + 3.4, \oy +  4.75) % 7
+			%to [out=15, in=185] (\ox + 7.7, \oy +  5.2) % 1
+			to [out=15, in=185] (\ox + 9.000, \oy +  5.3) % end
+		;
+}
+
+% Orders (rowtime, amount, currency)
+
+%rowtime amount currency
+%10:15        2 Euro
+%10:52        3 Euro
+
+%Rates (rowtime, currency, rate)
+
+%rowtime currency   rate
+%09:00   Euro        114
+%10:45   Euro        116
+%11:15   Euro        119
+
+
+\newcommand{\BatchDiagram}[3] {
+\TriggersMulti{
+	\def \stYoff{#1}
+	\def \oyBase{6.5}
+
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{4.5}
+	\def \stH{2}
+	\def \stYMinBase{3}
+	\def \stYBoundBoost{0}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(INPUT BYTES)}
+	\StreamInline{
+		\DrawTemporalJoinWatermark{c_watermark}
+
+		\DrawCurrency{0.5}{1.333}{c_rate}{114 \textyen /\texteuro}
+		\DrawCurrency{3}{4.111}{c_rate}{116 \textyen /\texteuro}
+		\DrawCurrency{6}{2.555}{c_rate}{119 \textyen /\texteuro}
+
+		\DrawCurrency{2}{0.111}{c_order}{2 \texteuro}
+		\DrawCurrency{5}{3.000}{c_order}{5 \texteuro}
+		\DrawCurrency{7.75}{4.555}{c_order}{3 \texteuro}
+	}
+	
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{2.5}
+	\def \stH{2}
+	\def \stYMinBase{1}
+	\def \stYBoundBoost{0}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(USER SCORES)}
+	\StreamInline{
+		\DrawTemporalJoinWatermark{c_watermark}
+
+		\DrawCurrency[10]{0.5}{1.333}{c_rate}{114 \textyen /\texteuro}
+		\DrawCurrency[10]{3}{4.111}{c_rate}{116 \textyen /\texteuro}
+		\DrawCurrency[10]{6}{2.555}{c_rate}{119 \textyen /\texteuro}
+
+		\DrawCurrency{2}{0.111}{c_order}{2 \texteuro}
+		\DrawCurrency{5}{3.000}{c_order}{5 \texteuro}
+		\DrawCurrency{7.75}{4.555}{c_order}{3 \texteuro}
+	}
+
+	\def \stY{4.5}
+	\DrawDivider{4.5}{1}{3.5}
+	\node[s_timepoint, rotate=0, c_white] at (\stX - 2.25, \stY) {WINDOW};		
+
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{2}
+	\def \stH{0.5}
+	\def \stYBoundBoost{0}
+	\def \stLabel{RATES}
+	\TableInline{
+		\DrawTemporalJoinWatermark{c_watermark}
+
+		\def \yStatic{2.25 - \oy}
+		\DrawIn{\stYoff}{0}{5.555}{\DrawCurrency[10]{0.5}{1.333}{c_rate}{114 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{0}{7.777}{\DrawCurrency[10]{3}{4.111}{c_rate}{116 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{7.888}{15}{\DrawCurrency[3]{3}{3.666}{c_rate}{114 \textyen /\texteuro}} % New tail
+		\DrawIn{\stYoff}{6.888}{8.333}{\DrawCurrency[3]{3}{4.111}{c_rate}{116 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{0}{6.777}{\DrawCurrency[10]{6}{2.555}{c_rate}{119 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{6.333}{15}{\DrawCurrency[10]{6}{2.000}{c_rate}{114 \textyen /\texteuro}} % New tail
+
+		\DrawIn{\stYoff}{5.666}{6.222}{\DrawCurrency[10]{0.5}{\yStatic}{c_rate}{114 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{6.333}{7.777}{\DrawCurrency[5.5]{0.5}{\yStatic}{c_rate}{114 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{7.888}{15}{\DrawCurrency[2.5]{0.5}{\yStatic}{c_rate}{114 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{8.444}{15}{\DrawCurrency[3]{3}{\yStatic}{c_rate}{116 \textyen /\texteuro}}
+		\DrawIn{\stYoff}{6.888}{15}{\DrawCurrency[10]{6}{\yStatic}{c_rate}{119 \textyen /\texteuro}}
+
+		\DrawIn{\stYoff}{0}{4.222}{\DrawCurrency{2}{0.111}{c_order}{2 \texteuro}}
+		\DrawIn{\stYoff}{4.333}{15}{\DrawCurrency{2}{\yStatic}{c_order}{2 \texteuro}}
+
+		\DrawIn{\stYoff}{0}{7.222}{\DrawCurrency{5}{3.000}{c_order}{5 \texteuro}}
+		\DrawIn{\stYoff}{7.333}{15}{\DrawCurrency{5}{\yStatic}{c_order}{5 \texteuro}}
+		
+		\DrawIn{\stYoff}{0}{8.777}{\DrawCurrency{7.75}{4.555}{c_order}{3 \texteuro}}
+		\DrawIn{\stYoff}{8.888}{15}{\DrawCurrency{7.75}{\yStatic}{c_order}{3 \texteuro}}
+	}
+	
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{-2}
+	\def \stH{4}
+	\def \stYMinBase{-3.5}
+	\def \stYBoundBoost{0.5}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(TEAM SCORES)}
+	\StreamInline{
+		% Draw the watermark in an unboosted scope so we don't draw over things in the previous section.
+		\begin{scope}
+		\clip (\stX, \stY) rectangle (\stXW, \stYH);
+		\DrawTemporalJoinWatermark{c_watermark}
+		\end{scope}
+
+		\DrawIn{\stYoff}{8.111}{15}{\DrawCurrency{2}{3.86}{c_redo}{228 \texteuro}}
+
+		\DrawIn{\stYoff}{9.333}{15}{\DrawCurrency{5}{5.065}{c_redo}{580 \textyen}}
+
+		\DrawIn{\stYoff}{9.444}{15}{\DrawCurrency{7.75}{5.22}{c_redo}{357 \textyen}}
+	}
+	
+	\DrawXAxis{6.5}{1}
+	\DrawXAxis{-2}{0}
+} 
+}
+
+\newcommand{\Frame}[1] {
+\BatchDiagram{#1}{
+	
+}{}
+}
+
+\newcommand{\FastFrames}{10,20,...,120}
+\newcommand{\AllFrames}{0,1,...,124}
+%\newcommand{\AllFrames}{0,1,...,80}
+\RenderFrames
+
+\end{document}
