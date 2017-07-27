@@ -32,14 +32,38 @@ for figuring them all out.
 Setup (Mac - RECOMMENDED):
 --------------------------
 
-1. Install MacTex package:
-     Direct link: http://mirror.ctan.org/systems/mac/mactex/MacTeX.pkg
-     TexShop page: http://pages.uoregon.edu/koch/texshop/obtaining.html
-2. Install MacPorts: https://www.macports.org/install.php
-3. Install ImageMagick: see http://www.imagemagick.org/script/binary-releases.php
-     sudo port install ImageMagick
+1. Install [Homebrew](https://brew.sh/) and [Homebrew-Cask](https://caskroom.github.io/):
 
+    ```
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew tap caskroom/cask
+    ```
 
+2. Install mactex, TexShop, and ImageMagick:
+
+    ```
+    brew cask install mactex
+    brew cask install texshop
+    brew install imagemagick
+    ```
+
+3. Install [Roboto](https://www.ctan.org/tex-archive/fonts/roboto) font
+
+    ```
+    cd /usr/local/texlive/texmf-local
+    wget http://mirrors.ctan.org/fonts/roboto.zip
+    sudo unzip roboto.zip 
+    ```
+
+4. Install [FiraSans](https://ctan.org/tex-archive/fonts/newtxsf/) font ([font details](http://www.tug.dk/FontCatalogue/firasansnewtxsf/))
+
+    ```
+    cd /usr/local/texlive/texmf-local
+    wget http://mirrors.ctan.org/fonts/newtxsf.zip
+    sudo unzip newtxsf.zip
+    ```
+
+You should then be able to load, edit, and render PDFs in TexShop. PDF → GIF conversion is detailed below.g
 
 Setup (Linux Workstation):
 --------------------------
