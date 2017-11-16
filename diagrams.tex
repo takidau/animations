@@ -36,7 +36,7 @@
 	\def \StreamsTables{0}
 \fi
 
-\if \StreamsTables 1
+%\if \StreamsTables 0
 	% Roboto
 	% http://www.tug.dk/FontCatalogue/robotoregular/
 	\usepackage[sfdefault]{roboto}  %% Option 'sfdefault' only if the base font of the document is to be sans serif
@@ -48,13 +48,13 @@
 %\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
 %\usepackage[T1]{fontenc}
 
-\else
+%\else
 	% Fira Sans
 	% http://www.tug.dk/FontCatalogue/firasansnewtxsf/
-	\usepackage[T1]{fontenc}
-	\usepackage[sfdefault,scaled=.85]{FiraSans}
-	\usepackage{newtxsf}
-\fi
+	%\usepackage[T1]{fontenc}
+	%\usepackage[sfdefault,scaled=.85]{FiraSans}
+	%\usepackage{newtxsf}
+%\fi
 
 \SetSymbolFont{letters}{bold}{OML}{cmbr}{bx}{it}
 \renewcommand{\familydefault}{\sfdefault}
@@ -441,18 +441,28 @@
 	%\DrawInput{7.444}{3.666}{8}
 	%\DrawInput{7.777}{4.0}{1}
 
+\ifdefined \InputsAFourBump
+\else
+	\def \InputsAFourBump{0}
+\fi
+
+\ifdefined \InputsAEightBump
+\else
+	\def \InputsAEightBump{0}
+\fi
+
 \newcommand {\DrawInputsA}[3][0] {
 	% #1 = y offset
 	% #2 = back color
 	% #3 = text color
 	\DrawInput{#2}{0.444}{.333 + #1}{5}{#3}
 	\DrawInput{#2}{2.444}{.666 + #1}{7}{#3}
-	\DrawInput{#2}{3.111}{2.111 + #1}{8}{#3}
+	\DrawInput{#2}{3.111}{2.111 + #1 + \InputsAEightBump}{8}{#3}
 	\DrawInput{#2}{3.666}{1.222 + #1}{3}{#3}
-	\DrawInput{#2}{3.888}{1.444 + #1}{4}{#3}
-	\DrawInput{#2}{4.333}{1.666 + #1}{3}{#3}
+	%\DrawInput{#2}{3.888}{1.444 + #1}{4}{#3}
+	\DrawInput{#2}{4.333}{1.666 + #1 + \InputsAFourBump}{4}{#3}. % used to be 3
 	\DrawInput{#2}{6.666}{2.333 + #1}{3}{#3}
-	\DrawInput{#2}{7.444}{3.666 + #1}{8}{#3}
+	\DrawInput{#2}{7.444}{3.666 + #1 - \InputsAEightBump}{8}{#3}
 	\DrawInput{#2}{7.777}{4.0 + #1}{1}{#3}
 	\if \ShowLateData 1
 		\def \LateNineColor{#2}
@@ -1682,27 +1692,18 @@
 \newcommand{\DrawBytesA} {
 	\DrawBytes{0.444}{.333}{0100}{1101}{1010}
 	\DrawBytes{2.444}{.666}{1000}{0101}{0001}
-	\DrawBytes{3.111}{2.111}{0110}{0011}{1101}
+	\DrawBytes{3.111}{2.111 + \InputsAEightBump}{0110}{0011}{1101}
 	\DrawBytes{3.666}{1.222}{1011}{0100}{0100}
-	\DrawBytes{3.888}{1.444}{1101}{1000}{0000}
-	\DrawBytes{4.333}{1.666}{0001}{1110}{1000}
+	%\DrawBytes{3.888}{1.444}{1101}{1000}{0000}
+	\DrawBytes{4.333}{1.666 + \InputsAFourBump}{0001}{1110}{1000}
 	\DrawBytes{6.666}{2.333}{1010}{1111}{0110}
-	\DrawBytes{7.444}{3.666}{1000}{0001}{0001}
+	\DrawBytes{7.444}{3.666 - \InputsAEightBump}{1000}{0001}{0001}
 	\DrawBytes{7.777}{4.000}{0000}{0100}{0000}
 	\if \NineIsLate 1
 		\DrawBytes[s_bytes_dropped]{1.444}{3.333}{0101}{1100}{1110}
 	\else
 		\DrawBytes[s_bytes]{1.444}{3.333}{0101}{1100}{1110}
 	\fi
-}
-
-\newcommand{\DrawWindowedRate}[4] {
-	\def \dwrXstart{#1}
-	\def \dwrXend{#2}
-	\def \dwrY{#3}
-	\def \dwrText{#4}
-	\def \dwrDelta{.25}
-	\DrawState[\ostate]{\dwrXstart}{\dwrXend}{\dwrY - \dwrDelta}{\dwrY + \dwrDelta}{\dwrText}
 }
 
 \newcommand {\DrawCurrency}[5][0] {
@@ -2031,4 +2032,35 @@
 		#4
 	\fi
     \fi
+}
+
+\newcommand{\DrawWindowedRate}[4] {
+	\def \dwrXstart{#1}
+	\def \dwrXend{#2}
+	\def \dwrY{#3}
+	\def \dwrText{#4}
+	\def \dwrDelta{.25}
+	\DrawState[\ostate]{\dwrXstart}{\dwrXend}{\dwrY - \dwrDelta}{\dwrY + \dwrDelta}{\dwrText}
+}
+
+\newcommand{\DrawWindowedOutputz}[5][\DefaultOutputBack]{
+	\def \proBack{#1}
+	\def \proY{#4}
+	\def \proDelta{.25}
+	\def \proXA{#2}
+	\def \proXB{#3}
+	\def \proVal{#5}
+	%\DrawIn{\stYoff}{\proYBottom}{12.0}{
+	\DrawOutputz[\proBack]{\proXA}{\proXB}{\proY - \proDelta}{\proY + \proDelta}{\proVal}{}
+	%}
+}
+
+\newcommand{\DrawTableOutputz}[5][\DefaultOutputBack]{
+	\def \proBack{#1}
+	\def \proY{#2}
+	\def \proYBottom{#2 - 0.5}
+	\def \proXA{#3}
+	\def \proXB{#4}
+	\def \proVal{#5}
+	\DrawIn{\stYoff}{\proY}{12.0}{\DrawOutputz[\proBack]{\proXA}{\proXB}{\proYBottom}{\proY}{\proVal}{}}
 }

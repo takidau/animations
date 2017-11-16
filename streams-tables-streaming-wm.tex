@@ -13,7 +13,7 @@
 \def \DrawTriggerLineBottom{1}
 \def \FlushLeftWatermark{1}
 \def \NineIsLate{1}
-\def \ShowFrame{1}
+\def \ShowFrame{0}
 
 \newcommand{\DrawOutputStream} {
 	\DrawOutput{\stX}{\stX + \stW}{6 + \stInputY}{6.5 + \stInputY}{51}
@@ -73,11 +73,10 @@
 		\DrawIn{\stYoff}{3.333}{12.000}{\DrawTableCell{0}{2}{14}}
 
 		\DrawIn{\stYoff}{0.666}{1.111}{\DrawTableCell{2}{4}{7}}
-		\DrawIn{\stYoff}{1.222}{1.333}{\DrawTableCell{2}{4}{10}}
-		\DrawIn{\stYoff}{1.444}{2.111}{\DrawTableCell{2}{4}{14}}
-		\DrawIn{\stYoff}{2.111}{12.000}{\DrawTableCell{2}{4}{22}}
+		\DrawIn{\stYoff}{1.222}{2.000}{\DrawTableCell{2}{4}{10}}
+		\DrawIn{\stYoff}{2.111}{12.000}{\DrawTableCell{2}{4}{18}}
 		
-		\DrawIn{\stYoff}{1.666}{12.000}{\DrawTableCell{4}{6}{3}}
+		\DrawIn{\stYoff}{1.666}{12.000}{\DrawTableCell{4}{6}{4}}
 
 		\DrawIn{\stYoff}{2.333}{3.555}{\DrawTableCell{6}{8}{3}}
 		\DrawIn{\stYoff}{3.666}{3.888}{\DrawTableCell{6}{8}{11}}
@@ -101,8 +100,8 @@
 			\DrawWatermarkA
 		\end{scope}
 		\DrawIn{\stYoff}{1.000}{12.0}{\DrawOutput{0}{2}{0.500}{1.000}{5}}
-		\DrawIn{\stYoff}{2.500}{12.0}{\DrawOutput{2}{4}{2.000}{2.500}{22}}
-		\DrawIn{\stYoff}{2.675}{12.0}{\DrawOutput{4}{6}{2.175}{2.675}{3}}
+		\DrawIn{\stYoff}{2.500}{12.0}{\DrawOutput{2}{4}{2.000}{2.500}{18}}
+		\DrawIn{\stYoff}{2.675}{12.0}{\DrawOutput{4}{6}{2.175}{2.675}{4}}
 		\DrawIn{\stYoff}{4.37}{12.0}{\DrawOutput{6}{8}{3.87}{4.37}{12}}
 	}
 	

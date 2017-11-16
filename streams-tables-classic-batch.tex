@@ -17,7 +17,7 @@
 }
 
 \newcommand{\DrawOutputStream} {
-	\DrawOutput{\stX}{\stX + \stW}{6 + \stInputY}{6.5 + \stInputY}{51}
+	\DrawOutput{\stX}{\stX + \stW}{6 + \stInputY}{6.5 + \stInputY}{48}
 }
 
 \newcommand{\BatchDiagram}[3] {
@@ -71,14 +71,13 @@
 		\def \diOffset{4}
 		\DrawIn{\stYoff}{0.333}{0.555}{\DrawTable{5}}
 		\DrawIn{\stYoff}{0.666}{1.111}{\DrawTable{12}}
-		\DrawIn{\stYoff}{1.222}{1.333}{\DrawTable{15}}
-		\DrawIn{\stYoff}{1.444}{1.555}{\DrawTable{19}}
-		\DrawIn{\stYoff}{1.666}{2.000}{\DrawTable{22}}
-		\DrawIn{\stYoff}{2.111}{2.222}{\DrawTable{30}}
-		\DrawIn{\stYoff}{2.333}{3.222}{\DrawTable{33}}
-		\DrawIn{\stYoff}{3.333}{3.555}{\DrawTable{42}}
-		\DrawIn{\stYoff}{3.666}{3.888}{\DrawTable{50}}
-		\DrawIn{\stYoff}{4.000}{8.000}{\DrawTable{51}}
+		\DrawIn{\stYoff}{1.222}{1.555}{\DrawTable{15}}
+		\DrawIn{\stYoff}{1.666}{2.000}{\DrawTable{19}}
+		\DrawIn{\stYoff}{2.111}{2.222}{\DrawTable{27}}
+		\DrawIn{\stYoff}{2.333}{3.222}{\DrawTable{30}}
+		\DrawIn{\stYoff}{3.333}{3.555}{\DrawTable{39}}
+		\DrawIn{\stYoff}{3.666}{3.888}{\DrawTable{47}}
+		\DrawIn{\stYoff}{4.000}{8.000}{\DrawTable{48}}
 	}
 	
 	\def \DebugStreamTable{0}
@@ -94,7 +93,7 @@
 	\StreamInline{
 		\DrawEndOfStream{4.333}
 		\def \diOffset{4}		
-		\DrawIn{\stYoff}{4.333}{8.0}{\DrawOutput{0}{\stW}{3.833}{4.333}{51}}
+		\DrawIn{\stYoff}{4.333}{8.0}{\DrawOutput{0}{\stW}{3.833}{4.333}{48}}
 	}
 	
 	\DrawXAxis{6.5}{1}

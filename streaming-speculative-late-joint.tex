@@ -13,10 +13,10 @@
     \TriggersInline[c_back]{5.222}{
 	\DrawOutputz{0}{2}{0.000}{3.73}{14}{on-time}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -24,10 +24,10 @@
     \TriggersInline[c_back]{5.222}{
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -165,43 +165,25 @@
   }
 }
 \FrameH{1.333}
-
-\newcommand{\FrameI}[1] {
-\JointFrame{
-    \TriggersInline{#1}{
-	\DrawState{0}{2}{0.000}{#1}{5}
-	\DrawState{2}{4}{0.000}{#1}{14}
-	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-    }
-  }{
-    \TriggersInline{#1}{
-	\DrawState{0}{2}{0.000}{#1}{5}
-	\DrawState{2}{4}{0.000}{#1}{14}
-	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-    }
-  }
-}
-\FrameI{1.444}
-\FrameI{1.555}
+\FrameH{1.444}
+\FrameH{1.555}
 
 \newcommand{\FrameJ}[1] {
 \JointFrame{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawState{2}{4}{0.000}{#1}{10}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawState{4}{6}{0.000}{#1}{4}
     }
   }{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawState{2}{4}{0.000}{#1}{10}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawState{4}{6}{0.000}{#1}{4}
     }
   }
 }
@@ -212,17 +194,17 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawState{2}{4}{0.000}{#1}{10}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawState{4}{6}{0.000}{#1}{4}
     }
   }{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawState{2}{4}{0.000}{#1}{10}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawState{4}{6}{0.000}{#1}{4}
     }
   }
 }
@@ -233,17 +215,17 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawState{2}{4}{0.000}{#1}{10}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawState{4}{6}{0.000}{#1}{4}
     }
   }{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{14}
+	\DrawState{2}{4}{0.000}{#1}{10}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
+	\DrawState{4}{6}{0.000}{#1}{4}
     }
   }
 }
@@ -254,17 +236,17 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
     }
   }{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
     }
   }
 }
@@ -275,21 +257,21 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
     }
   }{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
     }
   }
 }
@@ -301,22 +283,22 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
     }
   }{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
     }
   }
@@ -330,23 +312,23 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
     }
   }{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
     }
   }
@@ -360,23 +342,23 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
     }
   }{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
     }
   }
@@ -389,24 +371,24 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
   }{
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
   }
@@ -419,12 +401,12 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -432,12 +414,12 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -450,12 +432,12 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -463,12 +445,12 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{5}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -481,25 +463,25 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{3.333}{14}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
   }{
     \TriggersInline{#1}{
-	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
+	k
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -512,12 +494,12 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -526,12 +508,12 @@
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{3}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -545,12 +527,12 @@
     \TriggersInline{#1}{
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{11}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -559,12 +541,12 @@
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{11}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -577,12 +559,12 @@
     \TriggersInline{#1}{
 	\DrawOutputz{0}{2}{0.000}{3.73}{14}{on-time}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{11}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -591,12 +573,12 @@
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{11}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -609,12 +591,12 @@
     \TriggersInline{#1}{
 	\DrawOutputz{0}{2}{0.000}{3.73}{14}{on-time}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{11}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -623,12 +605,12 @@
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{11}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -641,11 +623,11 @@
     \TriggersInline{#1}{
 	\DrawOutputz{0}{2}{0.000}{3.73}{14}{on-time}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -654,12 +636,12 @@
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -672,11 +654,11 @@
     \TriggersInline{#1}{
 	\DrawOutputz{0}{2}{0.000}{3.73}{14}{on-time}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{12}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
@@ -686,12 +668,12 @@
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{12}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
@@ -706,10 +688,10 @@
     \TriggersInline{#1}{
 	\DrawOutputz{0}{2}{0.000}{3.73}{14}{on-time}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{12}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
@@ -719,12 +701,12 @@
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{12}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
@@ -738,10 +720,10 @@
     \TriggersInline{#1}{
 	\DrawOutputz{0}{2}{0.000}{3.73}{14}{on-time}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -750,12 +732,12 @@
 	\DrawState{0}{2}{0.000}{#1}{14}
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState{2}{4}{0.000}{#1}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState{2}{4}{0.000}{#1}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState{4}{6}{0.000}{#1}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState{4}{6}{0.000}{#1}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState{6}{8}{0.000}{#1}{12}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
@@ -774,10 +756,10 @@
     \TriggersInline[c_back]{5.222}{
 	\DrawOutputz{0}{2}{0.000}{3.73}{14}{on-time}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{early}
-	\DrawOutputz{2}{4}{0.000}{3.000}{22}{early}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawOutputz{2}{4}{0.000}{3.000}{18}{early}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
     }
@@ -786,12 +768,12 @@
 	\DrawState[#1]{0}{2}{0.000}{5.000}{14}
 	\DrawOutputz{0}{2}{0.000}{3.333}{14}{late}
 	\DrawOutputz{0}{2}{0.000}{1.000}{5}{on-time}
-	\DrawState[#1]{2}{4}{0.000}{5.000}{22}
-	\DrawOutputz{2}{4}{0.000}{2.500}{22}{on-time}
-	\DrawOutputz{2}{4}{0.000}{2.000}{14}{early}
+	\DrawState[#1]{2}{4}{0.000}{5.000}{18}
+	\DrawOutputz{2}{4}{0.000}{2.500}{18}{on-time}
+	\DrawOutputz{2}{4}{0.000}{2.000}{10}{early}
 	\DrawOutputz{2}{4}{0.000}{1.000}{7}{early}
-	\DrawState[#1]{4}{6}{0.000}{5.000}{3}
-	\DrawOutputz{4}{6}{0.000}{2.000}{3}{early}
+	\DrawState[#1]{4}{6}{0.000}{5.000}{4}
+	\DrawOutputz{4}{6}{0.000}{2.000}{4}{early}
 	\DrawState[#1]{6}{8}{0.000}{5.000}{12}
 	\DrawOutputz{6}{8}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6}{8}{0.000}{3.000}{3}{early}
