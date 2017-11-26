@@ -1,0 +1,191 @@
+% convert -density 600 -delay 10 -loop 0 classic-batch.pdf classic-batch-pdf.gif
+%   or
+% convert -density 600 classic-batch.pdf classic-batch-%02d.png
+% convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
+
+\input{diagrams}
+
+\def \FastRender{0}
+\def \ShowWatermarks{0}
+\def \StreamsTables{1}
+\def \DiagramName{Fun}
+\def \DebugStreamTable{0}
+\def \DrawTriggerLineBottom{0}
+\def \FlushLeftWatermark{1}
+\def \ShowFrame{0}
+\def \WithRetractions{1}
+
+\newcommand{\DrawOutputStream} {
+	\DrawOutput{\stX}{\stX + \stW}{6 + \stInputY}{6.5 + \stInputY}{51}
+}
+
+% The session windows overlap in a weird way unless we bump the position
+% of the 4 score up a bit. :-P
+\def \InputsAFourBump{0.111}
+\def \InputsAEightBump{0.444}
+
+\newcommand{\BatchDiagram}[3] {
+\TriggersMulti{
+	\def \stYoff{#1}
+	\def \oyBase{8.5}
+
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{6.5}
+	\def \stH{2}
+	\def \stYMinBase{5}
+	\def \stYBoundBoost{0}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(INPUT BYTES)}
+	\StreamInline{
+		\DrawBytesA
+	}
+	
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{4.5}
+	\def \stH{2}
+	\def \stYMinBase{3}
+	\def \stYBoundBoost{0}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(USER SCORES)}
+	\StreamInline{
+		\DrawInputsA{c_datum_back}{c_datum_text}
+	}
+	
+	\def \stY{6.5}
+	\DrawDivider{6.5}{1}{3.5}
+	\node[s_timepoint, rotate=0, c_white] at (\stX - 2.25, \stY) {PARSE};		
+
+
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{2.5}
+	\def \stH{2}
+	\def \stYMinBase{1}
+	\def \stYBoundBoost{0}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(WINDOWED SCORES)}
+	\StreamInline{
+		\DrawWindowedRate{0.444}{1.444}{0.333}{5}
+		\DrawWindowedRate{2.444}{3.444}{0.666}{7}
+		\DrawWindowedRate{3.111}{4.111}{2.555}{8}
+		\DrawWindowedRate{3.666}{4.666}{1.222}{3}
+		\DrawWindowedRate{4.333}{5.333}{1.777}{4}
+		\DrawWindowedRate{6.666}{7.666}{2.333}{3}
+		\DrawWindowedRate{7.444}{8.444}{3.222}{8}
+		\DrawWindowedRate{7.777}{8.777}{4.000}{1}
+		\DrawWindowedRate{1.444}{2.444}{3.333}{9}
+	}
+
+	\def \stY{4.5}
+	\DrawDivider{4.5}{1}{3.5}
+	\node[s_timepoint, rotate=0, c_white] at (\stX - 2.25, \stY) {WINDOW};		
+
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{2}
+	\def \stH{0.5}
+	\def \stYBoundBoost{0}
+	\def \stLabel{SUM}
+	\TableInline{
+		\def \diOffset{6.25}
+		\DrawIn{\stYoff}{0}{0.333}{\DrawWindowedRate{0.444}{1.444}{0.333}{5}}
+		\DrawIn{\stYoff}{0.333}{2.777}{\DrawTableCell{0.444}{1.444}{5}}
+
+		\DrawIn{\stYoff}{0}{0.666}{\DrawWindowedRate{2.444}{3.444}{0.666}{7}}
+		\DrawIn{\stYoff}{0.666}{2.000}{\DrawTableCell{2.444}{3.444}{7}}
+
+		\DrawIn{\stYoff}{0}{1.222}{\DrawWindowedRate{3.666}{4.666}{1.222}{3}}
+
+		\DrawIn{\stYoff}{0}{1.777}{\DrawWindowedRate{3.666}{5.333}{1.777}{7}}
+		\DrawIn{\stYoff}{1.777}{2.000}{\DrawTableCell{3.666}{5.333}{7}}
+
+		\DrawIn{\stYoff}{0}{2.555}{\DrawWindowedRate{2.444}{5.333}{2.555}{22}}
+		\DrawIn{\stYoff}{2.555}{2.777}{\DrawTableCell{2.444}{5.333}{22}}
+
+		\DrawIn{\stYoff}{0}{3.333}{\DrawWindowedRate{0.444}{5.333}{3.333}{36}}
+		\DrawIn{\stYoff}{3.333}{20}{\DrawTableCell{0.444}{5.333}{36}}
+
+		\DrawIn{\stYoff}{0}{2.333}{\DrawWindowedRate{6.666}{7.666}{2.333}{3}}
+		\DrawIn{\stYoff}{2.333}{2.777}{\DrawTableCell{6.666}{7.666}{3}}
+
+		\DrawIn{\stYoff}{0}{3.222}{\DrawWindowedRate{6.666}{8.444}{3.222}{11}}
+		\DrawIn{\stYoff}{3.222}{3.444}{\DrawTableCell{6.666}{8.444}{11}}
+
+		\DrawIn{\stYoff}{0}{4.000}{\DrawWindowedRate{6.666}{8.777}{4.000}{12}}
+		\DrawIn{\stYoff}{4.000}{20}{\DrawTableCell{6.666}{8.777}{12}}
+		%\DrawIn{\stYoff}{2.111}{12.000}{\DrawTableCell{2}{4}{18}}
+		
+		%\DrawIn{\stYoff}{1.666}{12.000}{\DrawTableCell{4}{6}{3}}
+
+		%\DrawIn{\stYoff}{2.333}{3.555}{\DrawTableCell{6}{8}{3}}
+		%\DrawIn{\stYoff}{3.666}{3.888}{\DrawTableCell{6}{8}{11}}
+		%\DrawIn{\stYoff}{4.000}{12.000}{\DrawTableCell{6}{8}{12}}
+	}
+	
+	\def \DebugStreamTable{0}
+	\def \stX{0}
+	\def \stW{9}
+	\def \stY{-2}
+	\def \stH{4}
+	\def \stYMinBase{-3.5}
+	\def \stYBoundBoost{0.5}
+	\def \stYBoundBoostDown{0}
+	\def \stYAxisLabel{0}
+	\def \stLabel{(TEAM SCORES)}
+	\StreamInline{
+		\def \diOffset{6.25}
+		\DrawTableOutputz{0.333}{0.444}{1.444}{5}
+		%\DrawTableOutputz{3.333}{0}{2}{14}
+
+		\DrawTableOutputz{0.666}{2.444}{3.444}{7}
+		\DrawIn{\stYoff}{1.222}{20}{\DrawWindowedOutputz[c_retraction_back]{3.666}{4.666}{1.27}{-3}}
+		\DrawTableOutputz{1.222}{3.666}{4.666}{3}
+		\DrawIn{\stYoff}{2}{20}{\DrawWindowedOutputz[c_retraction_back]{3.666}{5.333}{2.05}{-7}}
+		\DrawIn{\stYoff}{2}{20}{\DrawWindowedOutputz[c_retraction_back]{2.444}{3.444}{2.05}{-7}}
+		\DrawIn{\stYoff}{1.777}{20}{\DrawWindowedOutputz{3.666}{5.333}{1.777}{7}}
+		\DrawIn{\stYoff}{2.777}{20}{\DrawWindowedOutputz[c_retraction_back]{2.444}{5.333}{2.83}{-22}}
+		\DrawIn{\stYoff}{2.777}{20}{\DrawWindowedOutputz[c_retraction_back]{0.444}{1.444}{2.83}{-5}}
+		\DrawIn{\stYoff}{2.555}{20}{\DrawWindowedOutputz{2.444}{5.333}{2.555}{22}}
+		\DrawIn{\stYoff}{3.333}{20}{\DrawWindowedOutputz{0.444}{5.333}{3.333}{36}}
+
+		\DrawIn{\stYoff}{2.666}{20}{\DrawWindowedOutputz[c_retraction_back]{6.666}{7.666}{2.71}{-3}}
+		\DrawIn{\stYoff}{2.333}{20}{\DrawWindowedOutputz{6.666}{7.666}{2.333}{3}}
+
+		\DrawIn{\stYoff}{3.444}{20}{\DrawWindowedOutputz[c_retraction_back]{6.666}{8.444}{3.49}{-11}}
+		\DrawIn{\stYoff}{3.222}{20}{\DrawWindowedOutputz{6.666}{8.444}{3.222}{11}}
+		\DrawIn{\stYoff}{4.000}{20}{\DrawWindowedOutputz{6.666}{8.777}{4.000}{12}}
+		%\DrawTableOutputz[c_retraction_back]{1.222 + .25}{3.666}{4.666}{-13}
+		%\DrawTableOutputz{2.111}{2}{4}{18}
+
+		%\DrawTableOutputz{1.666}{4}{6}{4}
+
+		%\DrawTableOutputz{2.333}{6}{8}{3}
+		%\DrawTableOutputz{3.666}{6}{8}{11}
+		%\DrawTableOutputz{4.000}{6}{8}{12}
+	}
+	
+	\DrawXAxis{8.5}{1}
+	\DrawXAxis{-2}{0}
+}  
+}
+
+\newcommand{\Frame}[1] {
+\BatchDiagram{#1}{
+	
+}{}
+}
+
+\newcommand{\FastFrames}{80,...,100}
+\newcommand{\AllFrames}{0,1,...,142}
+\RenderFrames
+
+\end{document}
