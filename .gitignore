@@ -221,3 +221,6 @@ TSWLatexianTemp*
 
 # emacs autosave
 *~
+
+# Whatever the hell this is
+.DS_Store
