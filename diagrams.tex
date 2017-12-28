@@ -39,8 +39,8 @@
 %\if \StreamsTables 0
 	% Roboto
 	% http://www.tug.dk/FontCatalogue/robotoregular/
-	\usepackage[sfdefault]{roboto}  %% Option 'sfdefault' only if the base font of the document is to be sans serif
-	\usepackage[T1]{fontenc}
+%	\usepackage[sfdefault]{roboto}  %% Option 'sfdefault' only if the base font of the document is to be sans serif
+%	\usepackage[T1]{fontenc}
 
 % UWR Nimbus Sans
 % http://www.tug.dk/FontCatalogue/urwnimbussans/
@@ -51,9 +51,9 @@
 %\else
 	% Fira Sans
 	% http://www.tug.dk/FontCatalogue/firasansnewtxsf/
-	%\usepackage[T1]{fontenc}
-	%\usepackage[sfdefault,scaled=.85]{FiraSans}
-	%\usepackage{newtxsf}
+	\usepackage[T1]{fontenc}
+	\usepackage[sfdefault,scaled=.85]{FiraSans}
+	\usepackage{newtxsf}
 %\fi
 
 \SetSymbolFont{letters}{bold}{OML}{cmbr}{bx}{it}
@@ -1781,7 +1781,13 @@
 		\fi
 		\node[s_timepoint, rotate=0, c_white] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};		
 	\else
-		\node[s_timepoint, rotate=0, c_proc_time] at (\stX - .7, \stY + \stH / 2) {12:\stMin:\stSec};
+		% The 69 is to make sure the height of the clock stays constant even with the
+		% Fira Sans font, which has a variable amount of upward and downward swoop.
+		% We block it out with a clip.
+		\begin{scope}
+			\clip (\stX - 1.17, \stY - \stH) rectangle (\stX + 2, \stY + \stH);
+			\node[s_timepoint, rotate=0, c_proc_time, anchor=west] at (\stX - 1.6, \stY + \stH / 2) {69 12:\stMin:\stSec};
+		\end{scope}
 		\node[s_timepoint, rotate=0, c_white] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};
 	\fi
 
@@ -1796,7 +1802,13 @@
 		\DrawYAxis{\stXW}{0}
 		\node[s_timepoint, rotate=0, c_white] at (\stXW + 2.25, \stY + \stH / 2) {STREAM};
 	\else
-		\node[s_timepoint, rotate=0, c_proc_time] at (\stXW + .7, \stY + \stH / 2) {12:\stMin:\stSec};
+		% The 69 is to make sure the height of the clock stays constant even with the
+		% Fira Sans font, which has a variable amount of upward and downward swoop.
+		% We block it out with a clip.
+		\begin{scope}
+			\clip (\stXW - 0.3, \stY - \stH) rectangle (\stXW + 1.17, \stY + \stH);
+			\node[s_timepoint, rotate=0, c_proc_time, anchor=west] at (\stXW + 0.05, \stY + \stH / 2) {12:\stMin:\stSec\ \ 69};
+		\end{scope}
 		\node[s_timepoint, rotate=0, c_white] at (\stXW + 2.25, \stY + \stH / 2) {TABLE};
 	\fi
 	
