@@ -70,18 +70,18 @@
 
 \ifdefined \ColorScheme
 \else
-	\def \ColorScheme{0} % dark
+	\def \ColorScheme{1} % light
 \fi
 
 \definecolor{c_grey}{HTML}{CCCCCC}
 
 \if \ColorScheme 1 % white
-	\definecolor{c_blue_base}{HTML}{4285F4}
+	\definecolor{c_blue_base}{HTML}{7788EE} %FF2222}  %8899FF %4285F4}
 	\colorlet{c_blue}{c_blue_base!100!black}
-	\definecolor{c_red_base}{HTML}{EA4335}
-	\colorlet{c_red}{c_red_base!60!black}
-	\definecolor{c_yellow}{HTML}{FBB405}
-	\definecolor{c_green_base}{HTML}{34A853}
+	\definecolor{c_red_base}{HTML}{FF848F} %FF8888} %EA4335}
+	\colorlet{c_red}{c_red_base!100!black}
+	\definecolor{c_yellow}{HTML}{FFCC22} % FBB405
+	\definecolor{c_green_base}{HTML}{33CC77} %34A853}
 	\colorlet{c_green}{c_green_base!100!black}
 
 	\definecolor{c_back_dark}{HTML}{FFFFFF}
@@ -93,12 +93,21 @@
 	\definecolor{c_datum_text}{HTML}{FFFFFF}
 	\colorlet{c_state_back}{c_grey!60!black}%blue_light}
 
-	\definecolor{c_timeline}{HTML}{888888}%76A7FA}
-	\definecolor{c_ghost}{HTML}{BBBBBB}
-	\definecolor{c_ghost_text}{HTML}{DDDDDD}
-	\tikzstyle{s_legend}=[font=\small,black]
+	\definecolor{c_timeline}{HTML}{000000} %888888}%76A7FA}
+	\definecolor{c_ghost}{HTML}{CFCFCF} % BBBBBB
+	\definecolor{c_ghost_text}{HTML}{EEEEEE} % DDDDDD
+	\colorlet{c_legend}{black}
 	\tikzstyle{s_dropped}=[red!80!white,draw opacity=.25] 
-\else
+
+	\colorlet{c_outlined_text}{black}%white!25!black}
+	\definecolor{c_outlined_text_outline}{HTML}{EEEEEE}
+	\colorlet{c_tomb}{black}
+	\definecolor{c_ideal}{rgb}{.8, .8, .8}
+	
+	\colorlet{c_bullet_draw}{black}
+	\colorlet{c_bullet_fill}{white!25!black}
+	
+\else % dark
 	\definecolor{c_blue}{HTML}{76A7FA}
 	\definecolor{c_red}{HTML}{ED9D97}
 	\definecolor{c_yellow}{HTML}{FBCB43}
@@ -116,8 +125,16 @@
 	\definecolor{c_timeline}{HTML}{FFFFFF}%76A7FA}
 	\definecolor{c_ghost}{HTML}{666666}
 	\definecolor{c_ghost_text}{HTML}{3A3A3A}
-	\tikzstyle{s_legend}=[font=\small]
+	\colorlet{c_legend}{white}
 	\tikzstyle{s_dropped}=[red!60!white,draw opacity=.25] 
+
+	\colorlet{c_outlined_text}{white}
+	\colorlet{c_outlined_text_outline}{white!25!black}
+	\colorlet{c_tomb}{white}
+	\definecolor{c_ideal}{rgb}{.5, .5, .5}
+
+	\colorlet{c_bullet_draw}{white!25!black}
+	\colorlet{c_bullet_fill}{white}
 \fi
 
 \colorlet{c_blue_light}{c_blue!60!white}
@@ -144,9 +161,7 @@
 \definecolor{c_watermark_light}{HTML}{FDADA7}
 \definecolor{c_output_watermark}{HTML}{CCCCFF}
 
-\definecolor{c_ideal}{rgb}{.5, .5, .5}
 \colorlet{c_boundary}{c_proc_time}
-\definecolor{c_tomb}{HTML}{FFFFFF}%5D5D5D}
 
 \colorlet{c_frances}{YellowOrange}
 \colorlet{c_tyler}{Orchid}
@@ -160,6 +175,8 @@
 \colorlet{c_watermark_g}{c_yellow}
 \colorlet{c_perfect_watermark}{c_green} %{c_watermark!66!black}
 
+\tikzstyle{s_margin_op}=[s_timepoint, rotate=0, c_legend]
+\tikzstyle{s_margin_data}=[s_margin_op, font=\itshape]
 
 % Opacities
 \def \ostate{.222}%.111}%.333} %.7070}
@@ -208,10 +225,10 @@
 \tikzstyle{s_timeline}=[solid,line width=1.5pt,color=c_timeline]
 \tikzstyle{s_boundary}=[color=c_boundary, densely dashed]
 \tikzstyle{s_late}=[color=c_state_back,pattern=north west lines,pattern color=c_state_back]
-\colorlet{c_tomb}{white}
-\tikzstyle{s_tomb}=[densely dotted, line width=.5pt] 
-\tikzstyle{s_tomb_late}=[color=white,densely dotted, line width=.5pt] 
-%\tikzstyle{s_tomb_late}=[color=white,densely dotted,pattern=crosshatch dots,pattern color=c_tomb] 
+\tikzstyle{s_legend}=[font=\small,c_legend]
+\tikzstyle{s_tomb}=[color=c_tomb,densely dotted, line width=.5pt]
+\tikzstyle{s_tomb_late}=[color=c_tomb,densely dotted, line width=.5pt]
+	%\tikzstyle{s_tomb_late}=[color=white,densely dotted,pattern=crosshatch dots,pattern color=c_tomb] 
 
 \ifdefined \DrawDefaultLegend
 \else
@@ -354,6 +371,7 @@
 \newdimen \xdim
 \newdimen \maxxdim
 
+
 \newcommand {\DrawAxes}[0] {
 	
 	% X Axis
@@ -371,7 +389,8 @@
 		}
 	\fi
 	% X Axis Label
-	\node[s_legend,color=c_event_time] at (\ox + \maxx / 2, \oy - .666) {Event Time};
+	\contourlength{1pt}
+	\node[s_legend,c_event_time] at (\ox + \maxx / 2, \oy - .666) {Event Time};
 
 	% Y Axis
 	\draw[c_proc_time, line width=1.5pt] (\ox, \oy - 0.0265) -- (\ox, \oy + \maxy);
@@ -387,8 +406,13 @@
 	\fill[c_event_time, line width=0pt] (\ox - \trioff, \oy - \trioff) -- (\ox + \trioff, \oy + \trioff) -- (\ox + \trioff, \oy - \trioff) -- (\ox - \trioff, \oy - \trioff);
 }
 
+\contourlength{1pt}
+
 \newcommand {\DrawInputOld}[5] {
-	\filldraw[#1, draw=#5] (\ox + #2, \oy + #3) circle [radius=6pt];
+	\definecolor{c_shadex}{HTML}{333333} % non-ghost background only
+	\filldraw[#1, draw=#5,fill=c_shadex] (\ox + #2, \oy + #3) circle [radius=6pt];
+	\definecolor{c_shade}{HTML}{000000} % non-ghost/red 000000 ghost AAAAAA 
+	%\node[#5,font=\bf\sffamily] at (\ox + #2, \oy + #3) {\contour{c_shade}{#4}};
 	\node[#5,font=\bf\sffamily] at (\ox + #2, \oy + #3) {#4};
 }
 
@@ -1324,8 +1348,8 @@
 \def \latey{.1}
 \newcommand{\DrawLatenessHorizonText}[3]{
 		\contourlength{1pt}
-		\node[font=\bf\sffamily\scriptsize,white] at (\ox + #2 + \lateness, \oy +  #3 +.52) {\contour{white!25!black}{[12:0#1, 12:0#2)}};
-		\node[font=\bf\sffamily\scriptsize,white] at (\ox + #2 + \lateness, \oy +  #3 +.3) {\contour{white!25!black}{Lateness Horizon}};
+		\node[font=\bf\sffamily\scriptsize,c_outlined_text] at (\ox + #2 + \lateness, \oy +  #3 +.52) {\contour{c_outlined_text_outline}{[12:0#1, 12:0#2)}};
+		\node[font=\bf\sffamily\scriptsize,c_outlined_text] at (\ox + #2 + \lateness, \oy +  #3 +.3) {\contour{c_outlined_text_outline}{Lateness Horizon}};
 }
 
 \newdimen \lateXDim
@@ -1428,7 +1452,7 @@
 		\def \ExtraHeight{0}
 	\fi
 	\fill[c_back_dark,draw=\BackRectBorderColor,line width=\BackRectBorderWidth] (\ox - 1.333, \oy - 1 - \ExtraHeight) rectangle (\ox + \maxx + 1, \oy + \maxy + 1);
-	\node [white,font=\large] at (\ox + \maxx / 2 - .1666, \oy + \maxy + .5) {\DiagramName};
+	\node [c_legend,font=\large] at (\ox + \maxx / 2 - .1666, \oy + \maxy + .5) {\DiagramName};
 }
 
 \ifdefined \DrawBackRect
@@ -1713,10 +1737,10 @@
 	\colorlet{c_dc_text_color}{#4}
 	\def \dcText{#5}
 	\if \dcW 0
-		\filldraw[white, draw=c_state_text!25!black] (\ox + \dcX, \oy + \dcY) circle [radius=2pt];
+		\filldraw[c_bullet_fill, draw=c_bullet_draw] (\ox + \dcX, \oy + \dcY) circle [radius=2pt];
 	\else
 		\fill[c_state_back,opacity=\ostate,line width=.5cm] (\ox + \dcX, \oy +  \dcY - 0.25) rectangle (\ox + \dcX + \dcW, \oy +  \dcY + 0.25);
-		\draw[c_state_text] (\ox + \dcX, \oy +  \dcY - 0.25) rectangle (\ox + \dcX + \dcW, \oy +  \dcY + 0.25);
+		\draw[c_bullet_fill] (\ox + \dcX, \oy +  \dcY - 0.25) rectangle (\ox + \dcX + \dcW, \oy +  \dcY + 0.25);
 	\fi
 	\contourlength{1pt}
 	\node[c_dc_text_color,font=\bf\sffamily\normalsize,text width=2cm] at ({\ox + \dcX + 1 + .15}, \oy + \dcY) {\contour{c_state_text!25!black}{\dcText}}; 	
@@ -1779,7 +1803,7 @@
 		\if \stYAxisLabel 1
 			\node[s_legend,rotate=-90, c_proc_time] at (\stX - 0.75, \stY + \stH / 2) {Processing Time};	
 		\fi
-		\node[s_timepoint, rotate=0, c_white] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};		
+		\node[s_margin_data] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};		
 	\else
 		% The 69 is to make sure the height of the clock stays constant even with the
 		% Fira Sans font, which has a variable amount of upward and downward swoop.
@@ -1788,7 +1812,7 @@
 			\clip (\stX - 1.17, \stY - \stH) rectangle (\stX + 2, \stY + \stH);
 			\node[s_timepoint, rotate=0, c_proc_time, anchor=west] at (\stX - 1.6, \stY + \stH / 2) {69 12:\stMin:\stSec};
 		\end{scope}
-		\node[s_timepoint, rotate=0, c_white] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};
+		\node[s_margin_op] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};
 	\fi
 
 	% Right margin
@@ -1800,7 +1824,7 @@
 	\fi	
 	\if \stDrawYAxis 1
 		\DrawYAxis{\stXW}{0}
-		\node[s_timepoint, rotate=0, c_white] at (\stXW + 2.25, \stY + \stH / 2) {STREAM};
+		\node[s_margin_op] at (\stXW + 2.25, \stY + \stH / 2) {STREAM};
 	\else
 		% The 69 is to make sure the height of the clock stays constant even with the
 		% Fira Sans font, which has a variable amount of upward and downward swoop.
@@ -1809,7 +1833,7 @@
 			\clip (\stXW - 0.3, \stY - \stH) rectangle (\stXW + 1.17, \stY + \stH);
 			\node[s_timepoint, rotate=0, c_proc_time, anchor=west] at (\stXW + 0.05, \stY + \stH / 2) {12:\stMin:\stSec\ \ 69};
 		\end{scope}
-		\node[s_timepoint, rotate=0, c_white] at (\stXW + 2.25, \stY + \stH / 2) {TABLE};
+		\node[s_margin_op] at (\stXW + 2.25, \stY + \stH / 2) {TABLE};
 	\fi
 	
 	\if \DebugStreamTable 1
