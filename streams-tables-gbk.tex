@@ -50,7 +50,7 @@
 	\def \stLabel{User scores}
 	\StreamInline{
 		\DrawWatermarkA
-		\DrawInputsA{c_datum_back}{c_datum_text}
+		\DrawInputsA{c_datum_back}{c_datum_text}{c_datum_border}
 	}
 
 	\def \stY{4.5}
@@ -64,23 +64,24 @@
 	\def \stH{0.5}
 	\def \stYBoundBoost{0}
 	\def \stLabel{GROUP}
+	\def \sp{\hspace{1pt}}
 	\TableInline{
 		\DrawWatermarkA
-		\DrawInputsA{c_ghost}{c_ghost_text}
+		\DrawInputsA{c_ghost}{c_ghost_text}{c_ghost_border}
 		\def \diOffset{4}
-		\DrawIn{\stYoff}{0.333}{3.222}{\DrawTableCell{0}{2}{[5]}}
-		\DrawIn{\stYoff}{3.333}{12.000}{\DrawTableCell{0}{2}{[5, 9]}}
+		\DrawIn{\stYoff}{0.333}{3.222}{\DrawTableCell{0}{2}{[\sp5\sp]}}
+		\DrawIn{\stYoff}{3.333}{12.000}{\DrawTableCell{0}{2}{[\sp5\sp, 9\sp]}}
 
-		\DrawIn{\stYoff}{0.666}{1.111}{\DrawTableCell{2}{4}{[7]}}
-		\DrawIn{\stYoff}{1.222}{1.333}{\DrawTableCell{2}{4}{[7, 3]}}
-		\DrawIn{\stYoff}{1.444}{2.111}{\DrawTableCell{2}{4}{[7, 3, 4]}}
-		\DrawIn{\stYoff}{2.111}{12.000}{\DrawTableCell{2}{4}{[7, 3, 4, 8]}}
+		\DrawIn{\stYoff}{0.666}{1.111}{\DrawTableCell{2}{4}{[\sp7\sp]}}
+		\DrawIn{\stYoff}{1.222}{1.333}{\DrawTableCell{2}{4}{[\sp7\sp, 3\sp]}}
+		\DrawIn{\stYoff}{1.444}{2.111}{\DrawTableCell{2}{4}{[\sp7\sp, 3\sp, 4\sp]}}
+		\DrawIn{\stYoff}{2.111}{12.000}{\DrawTableCell{2}{4}{[\sp7\sp, 3\sp, 4\sp, 8\sp]}}
 		
-		\DrawIn{\stYoff}{1.666}{12.000}{\DrawTableCell{4}{6}{[3]}}
+		\DrawIn{\stYoff}{1.666}{12.000}{\DrawTableCell{4}{6}{[\sp3\sp]}}
 
-		\DrawIn{\stYoff}{2.333}{3.555}{\DrawTableCell{6}{8}{[3]}}
-		\DrawIn{\stYoff}{3.666}{3.888}{\DrawTableCell{6}{8}{[3, 8]}}
-		\DrawIn{\stYoff}{4.000}{12.000}{\DrawTableCell{6}{8}{[3, 8, 1]}}
+		\DrawIn{\stYoff}{2.333}{3.555}{\DrawTableCell{6}{8}{[\sp3\sp]}}
+		\DrawIn{\stYoff}{3.666}{3.888}{\DrawTableCell{6}{8}{[\sp3\sp, 8\sp]}}
+		\DrawIn{\stYoff}{4.000}{12.000}{\DrawTableCell{6}{8}{[\sp3\sp, 8\sp, 1\sp]}}
 	}
 	
 	\def \DebugStreamTable{0}
@@ -99,19 +100,19 @@
 			\clip (\stX, \stY) rectangle (\stXW, \stYH);
 			\DrawWatermarkA
 		\end{scope}
-		\DrawIn{\stYoff}{3.333}{12.0}{\DrawOutputz{0}{2}{2.833}{3.333}{[5, 9]}{late}}
-		\DrawIn{\stYoff}{1.000}{12.0}{\DrawOutputz{0}{2}{0.500}{1.000}{[5]}{on-time}}		
+		\DrawIn{\stYoff}{3.333}{12.0}{\DrawOutputz{0}{2}{2.833}{3.333}{[\sp5\sp, 9\sp]}{late}}
+		\DrawIn{\stYoff}{1.000}{12.0}{\DrawOutputz{0}{2}{0.500}{1.000}{[\sp5\sp]}{on-time}}		
 
-		\DrawIn{\stYoff}{2.500}{12.0}{\DrawOutputz{2}{4}{2.000}{2.500}{[7, 3, 4, 8]}{on-time}}
-		\DrawIn{\stYoff}{2.000}{12.0}{\DrawOutputz{2}{4}{1.500}{2.000}{[7, 3, 4]}{early}}
-		\DrawIn{\stYoff}{1.000}{12.0}{\DrawOutputz{2}{4}{0.500}{1.000}{[7]}{early}}
+		\DrawIn{\stYoff}{2.500}{12.0}{\DrawOutputz{2}{4}{2.000}{2.500}{[\sp7\sp, 3\sp, 4\sp, 8\sp]}{on-time}}
+		\DrawIn{\stYoff}{2.000}{12.0}{\DrawOutputz{2}{4}{1.500}{2.000}{[\sp7\sp, 3\sp, 4\sp]}{early}}
+		\DrawIn{\stYoff}{1.000}{12.0}{\DrawOutputz{2}{4}{0.500}{1.000}{[\sp7\sp]}{early}}
 		
-		\DrawIn{\stYoff}{2.675}{12.0}{\DrawOutputz{4}{6}{2.175}{2.675}{[3]}{on-time}}
-		\DrawIn{\stYoff}{2.675}{12.0}{\DrawOutputz{4}{6}{1.5}{2.000}{[3]}{early}}
+		\DrawIn{\stYoff}{2.675}{12.0}{\DrawOutputz{4}{6}{2.175}{2.675}{[\sp3\sp]}{on-time}}
+		\DrawIn{\stYoff}{2.675}{12.0}{\DrawOutputz{4}{6}{1.5}{2.000}{[\sp3\sp]}{early}}
 		
-		\DrawIn{\stYoff}{4.37}{12.0}{\DrawOutputz{6}{8}{3.87}{4.37}{[3, 8, 1]}{on-time}}
-		\DrawIn{\stYoff}{4.000}{12.0}{\DrawOutputz{6}{8}{3.500}{4.000}{[3, 8, 1]}{early}}
-		\DrawIn{\stYoff}{3.000}{12.0}{\DrawOutputz{6}{8}{2.500}{3.000}{[3]}{early}}
+		\DrawIn{\stYoff}{4.37}{12.0}{\DrawOutputz{6}{8}{3.87}{4.37}{[\sp3\sp, 8\sp, 1\sp]}{on-time}}
+		\DrawIn{\stYoff}{4.000}{12.0}{\DrawOutputz{6}{8}{3.500}{4.000}{[\sp3\sp, 8\sp, 1\sp]}{early}}
+		\DrawIn{\stYoff}{3.000}{12.0}{\DrawOutputz{6}{8}{2.500}{3.000}{[\sp3\sp]}{early}}
 	}
 	
 	\def \DebugStreamTable{0}
