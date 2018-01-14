@@ -51,7 +51,7 @@
 	\def \stLabel{User scores}
 	\StreamInline{
 		\DrawWatermarkA
-		\DrawInputsA{c_datum_border}{c_datum_text}{c_datum_border}
+		\DrawInputsA{c_datum_back}{c_datum_text}{c_datum_border}
 	}
 
 	\def \stY{4.5}
@@ -67,6 +67,7 @@
 	\def \stLabel{SUM}
 	\TableInline{
 		\DrawWatermarkA
+		\DrawInputsA{c_ghost}{c_ghost_text}{c_ghost_border}
 		\def \diOffset{4}
 		\DrawIn{\stYoff}{0.333}{3.222}{\DrawTableCell{0}{2}{5}}
 		\DrawIn{\stYoff}{3.333}{12.000}{\DrawTableCell{0}{2}{14}}
@@ -115,7 +116,7 @@
 }{}
 }
 
-\newcommand{\FastFrames}{0,...,40}%0,8,23,75,96}
+\newcommand{\FastFrames}{30,...,40}%0,8,23,75,96}
 \newcommand{\AllFrames}{0,1,...,124}
 \RenderFrames
 

@@ -1,5 +1,5 @@
 \input{diagrams}
-\def \FastRender{1}
+\def \FastRender{0}
 
 \ifdefined \ShowBoxes
 \else
@@ -29,14 +29,14 @@
 \newcommand{\FrameV} {
 \SessionsDiagram[c_back]{5.222}{
 	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
-	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{25}{late}
-	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{39}{late}
+	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{22}{late}
+	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{36}{late}
 	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
-	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{10}{on-time}
-	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{25}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{10}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
 	\DrawRetractionz{6.666}{7.666}{0.000}{4.000}{3}{early}
 	\DrawOutputz{6.666}{8.777}{0.000}{4.000}{12}{early}
 	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
@@ -116,7 +116,7 @@
 	\DrawState{2.444}{3.444}{0.000}{#1}{7}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawState{3.666}{4.888}{0.000}{#1}{7}
+	\DrawState{3.666}{4.666}{0.000}{#1}{3}
 }
 }
 \FrameG{1.444}
@@ -128,7 +128,7 @@
 	\DrawState{2.444}{3.444}{0.000}{#1}{7}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawState{3.666}{5.333}{0.000}{#1}{10}
+	\DrawState{3.666}{5.333}{0.000}{#1}{7}
 }
 }
 \FrameH{1.666}
@@ -141,7 +141,7 @@
 	\DrawState{2.444}{3.444}{0.000}{#1}{7}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{10}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
 }
 }
 \FrameI{2.000}
@@ -149,10 +149,10 @@
 \newcommand{\FrameJ}[2] {
 \SessionsDiagram{#1}{
 	\DrawState{0.444}{1.444}{0.000}{#1}{5}
-	\DrawState{2.444}{5.333}{0.000}{#1}{25}
+	\DrawState{2.444}{5.333}{0.000}{#1}{22}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{10}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
 	#2
 }
 }
@@ -173,11 +173,11 @@
 	\DrawState{0.444}{1.444}{0.000}{#1}{5}
 	#2
 	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
-	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{10}{on-time}
-	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{25}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{10}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
 	\DrawState{6.666}{7.666}{0.000}{#1}{3}
 }
 }
@@ -185,7 +185,7 @@
 
 \newcommand{\FrameM}[2] {
 \FrameL{#1}{
-	\DrawState{2.444}{5.333}{0.000}{#1}{25}
+	\DrawState{2.444}{5.333}{0.000}{#1}{22}
 }
 }
 \FrameM{2.777}{}
@@ -195,13 +195,13 @@
 \newcommand{\FrameN}[2] {
 \SessionsDiagram{#1}{
 	\DrawState{0.444}{1.444}{0.000}{#1}{5}
-	\DrawState{2.444}{5.333}{0.000}{#1}{25}
+	\DrawState{2.444}{5.333}{0.000}{#1}{22}
 	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
-	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{10}{on-time}
-	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{25}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{10}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
 	#2
 	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
 }
@@ -221,14 +221,14 @@
 \SessionsDiagram{#1}{
 	#2
 	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
-	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{25}{late}
-	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{39}{late}
+	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{22}{late}
+	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{36}{late}
 	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
-	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{10}{on-time}
-	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{25}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{10}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
 	\DrawState{6.666}{7.666}{0.000}{#1}{3}
 	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
 }
@@ -237,7 +237,7 @@
 
 \newcommand{\FrameQ}[2] {
 \FrameP{#1}{
-	\DrawState{0.444}{5.333}{0.000}{#1}{39}
+	\DrawState{0.444}{5.333}{0.000}{#1}{36}
 }
 }
 \FrameQ{3.444}{}
@@ -245,16 +245,16 @@
 
 \newcommand{\FrameR}[1] {
 \SessionsDiagram{#1}{
-	\DrawState{0.444}{5.333}{0.000}{#1}{39}
+	\DrawState{0.444}{5.333}{0.000}{#1}{36}
 	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
-	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{25}{late}
-	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{39}{late}
+	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{22}{late}
+	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{36}{late}
 	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
-	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{10}{on-time}
-	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{25}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{10}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
 	\DrawState{6.666}{8.444}{0.000}{#1}{11}
 	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
 }
@@ -265,16 +265,16 @@
 
 \newcommand{\FrameS}[2] {
 \SessionsDiagram{#1}{
-	\DrawState{0.444}{5.333}{0.000}{#1}{39}
+	\DrawState{0.444}{5.333}{0.000}{#1}{36}
 	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
-	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{25}{late}
-	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{39}{late}
+	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{22}{late}
+	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{36}{late}
 	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
-	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{10}{on-time}
-	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{25}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{10}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
 	#2
 	\DrawRetractionz{6.666}{7.666}{0.000}{4.000}{3}{early}
 	\DrawOutputz{6.666}{8.777}{0.000}{4.000}{12}{early}
@@ -301,16 +301,16 @@
 
 \newcommand{\FrameU}[1] {
 \SessionsDiagram[c_back]{5.222}{
-	\DrawState[#1]{0.444}{5.333}{0.000}{5.000}{39}
+	\DrawState[#1]{0.444}{5.333}{0.000}{5.000}{36}
 	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
-	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{25}{late}
-	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{39}{late}
+	\DrawRetractionz{2.444}{5.333}{0.000}{3.333}{22}{late}
+	\DrawOutputz{0.444}{5.333}{0.000}{3.333}{36}{late}
 	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
-	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{10}{on-time}
-	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{25}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
 	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
 	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
-	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{10}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
 	\DrawState[#1]{6.666}{8.777}{0.000}{5.000}{12}
 	\DrawRetractionz{6.666}{7.666}{0.000}{4.000}{3}{early}
 	\DrawOutputz{6.666}{8.777}{0.000}{4.000}{12}{early}

@@ -1,0 +1,366 @@
+\input{diagrams}
+\def \FastRender{0}
+
+\ifdefined \ShowBoxes
+\else
+	\def \ShowBoxes{0}
+\fi
+
+\newdimen \dimDsbDelta
+\newdimen \dimDsbTwo
+
+\newcommand{\DrawStateBrace}[6][\ostate] {
+	\DrawState[#1]{#2}{#3}{#4}{#5}{#6}
+	\DrawBrace{#2}{#3}{#5}
+}
+
+\newcommand{\DrawBrace}[3]{
+	\pgfmathsetmacro{\dsbXdelta}{#2 - #1}
+	\pgfmathsetmacro{\dsbXdeltaMin}{(\dsbXdelta * 60) / 60)}
+	\pgfmathsetmacro{\dsbXdeltaSec}{Mod(\dsbXdelta * 60, 60)}	
+	\pgfmathprintnumberto[fixed,int trunc,verbatim]{\dsbXdeltaMin}{\dsbDeltaMin}
+	\pgfmathprintnumberto[fixed,int trunc,verbatim]{\dsbXdeltaSec}{\dsbDeltaSec}
+	\ifthenelse{\equal{\dsbDeltaMin}{0}}
+		{\def \dsbMin{}}
+		{\def \dsbMin{\dsbDeltaMin m\ }}	
+	\ifthenelse{\equal{\dsbDeltaSec}{0}}
+		{\def \dsbSec{}}
+		{\def \dsbSec{\dsbDeltaSec s}}	
+	\ifthenelse{\equal{\dsbDeltaMin}{0} \AND \equal{\dsbDeltaSec}{0}}
+		{\def \dsbMin{0s}}
+		{}	
+	\dimDsbDelta=\dsbXdelta pt
+	\dimDsbTwo=2 pt
+	\ifthenelse{\lengthtest{\dimDsbDelta < \dimDsbTwo}}	%\ifthenelse{\dsbXdelta > 2.0}
+		{\def \dsbNote{}}
+		{\def \dsbNote{ (closed)}}
+
+    	\def \BraceShiftX{.05}
+    	\def \BraceShiftY{.11}
+	\draw [decorate,decoration={brace,amplitude=4pt},s_timeline] 
+	    (\ox + #1 + \BraceShiftX, \oy + #3 + \BraceShiftY) -- (\ox + #2 - \BraceShiftX, \oy + #3 + \BraceShiftY)
+	    node [s_timeline,midway,yshift=12pt]  {\dsbMin\dsbSec\dsbNote};
+}
+
+\newcommand{\SessionsDiagram}[3][c_timeline] {
+  \TriggersDiagram[#1]{#2}{
+    % Always draw an invisible timeline up at 6 to max sure the height of
+    % the diagram is large enough for the braces.
+    \draw [s_timeline,c_back] (\ox + 0, \oy + 6) -- (\ox + \maxx, \oy +  6);
+  
+    \if \ShowBoxes 1
+	\DrawBrace{7.777}{8.777}{4.1}
+	\DrawBrace{4.333}{5.333}{3.433}
+    \fi
+    #3
+    \if \ShowBoxes 1f
+	\draw [s_timeline,dashed] (\ox + 0.444, \oy +  0) rectangle (\ox + 5.333, \oy +  3.333);
+	\draw [s_timeline,dashed] (\ox + 6.666, \oy +  0) rectangle (\ox + 8.777, \oy +  4.000);
+    \fi
+  }
+}
+
+\newcommand{\FrameV} {
+\SessionsDiagram[c_back]{5.222}{
+	\DrawBrace{0.444}{2.444}{5.000}{14}
+	\DrawBrace{2.444}{5.333}{5.000}{22}
+	\DrawBrace{6.666}{8.777}{5.000}{12}
+	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
+	\DrawOutputz{0.444}{2.444}{0.000}{3.333}{14}{late}
+	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
+	\DrawRetractionz{6.666}{7.666}{0.000}{4.000}{3}{early}
+	\DrawOutputz{6.666}{8.777}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
+}
+}
+\DrawInitialFrame{\FrameV}
+
+\newcommand{\FrameA}[1] {
+\SessionsDiagram{#1}{
+}
+}
+
+\FrameA{.01}
+
+\if \FastRender 0
+\FrameA{.111}
+\FrameA{.222}
+
+\newcommand{\FrameB}[1] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+}
+}
+\FrameB{.333}
+\FrameB{.444}
+\FrameB{.555}
+
+\newcommand{\FrameC}[1] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawStateBrace{2.444}{3.444}{0.000}{#1}{7}
+}
+}
+\FrameC{.666}
+\FrameC{.777}
+
+\newcommand{\FrameCC}[1] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawStateBrace{2.444}{3.444}{0.000}{#1}{7}
+}
+}
+
+\FrameCC{.888}
+
+\newcommand{\FrameD}[1] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawStateBrace{2.444}{3.444}{0.000}{#1}{7}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+}
+}
+\FrameD{1.000}
+
+\newcommand{\FrameE}[2] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawStateBrace{2.444}{3.444}{0.000}{#1}{7}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	#2
+}
+}
+\FrameE{1.111}{}
+
+\newcommand{\FrameF}[1] {
+\FrameE{#1}{
+	\DrawStateBrace{3.666}{4.666}{0.000}{#1}{3}
+}
+}
+\FrameF{1.222}
+\FrameF{1.333}
+
+\newcommand{\FrameG}[1] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawStateBrace{2.444}{3.444}{0.000}{#1}{7}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawStateBrace{3.666}{4.666}{0.000}{#1}{3}
+}
+}
+\FrameG{1.444}
+\FrameG{1.555}
+
+\newcommand{\FrameH}[1] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawStateBrace{2.444}{3.444}{0.000}{#1}{7}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawStateBrace{3.666}{5.333}{0.000}{#1}{7}
+}
+}
+\FrameH{1.666}
+\FrameH{1.777}
+\FrameH{1.888}
+
+\newcommand{\FrameI}[1] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawStateBrace{2.444}{3.444}{0.000}{#1}{7}
+	\DrawStateBrace{3.666}{5.333}{0.000}{#1}{7}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
+}
+}
+\FrameI{2.000}
+
+\newcommand{\FrameJ}[2] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawStateBrace{2.444}{5.333}{0.000}{#1}{22}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
+	#2
+}
+}
+\FrameJ{2.111}{}
+\FrameJ{2.222}{}
+
+\newcommand{\FrameK}[1] {
+\FrameJ{#1}{
+	\DrawStateBrace{6.666}{7.666}{0.000}{#1}{3}
+}
+}
+\FrameK{2.333}
+\FrameK{2.444}
+\FrameK{2.555}
+
+\newcommand{\FrameL}[2] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawStateBrace{2.444}{5.333}{0.000}{#1}{22}
+	#2
+	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
+	\DrawStateBrace{6.666}{7.666}{0.000}{#1}{3}
+}
+}
+\FrameL{2.666}{
+}
+
+\newcommand{\FrameM}[2] {
+\FrameL{#1}{
+}
+}
+\FrameM{2.777}{}
+\FrameM{2.888}{}
+\fi % \FastRender 0
+
+\newcommand{\FrameN}[2] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{1.444}{0.000}{#1}{5}
+	\DrawStateBrace{2.444}{5.333}{0.000}{#1}{22}
+	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
+	#2
+	\DrawStateBrace{6.666}{7.666}{0.000}{#1}{3}
+	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
+}
+}
+\FrameN{3.000}{}
+
+\if \FastRender 0
+\newcommand{\FrameO}[2] {
+\FrameN{#1}{
+}
+}
+\FrameO{3.111}{}
+\FrameO{3.222}{}
+
+\newcommand{\FrameP}[2] {
+\SessionsDiagram{#1}{
+	#2
+	\DrawStateBrace{0.444}{2.444}{0.000}{#1}{14}
+	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
+	\DrawOutputz{0.444}{2.444}{0.000}{3.333}{14}{late}
+	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawStateBrace{2.444}{5.333}{0.000}{#1}{22}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
+	\DrawStateBrace{6.666}{7.666}{0.000}{#1}{3}
+	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
+}
+}
+\FrameP{3.333}{
+}
+
+\newcommand{\FrameQ}[2] {
+\FrameP{#1}{
+}
+}
+\FrameQ{3.444}{}
+\FrameQ{3.555}{}
+
+\newcommand{\FrameR}[1] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{2.444}{0.000}{#1}{14}
+	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
+	\DrawOutputz{0.444}{2.444}{0.000}{3.333}{14}{late}
+	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawStateBrace{2.444}{5.333}{0.000}{#1}{22}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
+	\DrawStateBrace{6.666}{8.444}{0.000}{#1}{11}
+	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
+}
+}
+\FrameR{3.666}
+\FrameR{3.777}
+\FrameR{3.888}
+
+\newcommand{\FrameS}[2] {
+\SessionsDiagram{#1}{
+	\DrawStateBrace{0.444}{2.444}{0.000}{#1}{14}
+	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
+	\DrawOutputz{0.444}{2.444}{0.000}{3.333}{14}{late}
+	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawStateBrace{2.444}{5.333}{0.000}{#1}{22}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
+	\DrawStateBrace{6.666}{8.777}{0.000}{#1}{12}
+	#2
+	\DrawRetractionz{6.666}{7.666}{0.000}{4.000}{3}{early}
+	\DrawOutputz{6.666}{8.777}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
+}
+}
+\FrameS{4.000}{}
+
+\newcommand{\FrameT}[2] {
+\FrameS{#1}{}
+}
+\FrameT{4.111}{}
+\FrameT{4.222}{}
+\FrameT{4.333}{}
+\FrameT{4.444}{}
+\FrameT{4.555}{}
+\FrameT{4.666}{}
+\FrameT{4.777}{}
+\FrameT{4.888}{}
+\FrameT{5.000}{}
+\fi % \FastRender 0
+
+\newcommand{\FrameU}[1] {
+\SessionsDiagram[c_back]{5.888}{
+	\DrawStateBrace[#1]{0.444}{2.444}{0.000}{5.000}{14}
+	\DrawStateBrace[#1]{2.444}{5.333}{0.000}{5.000}{22}
+	\DrawRetractionz{0.444}{1.444}{0.000}{3.333}{5}{late}
+	\DrawOutputz{0.444}{2.444}{0.000}{3.333}{14}{late}
+	\DrawRetractionz{2.444}{3.444}{0.000}{2.633}{7}{on-time}
+	\DrawRetractionz{3.666}{5.333}{0.000}{2.633}{7}{on-time}
+	\DrawOutputz{2.444}{5.333}{0.000}{2.633}{22}{on-time}
+	\DrawOutputz{0.444}{1.444}{0.000}{.865}{5}{on-time}
+	\DrawOutputz{2.444}{3.444}{0.000}{1.000}{7}{early}
+	\DrawOutputz{3.666}{5.333}{0.000}{2.000}{7}{early}
+	\DrawStateBrace[#1]{6.666}{8.777}{0.000}{5.000}{12}
+	\DrawRetractionz{6.666}{7.666}{0.000}{4.000}{3}{early}
+	\DrawOutputz{6.666}{8.777}{0.000}{4.000}{12}{early}
+	\DrawOutputz{6.666}{7.666}{0.000}{3.000}{3}{early}
+}
+}
+\FrameU{\ofadeA}
+\FrameU{\ofadeB}
+\FrameU{\ofadeC}
+
+\DrawFinalFrames{\FrameV}
+
+\end{document}

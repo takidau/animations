@@ -1,8 +1,10 @@
 \input{diagrams}
 \def \XAxisToTen{1}
+\def \YAxisToEleven{1}
+\def \maxy{6}
 \def \ShowLateData{0}
 \def \ShowAlignmentHelpers{0}
-\def \FastRender{1}
+\def \FastRender{0}
 \def \DrawDefaultLegend{0}
 \def \oout{.3} % More transparency for outputs, since we're using bolder colors
 \def \BackRectBorderWidth{2pt}
@@ -76,89 +78,126 @@
 \newdimen \endY
 
 
-\newcommand{\Arrow}[3]{
+\newcommand{\Arrow}[5]{
 	\def \aXstart{#1}
 	\def \aXend{#2}
 	\def \aY{#3}
-	\draw [s_delay_delta] (\ox + \aXstart, \oy + \aY) -- (\ox + \aXend, \oy + \aY);
-	\filldraw[c_bullet_fill, draw=c_bullet_draw] (\ox + \aXstart, \oy + \aY) circle [radius=2pt];
+	\def \aXshift{#4}
+	\def \aText{#5}
+	\draw [s_delay_delta,<-] (\ox + \aXstart, \oy + \aY) -- (\ox + \aXend, \oy + \aY);
+	%\filldraw[c_bullet_fill, draw=c_bullet_draw] (\ox + \aXstart, \oy + \aY) circle [radius=2pt];
+	
+	\contourlength{0.66pt}
+	\node[font=\bf\sffamily\scriptsize,c_outlined_text_outline] at (\ox + \aXstart + \aXshift, \oy + \aY) {\contour{c_outlined_text}{\aText}};
+	
 }
 	
-\newcommand{\LeftArrow}[2]{
-	\Arrow{11.5}{#1}{#2}
+\newcommand{\LeftArrow}[3]{
+	\Arrow{11.2}{#1}{#2}{.4}{#3}
 }
 
-\newcommand{\RightArrow}[2]{
-	\Arrow{-1.8}{#1}{#2}
+\newcommand{\RightArrow}[3]{
+	\Arrow{-1.5}{#1}{#2}{-.4}{#3}
+}
+
+\newcommand{\DrawArrowOutput}[7] {
+	\def \yPos{#1}
+	\def \daoDrawArrow{#2}
+	\def \daoXa{#3}
+	\def \daoXb{#4}
+	\def \daoY{#5}
+	\def \daoValue{#6}
+	\def \daoArrowText{#7}
+
+	\DrawAt{\yPos}{\daoY}{\DrawOutputz{\daoXa}{\daoXb}{0.000}{\daoY}{\daoValue}{on-time}}
+	\DrawAt{\yPos}{\daoY}{\daoDrawArrow{\daoXb}{\daoY}{\daoArrowText}}
 }
 
 \newcommand{\Frame}[2][c_timeline] {
+
+\def \Yoff{#2}
+% Hold timeline position constant at end so diagram height doesn't grow
+\DrawIn{\Yoff}{0.000}{6.000}{\def \TimelineYoff{\Yoff}}
+\DrawIn{\Yoff}{6.111}{20.00}{\def \TimelineYoff{6.222}}
+
+\ifdefined \AlignedVersion
+\else
+	\def \AlignedVersion{0}
+\fi
+
+\if \AlignedVersion 1
+	\def \ArrowText{2 panes}
+\else
+	\def \ArrowText{1 pane}
+\fi
+
 \TriggersMulti{
-  %\draw [->, s_watermark, color=white] (\midx - 0.5, \midy - 2.5) -- (\midx + 1.25, \midy - .5);
+  \sumA{\TriggersInline{\TimelineYoff}{a
+	\DrawIn{\Yoff}{0.333}{0.555}{\DrawState{0}{2}{0.000}{\Yoff}{5}}	
+	\DrawIn{\Yoff}{0.666}{1.78}{\DrawState{0}{2}{0.000}{\Yoff}{14}}	
+	\DrawArrowOutput{\Yoff}{\LeftArrow}{0}{2}{1.78}{14}{\ArrowText}
 
-  \sumA{\TriggersInline{#2}{a
-	\DrawIn{#2}{0.333}{0.777}{\DrawState{0}{2}{0.000}{#2}{5}}	
-	\DrawIn{#2}{0.666}{1.000}{\DrawState{0}{2}{0.000}{#2}{14}}	
+	\DrawIn{\Yoff}{0.777}{2.000}{\DrawState{2}{4}{0.000}{\Yoff}{7}}	
+	\DrawIn{\Yoff}{2.111}{2.85}{\DrawState{2}{4}{0.000}{\Yoff}{15}}	
+	\DrawArrowOutput{\Yoff}{\LeftArrow}{2}{4}{2.85}{15}{\ArrowText}
 
-	%\DrawIn{#2}{0.777}{2.000}{\DrawStatex{2.777}{3.777}{0.000}{#2}{1.0}{3.777}}	
+	\DrawIn{\Yoff}{1.222}{1.333}{\DrawState{4}{6}{0.000}{\Yoff}{3}}	
+	\DrawIn{\Yoff}{1.333}{1.555}{\DrawState{4}{6}{0.000}{\Yoff}{7}}	
+	\DrawIn{\Yoff}{1.666}{3.444}{\DrawState{4}{6}{0.000}{\Yoff}{10}}	
+	\DrawArrowOutput{\Yoff}{\LeftArrow}{4}{6}{3.444}{10}{\ArrowText}
 
-	%\DrawIn{#2}{1.222}{1.333}{\DrawStatex{4.777}{5.777}{0.000}{#2}{1.0}{5.777}}	
-	%\DrawIn{#2}{1.444}{1.555}{\DrawStatex{3.999}{5.777}{0.000}{#2}{1.8}{5.777}}	
-	%\DrawIn{#2}{1.666}{2.000}{\DrawStatex{3.999}{5.777}{0.000}{#2}{1.8}{5.777}}	
+	\DrawIn{\Yoff}{2.333}{3.555}{\DrawState{6}{8}{0.000}{\Yoff}{3}}	
+	\DrawIn{\Yoff}{3.666}{3.888}{\DrawState{6}{8}{0.000}{\Yoff}{11}}	
+	\DrawIn{\Yoff}{4.000}{4.56}{\DrawState{6}{8}{0.000}{\Yoff}{12}}	
+	\DrawArrowOutput{\Yoff}{\LeftArrow}{6}{8}{4.56}{12}{\ArrowText}
 
-	%\DrawIn{#2}{2.111}{2.555}{\DrawStatex{2.777}{5.777}{0.000}{#2}{3.0}{5.777}}	
-	
-
-	%\DrawIn{#2}{2.333}{3.555}{\DrawStatex{6.666}{7.666}{0.000}{#2}{1.0}{7.666}}	
-	%\DrawIn{#2}{3.666}{3.888}{\DrawStatex{6.666}{8.444}{0.000}{#2}{1.8}{8.444}}	
-	%\DrawIn{#2}{3.666}{3.888}{\DrawStatex{6.666}{8.444}{0.000}{#2}{1.8}{8.444}}	
-	%\DrawIn{#2}{4.000}{4.444}{\DrawStatex{6.666}{8.777}{0.000}{#2}{2.1}{8.777}}	
-
-	\DrawAt{#2}{0}{\DrawOutputz{0}{2}{0.000}{1.000}{14}{on-time}}
-	\LeftArrow{2}{1.000}
-
-	\DrawAt{#2}{0}{\DrawOutputz{2}{4}{0.000}{2.5}{B}{on-time}}
-	\LeftArrow{4}{2.5}
-
-	\DrawAt{#2}{0}{\DrawOutputz{4}{6}{0.000}{2.666}{C}{on-time}}
-	\LeftArrow{6}{2.666}
-
-	\DrawAt{#2}{0}{\DrawOutputz{6}{8}{0.000}{4.37}{D}{on-time}}
-	\LeftArrow{8}{4.37}
-
-	\DrawAt{#2}{0}{\DrawOutputz{8}{10}{0.000}{5.444}{E}{on-time}}
-	\LeftArrow{10}{5.444}
+	\DrawIn{\Yoff}{4.111}{4.444}{\DrawState{8}{10}{0.000}{\Yoff}{6}}	
+	\DrawIn{\Yoff}{4.555}{5.444}{\DrawState{8}{10}{0.000}{\Yoff}{5}}	
+	\DrawArrowOutput{\Yoff}{\LeftArrow}{8}{10}{5.444}{11}{\ArrowText}
   }}
-  \sumB{\TriggersInline{#2}{
-	%\DrawIn{#2}{0.3}{0.555}{\DrawStatex{1.999}{2.999}{0.000}{#2}{1.0}{2.999}}	
-	%\DrawIn{#2}{0.333}{0.555}{\DrawStatex{0.333}{1.333}{0.000}{#2}{1.0}{1.333}}	
+  \sumB{\TriggersInline{\TimelineYoff}{
+	\if \AlignedVersion 1
+		\DrawIn{\Yoff}{0.333}{0.555}{\DrawState{2}{0}{0.000}{\Yoff}{6}}	
+		\DrawIn{\Yoff}{0.666}{1.000}{\DrawState{2}{0}{0.000}{\Yoff}{10}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{2}{0}{1.78}{10}{\ArrowText}
 
-	%\DrawIn{#2}{0.666}{2.000}{\DrawStatex{0.333}{3.222}{0.000}{#2}{2.9}{3.222}}	
-	%\DrawIn{#2}{2.111}{2.444}{\DrawStatex{0.333}{3.888}{0.000}{#2}{3.5}{3.888}}	
-	
-	%\DrawIn{#2}{1.555}{2.555}{\DrawStatex{3.95}{4.95}{0.000}{#2}{1.0}{4.95}}	
+		\DrawIn{\Yoff}{0.3}{0.555}{\DrawState{4}{2}{0.000}{\Yoff}{3}}	
+		\DrawIn{\Yoff}{0.666}{1.444}{\DrawState{4}{2}{0.000}{\Yoff}{7}}	
+		\DrawIn{\Yoff}{1.555}{2.000}{\DrawState{4}{2}{0.000}{\Yoff}{15}}	
+		\DrawIn{\Yoff}{2.111}{2.85}{\DrawState{4}{2}{0.000}{\Yoff}{24}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{4}{2}{2.85}{24}{\ArrowText}
 
-	%\DrawIn{#2}{1.333}{2.111}{\DrawStatex{5.888}{6.888}{0.000}{#2}{1.0}{6.888}}	
-	%\DrawIn{#2}{2.222}{3.111}{\DrawStatex{5.5}{6.888}{0.000}{#2}{1.4}{6.888}}	
+		\DrawIn{\Yoff}{1.333}{2.111}{\DrawState{6}{4}{0.000}{\Yoff}{1}}	
+		\DrawIn{\Yoff}{2.222}{3.444}{\DrawState{6}{4}{0.000}{\Yoff}{8}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{6}{4}{3.444}{8}{\ArrowText}
 
-	%\DrawIn{#2}{2.333}{3.333}{\DrawStatex{7.000}{8.000}{0.000}{#2}{1.0}{8.000}}	
-	%\DrawIn{#2}{3.444}{3.888}{\DrawStatex{7.000}{8.444}{0.000}{#2}{1.4}{8.444}}	
-	%\DrawIn{#2}{4.000}{4.777}{\DrawStatex{7.000}{9.333}{0.000}{#2}{2.3}{9.333}}	
+		\DrawIn{\Yoff}{2.333}{3.333}{\DrawState{8}{6}{0.000}{\Yoff}{5}}	
+		\DrawIn{\Yoff}{3.444}{4.56}{\DrawState{8}{6}{0.000}{\Yoff}{7}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{8}{6}{4.56}{7}{\ArrowText}
 
-	\DrawAt{#2}{0}{\DrawOutputz{0}{1}{0.000}{0.777}{14}{on-time}}
-	\RightArrow{0}{0.777}
-	
-	\DrawAt{#2}{0}{\DrawOutputz{1}{3}{0.000}{2.4}{B}{on-time}}
-	\RightArrow{1}{2.4}
+		\DrawIn{\Yoff}{4.000}{5.444}{\DrawState{10}{8}{0.000}{\Yoff}{6}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{10}{8}{5.444}{6}{\ArrowText}
+	\else	
+		\DrawIn{\Yoff}{0.333}{0.555}{\DrawState{0}{1}{0.000}{\Yoff}{6}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{1}{0}{1.000}{6}{\ArrowText}
 
-	\DrawAt{#2}{0}{\DrawOutputz{3}{5}{0.000}{2.555}{C}{on-time}}
-	\RightArrow{3}{2.555}
+		\DrawIn{\Yoff}{0.3}{0.555}{\DrawState{1}{3}{0.000}{\Yoff}{3}}	
+		\DrawIn{\Yoff}{0.666}{2.000}{\DrawState{1}{3}{0.000}{\Yoff}{11}}	
+		\DrawIn{\Yoff}{2.111}{2.52}{\DrawState{1}{3}{0.000}{\Yoff}{20}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{3}{1}{2.52}{20}{\ArrowText}
 
-	\DrawAt{#2}{0}{\DrawOutputz{5}{7}{0.000}{3.777}{D}{on-time}}
-	\RightArrow{5}{3.777}
+		\DrawIn{\Yoff}{1.555}{3.111}{\DrawState{5}{3}{0.000}{\Yoff}{8}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{5}{3}{3.111}{8}{\ArrowText}
 
-	\DrawAt{#2}{0}{\DrawOutputz{7}{9}{0.000}{4.444}{E}{on-time}}
-	\RightArrow{7}{4.444}
+		\DrawIn{\Yoff}{1.333}{2.111}{\DrawState{7}{5}{0.000}{\Yoff}{1}}	
+		\DrawIn{\Yoff}{2.222}{3.95}{\DrawState{7}{5}{0.000}{\Yoff}{8}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{7}{5}{3.95}{8}{\ArrowText}
+
+		\DrawIn{\Yoff}{2.333}{3.333}{\DrawState{9}{7}{0.000}{\Yoff}{5}}	
+		\DrawIn{\Yoff}{3.444}{3.888}{\DrawState{9}{7}{0.000}{\Yoff}{7}}	
+		\DrawIn{\Yoff}{4.000}{4.82}{\DrawState{9}{7}{0.000}{\Yoff}{13}}	
+		\DrawArrowOutput{\Yoff}{\RightArrow}{9}{7}{4.82}{13}{\ArrowText}
+	\fi
   }}
   
   \def \wmx{\maxx + .5}
@@ -175,7 +214,7 @@
 }
 }
 
-\newcommand{\FastFrames}{65}%,0,1,...,20}
+\newcommand{\FastFrames}{0,1,65}
 \newcommand{\AllFrames}{65,0,1,...,65}
 \RenderFrames
 

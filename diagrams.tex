@@ -75,6 +75,11 @@
 
 \definecolor{c_grey}{HTML}{CCCCCC}
 
+\ifdefined \OutputContour
+\else
+	\def \OutputContour{1pt}
+\fi
+
 \if \ColorScheme 1 % white
 	\definecolor{c_blue_base}{HTML}{7788EE} %FF2222}  %8899FF %4285F4}
 	\colorlet{c_blue}{c_blue_base!100!black}
@@ -99,18 +104,23 @@
 	\definecolor{c_ghost}{HTML}{CFCFCF} % BBBBBB
 	\definecolor{c_ghost_text}{HTML}{EEEEEE} % DDDDDD
 	\definecolor{c_ghost_border}{HTML}{999999}
+	\definecolor{c_ghost_arrow}{HTML}{777777}
 	\colorlet{c_legend}{black}
 	\tikzstyle{s_dropped}=[red!80!white,draw opacity=1] 
 	\definecolor{c_dropped_border}{HTML}{660000} 
 
-	\colorlet{c_outlined_text}{black}%white!25!black}
-	\definecolor{c_outlined_text_outline}{HTML}{EEEEEE}
+	%\colorlet{c_outlined_text}{black}%white!25!black}
+	%\definecolor{c_outlined_text_outline}{HTML}{EEEEEE}
+	\colorlet{c_outlined_text}{white}
+	\colorlet{c_outlined_text_outline}{white!25!black}
 	\colorlet{c_tomb}{black}
 	\definecolor{c_ideal}{rgb}{.8, .8, .8}
 	
 	\colorlet{c_bullet_draw}{black}
 	\colorlet{c_bullet_fill}{white!25!black}
 	
+	\colorlet{c_toggle_a}{white}
+	\colorlet{c_toggle_b}{RubineRed}
 \else % dark
 	\definecolor{c_blue}{HTML}{76A7FA}
 	\definecolor{c_red}{HTML}{ED9D97}
@@ -132,6 +142,7 @@
 	\definecolor{c_ghost}{HTML}{666666}
 	\definecolor{c_ghost_text}{HTML}{3A3A3A}
 	\definecolor{c_ghost_border}{HTML}{3A3A3A}
+	\colorlet{c_ghost_arrow}{c_datum_back_ghost}
 	\colorlet{c_legend}{white}
 	\tikzstyle{s_dropped}=[red!60!white,draw opacity=.25] 
 	\definecolor{c_dropped_border}{HTML}{660000} 
@@ -143,6 +154,9 @@
 
 	\colorlet{c_bullet_draw}{white!25!black}
 	\colorlet{c_bullet_fill}{white}
+	
+	\colorlet{c_toggle_a}{white}
+	\colorlet{c_toggle_b}{violet!60!white}
 \fi
 
 \colorlet{c_blue_light}{c_blue!60!white}
@@ -311,7 +325,7 @@
 	\fi
 }
 
-\newcommand{\VersionMore}[3] {
+\newcommand{\VersionMore}[5] {
 	\if \InputVersionSet 2
 		\if \InputVersion 1
 			#1 % Re-window key #1
@@ -321,6 +335,14 @@
 			\else
 				\if \InputVersion 3
 					#3 % Re-window global
+				\else
+					\if \InputVersion 4
+						#4 % Window-alignment key #1
+					\else
+						\if \InputVersion 5
+							#5 % Re-window key #2
+						\fi
+					\fi
 				\fi
 			\fi
 		\fi
@@ -342,10 +364,15 @@
   {\def \maxx{10}}
   {\def \maxx{10}}
   {\def \maxx{10}}
+  {\def \maxx{10}}
+  {\def \maxx{10}}
 }
 \ResetMaxx  
 
-\def \maxy{5}
+\ifdefined \maxy
+\else
+	\def \maxy{5}
+\fi
 \def \yoff{5}
 \def \scale{.9}
 \def \trioff{0.0265}
@@ -403,10 +430,17 @@
 	% Y Axis
 	\draw[c_proc_time, line width=1.5pt] (\ox, \oy - 0.0265) -- (\ox, \oy + \maxy);
 	% Y Axis Tick Marks
-	\foreach \y / \t in {1/06, 2/07, 3/08, 4/09, 5/10} {
-		\draw[c_proc_time] (\ox + .1, \oy + \y) -- (\ox - .1, \oy + \y);
-		\node[s_timepoint, rotate=90, c_proc_time] at (\ox - .25, \oy + \y) {12:\t};
-	}
+	\if \YAxisToEleven 0
+		\foreach \y / \t in {1/06, 2/07, 3/08, 4/09, 5/10} {
+			\draw[c_proc_time] (\ox + .1, \oy + \y) -- (\ox - .1, \oy + \y);
+			\node[s_timepoint, rotate=90, c_proc_time] at (\ox - .25, \oy + \y) {12:\t};
+		}
+	\else
+		\foreach \y / \t in {1/06, 2/07, 3/08, 4/09, 5/10, 6/11} {
+			\draw[c_proc_time] (\ox + .1, \oy + \y) -- (\ox - .1, \oy + \y);
+			\node[s_timepoint, rotate=90, c_proc_time] at (\ox - .25, \oy + \y) {12:\t};
+		}
+	\fi
 	% Y Axis Label
 	\node[s_legend,rotate=90, c_proc_time] at (\ox -.666, \oy + \maxy / 2) {Processing Time};	
 	
@@ -529,17 +563,20 @@
 	%\DrawInput{#1}{7.777}{3.222}{1}
 	%\DrawInput{#1}{4.333}{3.888}{3}
 
-\newcommand {\DrawInputsB}[2] {
-	\DrawInput{#1}{0.444}{2.111}{5}{#2}
-	\DrawInput{#1}{2.444}{.888}{7}{#2}
-	\DrawInput{#1}{3.111}{1.777}{8}{#2}
-	\DrawInput{#1}{3.666}{1.111}{3}{#2}
-	\DrawInput{#1}{3.888}{2.888}{4}{#2}
-	\DrawInput{#1}{4.333}{3.888}{3}{#2}
-	\DrawInput{#1}{6.666}{1.999}{3}{#2}
-	\DrawInput{#1}{7.444}{2.555}{8}{#2}
-	\DrawInput{#1}{7.777}{3.222}{1}{#2}
-	\DrawInput{#1}{1.444}{1.333}{9}{#2}
+\newcommand {\DrawInputsB}[3] {
+	% #1 = back color
+	% #2 = text color
+	% #3 = border color
+	\DrawInput[#3]{#1}{0.444}{2.111}{5}{#2}
+	\DrawInput[#3]{#1}{2.444}{.888}{7}{#2}
+	\DrawInput[#3]{#1}{3.111}{1.777}{8}{#2}
+	\DrawInput[#3]{#1}{3.666}{1.111}{3}{#2}
+	%\DrawInput[#3]{#1}{3.888}{2.888}{4}{#2}
+	\DrawInput[#3]{#1}{4.333}{3.888}{4}{#2} % used to be 3
+	\DrawInput[#3]{#1}{6.666}{2.000}{3}{#2}
+	\DrawInput[#3]{#1}{7.444}{2.555}{8}{#2}
+	\DrawInput[#3]{#1}{7.777}{3.222}{1}{#2}
+	\DrawInput[#3]{#1}{1.444}{1.333}{9}{#2}f
 }
 
 \tikzstyle{s_datum_ghost}=[color=c_datum_back_ghost,opacity=.333]
@@ -551,7 +588,7 @@
 \newdimen \deltaDim
 \newdimen \offDim
 
-\newcommand{\DrawIngressInput}[5] {
+\newcommand{\DrawIngressInput}[6] {
 	\def \xL{#3}
 	\def \xR{5 + #4}
 	\def \arrowOff{.3}
@@ -566,39 +603,46 @@
 	\pgfmathparse{\arrowOff * 2}
 	\offDim=\pgfmathresult pt
 
-	\DrawInput{s_datum_ghost}{\xL}{#4}{#5}{c_datum_text}
+	\contourlength{\InputContour}
+	\DrawInput[c_ghost_border]{s_datum_ghost}{\xL}{#4}{#5}{c_datum_text}
 	\if \IsGhost 0
 		\ifthenelse{\lengthtest{\deltaDim > \offDim}}
-			{\draw[s_datum_ghost,-stealth,densely dotted,line width=.75pt] (\ox + \xL + \arrowOff, \oy + #4) -- (\ox + \xR - \arrowOff, \oy + #4);}
+			{\draw[s_datum_ghost,-stealth,densely dotted,line width=.75pt,draw=c_ghost_arrow] (\ox + \xL + \arrowOff, \oy + #4) -- (\ox + \xR - \arrowOff, \oy + #4);}
 			{}
-		\DrawInput{#1}{\xR}{#4}{#5}{#2}
+		\DrawInput[#6]{#1}{\xR}{#4}{#5}{#2}
 	\fi % \IsGhost 0
 }
 
-\newcommand {\DrawInputsC}[2] {
-	\DrawIngressInput{#1}{#2}{0.444}{.333}{5}
-	\DrawIngressInput{#1}{#2}{2.444}{.666}{7}
-	\DrawIngressInput{#1}{#2}{3.666}{1.222}{3}
-	\DrawIngressInput{#1}{#2}{3.888}{1.444}{4}
-	\DrawIngressInput{#1}{#2}{4.333}{1.666}{3}
-	\DrawIngressInput{#1}{#2}{3.111}{2.111}{8}
-	\DrawIngressInput{#1}{#2}{6.666}{2.333}{3}
-	\DrawIngressInput{#1}{#2}{1.444}{3.333}{9}
-	\DrawIngressInput{#1}{#2}{7.444}{3.666}{8}
-	\DrawIngressInput{#1}{#2}{7.777}{4.0}{1}
+\newcommand {\DrawInputsC}[3] {
+	% #1 = back color
+	% #2 = text color
+	% #3 = border color
+	\DrawIngressInput{#1}{#2}{0.444}{.333}{5}{#3}
+	\DrawIngressInput{#1}{#2}{2.444}{.666}{7}{#3}
+	\DrawIngressInput{#1}{#2}{3.666}{1.222}{3}{#3}
+	%\DrawIngressInput{#1}{#2}{3.888}{1.444}{4}{#3}
+	\DrawIngressInput{#1}{#2}{4.333}{1.666}{4}{#3} % used to be 3
+	\DrawIngressInput{#1}{#2}{3.111}{2.111}{8}{#3}
+	\DrawIngressInput{#1}{#2}{6.666}{2.333}{3}{#3}
+	\DrawIngressInput{#1}{#2}{1.444}{3.333}{9}{#3}
+	\DrawIngressInput{#1}{#2}{7.444}{3.666}{8}{#3}
+	\DrawIngressInput{#1}{#2}{7.777}{4.0}{1}{#3}
 }
 
-\newcommand {\DrawInputsD}[2] {
-	\DrawIngressInput{#1}{#2}{2.444}{.888}{7}
-	\DrawIngressInput{#1}{#2}{3.666}{1.111}{3}
-	\DrawIngressInput{#1}{#2}{1.444}{1.333}{9}
-	\DrawIngressInput{#1}{#2}{3.111}{1.777}{8}
-	\DrawIngressInput{#1}{#2}{6.666}{1.999}{3}
-	\DrawIngressInput{#1}{#2}{0.444}{2.111}{5}
-	\DrawIngressInput{#1}{#2}{7.444}{2.555}{8}
-	\DrawIngressInput{#1}{#2}{3.888}{2.888}{4}
-	\DrawIngressInput{#1}{#2}{7.777}{3.222}{1}
-	\DrawIngressInput{#1}{#2}{4.333}{3.888}{3}
+\newcommand {\DrawInputsD}[3] {
+	% #1 = back color
+	% #2 = text color
+	% #3 = border color
+	\DrawIngressInput{#1}{#2}{2.444}{.888}{7}{#3}
+	\DrawIngressInput{#1}{#2}{3.666}{1.111}{3}{#3}
+	\DrawIngressInput{#1}{#2}{1.444}{1.333}{9}{#3}
+	\DrawIngressInput{#1}{#2}{3.111}{1.777}{8}{#3}
+	\DrawIngressInput{#1}{#2}{6.666}{2.000}{3}{#3}
+	\DrawIngressInput{#1}{#2}{0.444}{2.111}{5}{#3}
+	\DrawIngressInput{#1}{#2}{7.444}{2.555}{8}{#3}
+	%\DrawIngressInput{#1}{#2}{3.888}{2.888}{4}{#3}
+	\DrawIngressInput{#1}{#2}{7.777}{3.222}{1}{#3}
+	\DrawIngressInput{#1}{#2}{4.333}{3.888}{4}{#3} % used to be 3
 }
 
 \newcommand{\DrawInputsE}[3] {
@@ -725,33 +769,33 @@
 
 }
 
-\newcommand {\DrawInputsI}[2] {
-	\def \InputStyle{3}
-	\DrawInput{#1}{0.333}{.333}{5}{#2}
-	\DrawInput{#1}{1.555}{.666}{9}{#2}
-	\DrawInput{#1}{2.777}{.777}{7}{#2}
-	\DrawInput{#1}{3.222}{2.111}{8}{#2}
-	\DrawInput{#1}{3.999}{1.444}{4}{#2}
-	\DrawInput{#1}{4.444}{1.666}{3}{#2}
-	\DrawInput{#1}{4.777}{1.222}{3}{#2}
-	\DrawInput{#1}{6.666}{2.333}{3}{#2}
-	\DrawInput{#1}{7.444}{3.666}{8}{#2}
-	\DrawInput{#1}{7.777}{4.0}{1}{#2}
+\newcommand {\DrawInputsI}[3] {
+	%\def \InputStyle{3}
+	\DrawInput[#3]{#1}{0.333}{.333}{5}{#2}
+	\DrawInput[#3]{#1}{1.555}{.666}{9}{#2}
+	\DrawInput[#3]{#1}{2.777}{.777}{7}{#2}
+	\DrawInput[#3]{#1}{3.222}{2.111}{8}{#2}
+	\DrawInput[#3]{#1}{3.999}{1.444}{4}{#2}
+	\DrawInput[#3]{#1}{4.444}{1.666}{3}{#2}
+	\DrawInput[#3]{#1}{4.777}{1.222}{3}{#2}
+	\DrawInput[#3]{#1}{6.666}{2.333}{3}{#2}
+	\DrawInput[#3]{#1}{7.444}{3.666}{8}{#2}
+	\DrawInput[#3]{#1}{7.777}{4.0}{1}{#2}
 }
 
-\newcommand {\DrawInputsJ}[2] {
-	\def \InputStyle{2}
-	\DrawInput{#1}{0.333}{0.333}{6}{#2}
-	\DrawInput{#1}{1.222}{.666}{4}{#2}
-	\DrawInput{#1}{1.999}{0.3}{3}{#2}
-	\DrawInput{#1}{2.222}{.666}{4}{#2}
-	\DrawInput{#1}{2.888}{2.111}{9}{#2}
-	\DrawInput{#1}{3.95}{1.555}{8}{#2}
-	\DrawInput{#1}{5.5}{2.222}{7}{#2}
-	\DrawInput{#1}{5.888}{1.333}{1}{#2}
-	\DrawInput{#1}{7.000}{2.333}{5}{#2}
-	\DrawInput{#1}{7.444}{3.444}{2}{#2}
-	\DrawInput{#1}{8.333}{4.0}{6}{#2}
+\newcommand {\DrawInputsJ}[3] {
+	%\def \InputStyle{2}
+	\DrawInput[#3]{#1}{0.333}{0.333}{6}{#2}
+	\DrawInput[#3]{#1}{1.222}{.666}{4}{#2}
+	\DrawInput[#3]{#1}{1.999}{0.3}{3}{#2}
+	\DrawInput[#3]{#1}{2.222}{.666}{4}{#2}
+	\DrawInput[#3]{#1}{2.888}{2.111}{9}{#2}
+	\DrawInput[#3]{#1}{3.95}{1.555}{8}{#2}
+	\DrawInput[#3]{#1}{5.5}{2.222}{7}{#2}
+	\DrawInput[#3]{#1}{5.888}{1.333}{1}{#2}
+	\DrawInput[#3]{#1}{7.000}{2.333}{5}{#2}
+	\DrawInput[#3]{#1}{7.444}{3.444}{2}{#2}
+	\DrawInput[#3]{#1}{8.333}{4.0}{6}{#2}
 }
 
 \newcommand {\DrawInputsK}[4] {
@@ -768,45 +812,87 @@
 	\DrawInput{#2}{9.333}{4.833}{2.3}{#4}
 }
 
+\newcommand {\DrawInputsL}[3] {
+	%\def \InputStyle{3}
+	\DrawInput[#3]{#1}{0.333}{.333}{5}{#2}
+	\DrawInput[#3]{#1}{1.555}{.666}{9}{#2}
+	
+	\DrawInput[#3]{#1}{2.777}{.777}{7}{#2}
+	\DrawInput[#3]{#1}{3.222}{2.111}{8}{#2}
+	
+	\DrawInput[#3]{#1}{4.000}{1.444}{4}{#2}
+	\DrawInput[#3]{#1}{4.444}{1.666}{3}{#2}
+	\DrawInput[#3]{#1}{4.777}{1.222}{3}{#2}
+	
+	\DrawInput[#3]{#1}{6.666}{2.333}{3}{#2}
+	\DrawInput[#3]{#1}{7.444}{3.666}{8}{#2}
+	\DrawInput[#3]{#1}{7.777}{4.0}{1}{#2}
+
+	\DrawInput[#3]{#1}{8.111}{4.111}{6}{#2}
+	\DrawInput[#3]{#1}{9.15}{4.555}{5}{#2}
+}
+
+\newcommand {\DrawInputsM}[3] {
+	%\def \InputStyle{2}
+	\DrawInput[#3]{#1}{0.333}{0.333}{6}{#2}
+	
+	\DrawInput[#3]{#1}{1.222}{.666}{4}{#2}
+
+	\DrawInput[#3]{#1}{2.000}{0.3}{3}{#2}
+	\DrawInput[#3]{#1}{2.222}{.666}{4}{#2}
+	\DrawInput[#3]{#1}{2.888}{2.111}{9}{#2}	
+
+	\DrawInput[#3]{#1}{3.95}{1.555}{8}{#2}
+	
+	\DrawInput[#3]{#1}{5.5}{2.222}{7}{#2}
+	\DrawInput[#3]{#1}{5.888}{1.333}{1}{#2}
+	
+	\DrawInput[#3]{#1}{7.000}{2.333}{5}{#2}
+	\DrawInput[#3]{#1}{7.444}{3.444}{2}{#2}
+	
+	\DrawInput[#3]{#1}{8.333}{4.0}{6}{#2}
+}
+
 
 \newcommand{\DrawGhostInputs} {
 	\def \IsGhost{1}
 	\Version
 	  {\DrawInputsA{c_ghost}{c_ghost_text}{c_ghost_border}}
-	  {\DrawInputsB{c_ghost}{c_ghost_text}}
-	  {\DrawInputsC{c_ghost}{c_ghost_text}}
-	  {\DrawInputsD{c_ghost}{c_ghost_text}}
+	  {\DrawInputsB{c_ghost}{c_ghost_text}{c_ghost_border}}
+	  {\DrawInputsC{c_ghost}{c_ghost_text}{c_ghost_border}}
+	  {\DrawInputsD{c_ghost}{c_ghost_text}{c_ghost_border}}
 	  {\DrawInputsE{c_ghost}{c_ghost_text}{g_ghost_border}}
 	  {\DrawInputsF{c_ghost}{c_ghost_text}}
 	  {\DrawInputsG{c_ghost}{c_ghost}{c_ghost_text}{c_ghost_text}}
 	  {}
 	  {\DrawInputsH{c_ghost}{c_ghost_text}}
 	\VersionMore
-	  {\DrawInputsI{c_ghost}{c_ghost_text}}
-	  {\DrawInputsJ{c_ghost}{c_ghost_text}}
+	  {\DrawInputsI{c_ghost}{c_ghost_text}{c_ghost}}
+	  {\DrawInputsJ{c_ghost}{c_ghost_text}{c_ghost}}
 	  {\DrawInputsK{c_ghost}{c_ghost}{c_ghost_text}{c_ghost_text}}
+	  {\DrawInputsL{c_ghost}{c_ghost_text}{c_ghost_border}}
+	  {\DrawInputsM{c_ghost}{c_ghost_text}{c_ghost_border}}
 	\def \IsGhost{0}
 }
 	
-\colorlet{c_toggle_a}{white}
-\colorlet{c_toggle_b}{violet!60!white}
-
 \newcommand {\DrawInputs} {
 	\Version
 	  {\DrawInputsA{c_datum_back}{c_datum_text}{c_datum_border}}
 	 % {\DrawInputsB{c_datum_text}{c_toggle_b}}
-	  {\DrawInputsB{c_toggle_b}{c_datum_text}}
-	  {\DrawInputsC{c_datum_back}{c_datum_text}}
-	  {\DrawInputsD{c_toggle_b}{c_datum_text}}
+	  {\DrawInputsB{c_toggle_b}{c_datum_text}{c_datum_border}}
+	  {\DrawInputsC{c_datum_back}{c_datum_text}{c_datum_border}}
+	  {\DrawInputsD{c_toggle_b}{c_datum_text}{c_datum_border}}
 	  {\DrawInputsE{c_watermark_e}{c_datum_text}{c_datum_border}}
 	  {\DrawInputsF{c_watermark_f}{c_datum_text}}
 	  {\DrawInputsG{c_datum_text}{c_datum_text}{c_watermark_e}{c_watermark_f}}
 	  {}
 	  {\DrawInputsH{c_datum_back}{c_datum_text}}
 	\VersionMore
-	  {\DrawInputsI{c_frances}{c_datum_text}}
-	  {\DrawInputsJ{c_tyler}{c_datum_text}}
+	  {\DrawInputsI{c_frances}{c_datum_text}{c_frances}}
+	  {\DrawInputsJ{c_tyler}{c_datum_text}{c_tyler}}
 	  {\DrawInputsK{c_frances}{c_tyler}{c_datum_text}{c_datum_text}}
+	  {\DrawInputsL{c_datum_back}{c_datum_text}{c_datum_border}}
+	  {\DrawInputsM{c_datum_back}{c_datum_text}{c_datum_border}}
 }
 
 \newcommand {\DrawMicroBatchBoundaries}[0] {
@@ -1202,6 +1288,22 @@
 		;
 }
 
+\newcommand{\DrawWatermarkLM}[1] {
+		\draw [-, s_watermark, #1] 
+			(\ox - 0.333, \oy + 0.01)
+			to [out=80,in=220] (\ox + 0.111, \oy +  .555) % 5
+			to [out=40,in=205] (\ox + 0.444, \oy +  .777) % 5
+			to [out=25,in=205] (\ox + 1.000, \oy +  1.000) % 5
+			to [out=25, in=220] (\ox + 2.444, \oy +  2.222) % 7
+			to [out=40, in=200] (\ox + 3.111, \oy +  2.555) % 8
+			to [out=20, in=205] (\ox + 6.555, \oy +  3.666) % 3 (\ox + rightmost)
+			to [out=25, in=220] (\ox + 7.333, \oy +  4.222) % 8
+			to [out=40, in=205] (\ox + 7.7, \oy +  4.444) % 1
+			to [out=25, in=205] (\ox + 9.000, \oy +  4.8) % end
+			to [out=25, in=220] (\ox + 10.000, \oy +  5.4) % end
+		;
+}
+
 \newcommand{\DrawWatermark}[1][c_watermark] {
  	\Version
 	  {\DrawWatermarkA[#1]}
@@ -1217,6 +1319,8 @@
 	  {\DrawWatermarkIJK{#1}}
 	  {\DrawWatermarkIJK{#1}}
 	  {\DrawWatermarkIJK{#1}}
+	  {\DrawWatermarkLM{#1}}
+	  {\DrawWatermarkLM{#1}}
 }
 
 \newcommand {\DrawBatchWatermarkAtTo}[3][c_watermark] {
@@ -1344,11 +1448,11 @@
 		\fi
 		\draw[#7,#1,c_proc_time,-] (\ox + #2, \oy +  \dcoTriggerY) -- (\ox + #3, \oy +  \dcoTriggerY);
 	\fi
-	\contourlength{1pt}
+	\contourlength{\OutputContour}
 	\node[#8,font=\bf\sffamily\normalsize] at ({\ox + #2 + ((#3) - (#2)) / 2}, \oy +  #5 - .25) {\contour{#8!25!black}{#6}}; 
 	\if \ShowTiming 1
 		\if \DisableTiming 0
-			\contourlength{1pt}
+			\contourlength{\OutputContour}
 			\node[#8,font=\bf\sffamily\scriptsize,c_proc_time] at ({\ox + #2 + (#3 - #2) / 2}, \oy +  #5 - .5) {\contour{#8!25!black}{\Timing}}; 
 		\fi
 	\fi
@@ -1384,6 +1488,49 @@
 		\DrawLatenessHorizonText{#2}{#3}{#5}
 		%\DrawCustomOutput{#3}{#3 + 1}{#4}{#5}{}{s_late}{c_state_text}{opacity=#1} 
 	\fi
+}
+
+\tikzstyle{s_delay_delta}=[color=c_timeline,densely dotted, line width=.6pt]
+\tikzstyle{s_delay_delta_end}=[s_delay_delta, line width=.5pt, solid]
+
+\newcommand{\DrawDelayDelta}[3]{
+	%\pgfmathparse{#3 + \lateness}
+	%\lateXDim=\pgfmathresult pt
+	
+	%\maxXDim=\maxx pt
+
+	%\ifthenelse{\lengthtest{\lateXDim > \maxXDim}}
+	%	{\def \lateX{\maxx}}
+	%	{\def \lateX{#3 + \lateness}}
+	
+	\def \dddX{#1}
+	\def \dddYmin{#2}
+	\def \dddYmax{#3}
+	
+	\pgfmathsetmacro{\dddYdelta}{\dddYmax - \dddYmin}
+	\pgfmathsetmacro{\dddYdeltaMin}{(\dddYdelta * 60) / 60)}
+	\pgfmathsetmacro{\dddYdeltaSec}{Mod(\dddYdelta * 60, 60)}	
+	\pgfmathprintnumberto[fixed,int trunc,verbatim]{\dddYdeltaMin}{\dddDeltaMin}
+	\pgfmathprintnumberto[fixed,int trunc,verbatim]{\dddYdeltaSec}{\dddDeltaSec}
+	\ifthenelse{\equal{\dddDeltaMin}{0}}
+		{\def \dddMin{}}
+		{\def \dddMin{\dddDeltaMin m\ }}	
+	\ifthenelse{\equal{\dddDeltaSec}{0}}
+		{\def \dddSec{}}
+		{\def \dddSec{\dddDeltaSec s}}	
+	\ifthenelse{\equal{\dddDeltaMin}{0} \AND \equal{\dddDeltaSec}{0}}
+		{\def \dddMin{0s}}
+		{}	
+
+	\pgfmathsetmacro{\dddYmid}{\dddYmin + (\dddYdelta / 2)}
+
+	
+	\draw [s_delay_delta] (\ox + \dddX, \oy +  \dddYmin) -- (\ox + \dddX, \oy + \dddYmax);
+	\draw [s_delay_delta_end] (\ox + \dddX - \latey, \oy +  \dddYmin) -- (\ox + \dddX + \latey, \oy + \dddYmin);
+	\draw [s_delay_delta_end] (\ox + \dddX - \latey, \oy +  \dddYmax) -- (\ox + \dddX + \latey, \oy + \dddYmax);
+	\contourlength{0.66pt}
+	\node[font=\bf\sffamily\scriptsize,c_outlined_text,anchor=west] at (\ox + \dddX + 0.01, \oy + \dddYmid) {\contour{c_outlined_text_outline}{\dddMin\dddSec\ delay}};
+
 }
 
 \def \DefaultOutputBack{c_out_back}
@@ -1499,9 +1646,19 @@
 	\def \XAxisToTen{0}
 \fi
 
+\ifdefined \YAxisToEleven
+\else
+	\def \YAxisToEleven{0}
+\fi
+
 \ifdefined \OutputOverTimeline
 \else
 	\def \OutputOverTimeline{0}
+\fi
+
+\ifdefined \ClipInputs
+\else
+	\def \ClipInputs{0}
 \fi
 
 \newcommand{\TriggersInline}[3][c_timeline] {
@@ -1516,7 +1673,9 @@
 		\DrawIdealWatermark
 	\fi
 	\begin{scope}
-		%\clip (\ox + 0.01, \oy) rectangle (\ox + \maxx, \oy +  #2);
+		\if \ClipInputs 1
+			\clip (\ox + 0.01, \oy) rectangle (\ox + \maxx, \oy +  #2);
+		\fi
 		\DrawInputs
 	\end{scope}
 	\begin{scope}
@@ -1702,7 +1861,7 @@
 \newcommand{\DrawBytesRow}[2] {
 	\def \dbrYoff{#1}
 	\def \dbrText{#2}
-	\contourlength{0.4pt}
+	\contourlength{0.4pt} 
 	\node[font=\bf\ttfamily\tiny,thick,draw opacity=0,fill opacity=0,text opacity=1,c_datum_text] at (\dbX, \dbY + \dbrYoff) {\contour{c_datum_border}{\dbrText}};
 }
 
@@ -1737,7 +1896,7 @@
 	\if \NineIsLate 1
 		\DrawBytes[s_bytes_dropped]{1.444}{3.333}{0101}{1100}{1110}
 	\else
-		\DrawBytes[s_bytes]{1.444}{3.333}{0101}{1100}{1110}
+		\DrawBytes{1.444}{3.333}{0101}{1100}{1110}
 	\fi
 }
 
