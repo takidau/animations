@@ -1,0 +1,69 @@
+\input{diagrams}
+
+\def \FastRender{0}
+\def \ShowWatermarks{0}
+\def \ShowFrame{0}
+\def \YAxisToEleven{1}
+\def \maxy{6}
+
+\newcommand{\Frame}[1] {
+	\def \Yoff{#1}
+	% Fade out state rectangles at the end
+	\DrawIn{\Yoff}{0.000}{6.000}{\def \Fade{\ostate}}
+	\DrawIn{\Yoff}{6.111}{6.111}{\def \Fade{\ofadeA}}
+	\DrawIn{\Yoff}{6.222}{6.222}{\def \Fade{\ofadeB}}
+	\DrawIn{\Yoff}{6.333}{20.00}{\def \Fade{\ofadeC}}
+	
+	% Timeline disappears at top
+	\DrawIn{\Yoff}{0.000}{6.000}{\colorlet{c_line}{c_timeline}}
+	\DrawIn{\Yoff}{6.111}{20.00}{\colorlet{c_line}{c_back}}
+	
+	% Hold timeline position constant at end so diagram height doesn't grow
+	\DrawIn{\Yoff}{0.000}{6.000}{\def \TimelineYoff{\Yoff}}
+	\DrawIn{\Yoff}{6.111}{20.00}{\def \TimelineYoff{6.222}}
+
+	% State rectangles stop growing as they fade out
+	\DrawIn{\Yoff}{0.000}{6.000}{\def \StateYoff{\Yoff}}
+	\DrawIn{\Yoff}{6.111}{20.00}{\def \StateYoff{6.000}}
+	
+	\TriggersDiagram[c_line]{\TimelineYoff}{
+		\DrawIn{\Yoff}{0.333}{3.222}{\DrawState[\Fade]{0}{2}{0.000}{\StateYoff}{5}}
+		\DrawIn{\Yoff}{3.333}{6.333}{\DrawState[\Fade]{0}{2}{0.000}{\StateYoff}{14}}
+		\DrawIn{\Yoff}{5.333}{20.00}{\DrawOutput{0}{2}{0.000}{5.333}{14}}
+		\DrawIn{\Yoff}{2.333}{20.00}{\DrawOutput{0}{2}{0.000}{2.333}{5}}
+		
+		\DrawIn{\Yoff}{0.666}{1.111}{\DrawState[\Fade]{2}{4}{0.000}{\StateYoff}{7}}
+		\DrawIn{\Yoff}{1.222}{2.000}{\DrawState[\Fade]{2}{4}{0.000}{\StateYoff}{10}}
+		\DrawIn{\Yoff}{2.111}{6.333}{\DrawState[\Fade]{2}{4}{0.000}{\StateYoff}{18}}
+		\DrawIn{\Yoff}{2.666}{20.00}{\DrawOutput{2}{4}{0.000}{2.666}{18}}
+		
+		\DrawIn{\Yoff}{1.666}{6.333}{\DrawState[\Fade]{4}{6}{0.000}{\StateYoff}{4}}
+		\DrawIn{\Yoff}{3.666}{20.00}{\DrawOutput{4}{6}{0.000}{3.666}{4}}
+		
+		\DrawIn{\Yoff}{2.333}{3.555}{\DrawState[\Fade]{6}{8}{0.000}{\StateYoff}{3}}
+		\DrawIn{\Yoff}{3.666}{3.888}{\DrawState[\Fade]{6}{8}{0.000}{\StateYoff}{11}}
+		\DrawIn{\Yoff}{4.000}{6.333}{\DrawState[\Fade]{6}{8}{0.000}{\StateYoff}{12}}
+		\DrawIn{\Yoff}{4.333}{20.00}{\DrawOutput{6}{8}{0.000}{4.333}{12}}
+
+
+		\DrawIn{\Yoff}{0.333}{2.222}{\DrawDelayDelta{0.777}{0.333}{\Yoff}}
+		\DrawIn{\Yoff}{2.333}{20.00}{\DrawDelayDelta{0.777}{0.333}{2.333}}
+		\DrawIn{\Yoff}{3.333}{5.222}{\DrawDelayDelta{1.777}{3.333}{\Yoff}}
+		\DrawIn{\Yoff}{5.333}{20.00}{\DrawDelayDelta{1.777}{3.333}{5.333}}
+
+		\DrawIn{\Yoff}{0.666}{2.555}{\DrawDelayDelta{2.111}{0.666}{\Yoff}}
+		\DrawIn{\Yoff}{2.666}{20.00}{\DrawDelayDelta{2.111}{0.666}{2.666}}
+
+		\DrawIn{\Yoff}{1.666}{3.555}{\DrawDelayDelta{4.666}{1.666}{\Yoff}}
+		\DrawIn{\Yoff}{3.666}{20.00}{\DrawDelayDelta{4.666}{1.666}{3.666}}
+
+		\DrawIn{\Yoff}{2.333}{4.222}{\DrawDelayDelta{6.333}{2.333}{\Yoff}}
+		\DrawIn{\Yoff}{4.333}{20.00}{\DrawDelayDelta{6.333}{2.333}{4.333}}
+	}
+}
+
+\newcommand{\FastFrames}{50,...,60}
+\newcommand{\AllFrames}{74,0,1,...,74}
+\RenderFrames
+
+\end{document}

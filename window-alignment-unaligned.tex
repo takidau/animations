@@ -1,0 +1,182 @@
+\input{diagrams}
+\def \XAxisToTen{1}
+\def \ShowLateData{0}
+\def \ShowAlignmentHelpers{0}
+\def \FastRender{1}
+\def \DrawDefaultLegend{0}
+\def \oout{.3} % More transparency for outputs, since we're using bolder colors
+\def \BackRectBorderWidth{2pt}
+%\def \BackBorder{red}%c_back}
+\def \DrawBackRect{1}
+\def \OutputOverTimeline{1}
+%\newcommand{\BendArrow}[1] {
+
+\newcommand{\sumA}[1]{
+  \def \InputVersionSet{2}
+  \def \InputVersion{4}
+  \ResetMaxx
+  \def \ox{0}
+  \def \oy{\maxy / 2 + 1.5}
+  %\def \DefaultOutputBack{c_frances}
+  \def \DiagramName{Key A}
+  #1
+}
+
+\newcommand{\sumB}[1]{
+  \def \InputVersionSet{2}
+  \def \InputVersion{5}
+  \ResetMaxx
+  \def \ox{\maxx + 3.5}
+  \def \oy{\maxy / 2 + 1.5}
+  %\def \DefaultOutputBack{c_tyler}
+  \def \DiagramName{Key B}
+  #1
+}
+	
+\def \midx{\maxx + 1}
+\def \midy{\maxy / 2}
+
+\newcommand{\DrawOutputMarker}[2]{
+	\node[circle,fill opacity=1,fill=c_yellow,draw opacity=1,draw=c_yellow,inner sep=2pt] at (\ox + #1, \oy + #2) {};
+}
+
+\newdimen \CurDim
+\newdimen \MaxDim
+
+\newcommand{\DrawMarkedOutput}[6]{
+        \def \MinX{#1}
+        \def \MinY{#2}
+        %\def \MaxX{#3}
+        \def \MaxX{#1}
+        \def \MaxY{#4}
+        \def \CurY{#6}
+        \def \CurX{\MinX + ((\MaxX - \MinX) * (\CurY - \MinY) / (\MaxY - \MinY))}
+        
+        \CurDim=\CurY pt
+        \MaxDim=\MaxY pt
+        \ifthenelse{\lengthtest{\CurDim > \MaxDim}}
+        {
+          	\def \CurX{\MaxX}
+		\def \CurY{\MaxY}
+	}{}
+        
+	\DrawOutputMarker{\MinX}{\MinY}
+	\draw [line width=1pt,c_yellow] ({\ox + \CurX}, \oy + \CurY) -- (\ox + \MinX, \oy + \MinY);
+	\DrawInput{black,fill opacity=1}{\CurX}{\CurY}{#5}{c_yellow,draw opacity=1,text opacity=1}
+	%\DrawInputNodeWonky{\InputX}{\InputY}{#4}{s_common}{rectangle, inner sep=4.5pt}
+	%\node[fill=black,fill opacity=1,draw=c_yellow,draw opacity=1,text opacity=1,text=c_yellow,draw opacity=1,text opacity=1,font=\bf\sffamily,thick,c_yellow,draw opacity=1,text opacity=1] at (\ox + #1, \oy + #2) {#3};
+}
+
+\newcommand{\DrawStatex}[6]{
+	\DrawState{#1}{#2}{#3}{#4}{#5}
+	%\DrawInput{black!50!white}{#6}{#4}{#5}{\DefaultOutputBack!50!white}
+}
+
+\newdimen \startY
+\newdimen \endY
+
+
+\newcommand{\Arrow}[3]{
+	\def \aXstart{#1}
+	\def \aXend{#2}
+	\def \aY{#3}
+	\draw [s_delay_delta] (\ox + \aXstart, \oy + \aY) -- (\ox + \aXend, \oy + \aY);
+	\filldraw[c_bullet_fill, draw=c_bullet_draw] (\ox + \aXstart, \oy + \aY) circle [radius=2pt];
+}
+	
+\newcommand{\LeftArrow}[2]{
+	\Arrow{11.5}{#1}{#2}
+}
+
+\newcommand{\RightArrow}[2]{
+	\Arrow{-1.8}{#1}{#2}
+}
+
+\newcommand{\Frame}[2][c_timeline] {
+\TriggersMulti{
+  %\draw [->, s_watermark, color=white] (\midx - 0.5, \midy - 2.5) -- (\midx + 1.25, \midy - .5);
+
+  \sumA{\TriggersInline{#2}{a
+	\DrawIn{#2}{0.333}{0.777}{\DrawState{0}{2}{0.000}{#2}{5}}	
+	\DrawIn{#2}{0.666}{1.000}{\DrawState{0}{2}{0.000}{#2}{14}}	
+
+	%\DrawIn{#2}{0.777}{2.000}{\DrawStatex{2.777}{3.777}{0.000}{#2}{1.0}{3.777}}	
+
+	%\DrawIn{#2}{1.222}{1.333}{\DrawStatex{4.777}{5.777}{0.000}{#2}{1.0}{5.777}}	
+	%\DrawIn{#2}{1.444}{1.555}{\DrawStatex{3.999}{5.777}{0.000}{#2}{1.8}{5.777}}	
+	%\DrawIn{#2}{1.666}{2.000}{\DrawStatex{3.999}{5.777}{0.000}{#2}{1.8}{5.777}}	
+
+	%\DrawIn{#2}{2.111}{2.555}{\DrawStatex{2.777}{5.777}{0.000}{#2}{3.0}{5.777}}	
+	
+
+	%\DrawIn{#2}{2.333}{3.555}{\DrawStatex{6.666}{7.666}{0.000}{#2}{1.0}{7.666}}	
+	%\DrawIn{#2}{3.666}{3.888}{\DrawStatex{6.666}{8.444}{0.000}{#2}{1.8}{8.444}}	
+	%\DrawIn{#2}{3.666}{3.888}{\DrawStatex{6.666}{8.444}{0.000}{#2}{1.8}{8.444}}	
+	%\DrawIn{#2}{4.000}{4.444}{\DrawStatex{6.666}{8.777}{0.000}{#2}{2.1}{8.777}}	
+
+	\DrawAt{#2}{0}{\DrawOutputz{0}{2}{0.000}{1.000}{14}{on-time}}
+	\LeftArrow{2}{1.000}
+
+	\DrawAt{#2}{0}{\DrawOutputz{2}{4}{0.000}{2.5}{B}{on-time}}
+	\LeftArrow{4}{2.5}
+
+	\DrawAt{#2}{0}{\DrawOutputz{4}{6}{0.000}{2.666}{C}{on-time}}
+	\LeftArrow{6}{2.666}
+
+	\DrawAt{#2}{0}{\DrawOutputz{6}{8}{0.000}{4.37}{D}{on-time}}
+	\LeftArrow{8}{4.37}
+
+	\DrawAt{#2}{0}{\DrawOutputz{8}{10}{0.000}{5.444}{E}{on-time}}
+	\LeftArrow{10}{5.444}
+  }}
+  \sumB{\TriggersInline{#2}{
+	%\DrawIn{#2}{0.3}{0.555}{\DrawStatex{1.999}{2.999}{0.000}{#2}{1.0}{2.999}}	
+	%\DrawIn{#2}{0.333}{0.555}{\DrawStatex{0.333}{1.333}{0.000}{#2}{1.0}{1.333}}	
+
+	%\DrawIn{#2}{0.666}{2.000}{\DrawStatex{0.333}{3.222}{0.000}{#2}{2.9}{3.222}}	
+	%\DrawIn{#2}{2.111}{2.444}{\DrawStatex{0.333}{3.888}{0.000}{#2}{3.5}{3.888}}	
+	
+	%\DrawIn{#2}{1.555}{2.555}{\DrawStatex{3.95}{4.95}{0.000}{#2}{1.0}{4.95}}	
+
+	%\DrawIn{#2}{1.333}{2.111}{\DrawStatex{5.888}{6.888}{0.000}{#2}{1.0}{6.888}}	
+	%\DrawIn{#2}{2.222}{3.111}{\DrawStatex{5.5}{6.888}{0.000}{#2}{1.4}{6.888}}	
+
+	%\DrawIn{#2}{2.333}{3.333}{\DrawStatex{7.000}{8.000}{0.000}{#2}{1.0}{8.000}}	
+	%\DrawIn{#2}{3.444}{3.888}{\DrawStatex{7.000}{8.444}{0.000}{#2}{1.4}{8.444}}	
+	%\DrawIn{#2}{4.000}{4.777}{\DrawStatex{7.000}{9.333}{0.000}{#2}{2.3}{9.333}}	
+
+	\DrawAt{#2}{0}{\DrawOutputz{0}{1}{0.000}{0.777}{14}{on-time}}
+	\RightArrow{0}{0.777}
+	
+	\DrawAt{#2}{0}{\DrawOutputz{1}{3}{0.000}{2.4}{B}{on-time}}
+	\RightArrow{1}{2.4}
+
+	\DrawAt{#2}{0}{\DrawOutputz{3}{5}{0.000}{2.555}{C}{on-time}}
+	\RightArrow{3}{2.555}
+
+	\DrawAt{#2}{0}{\DrawOutputz{5}{7}{0.000}{3.777}{D}{on-time}}
+	\RightArrow{5}{3.777}
+
+	\DrawAt{#2}{0}{\DrawOutputz{7}{9}{0.000}{4.444}{E}{on-time}}
+	\RightArrow{7}{4.444}
+  }}
+  
+  \def \wmx{\maxx + .5}
+  \def \wmy{-5.9}
+  %\WatermarkLegend[0.5]{\wmx}{\wmy}{Mobile Scores - Input Watermark}{s_watermark,c_watermark_e}
+  %\WatermarkLegend[0.5]{\wmx}{\wmy - .4}{Mobile Scores - Output Watermark}{s_output_watermark,c_watermark_e}
+  %\WatermarkLegend[0.5]{\wmx}{\wmy - .8}{Console Scores - Input Watermark}{s_watermark,c_watermark_f}
+  %\WatermarkLegend[0.5]{\wmx}{\wmy - 1.2}{Console Scores - Output Watermark}{s_output_watermark,c_watermark_f}
+  %\WatermarkLegend[0.5]{\wmx}{\wmy - 1.6}{Top Teams - Input Watermark}{s_watermark,c_watermark_g,line width=2pt}
+  %\WatermarkLegend[0.5]{\wmx}{\wmy - 2.0}{Top Teams - Output Watermark}{s_watermark,white,densely dotted,line width=2pt}
+
+  % Already commented out before...  
+  %\WatermarkLegend[0.5]{\wmx}{\wmy - 2.0}{Top Teams - Output Watermark}{s_output_watermark,c_datum_back}
+}
+}
+
+\newcommand{\FastFrames}{65}%,0,1,...,20}
+\newcommand{\AllFrames}{65,0,1,...,65}
+\RenderFrames
+
+\end{document}
