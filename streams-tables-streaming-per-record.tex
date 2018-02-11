@@ -32,7 +32,7 @@
 	\def \stYBoundBoost{0}
 	\def \stYBoundBoostDown{0}
 	\def \stYAxisLabel{0}
-	\def \stLabel{(INPUT BYTES)}
+	\def \stLabel{Input bytes}
 	\StreamInline{
 		\DrawBytesA
 	}
@@ -46,14 +46,14 @@
 	\def \stYBoundBoost{0}
 	\def \stYBoundBoostDown{0}
 	\def \stYAxisLabel{0}
-	\def \stLabel{(USER SCORES)}
+	\def \stLabel{User scores}
 	\StreamInline{
-		\DrawInputsA{c_datum_back}{c_datum_text}
+		\DrawInputsA{c_datum_back}{c_datum_text}{c_datum_border}
 	}
 
 	\def \stY{4.5}
-	\DrawDivider{4.5}{1}{3.5}
-	\node[s_timepoint, rotate=0, c_white] at (\stX - 2.25, \stY) {PARSE};		
+	\DrawDivider{4.5}{1}{\stMaxMargin}
+	\node[s_margin_op] at (\stX - \stMargin, \stY) {PARSE};		
 
 	\def \DebugStreamTable{0}
 	\def \stX{0}
@@ -63,7 +63,7 @@
 	\def \stYBoundBoost{0}
 	\def \stLabel{SUM}
 	\TableInline{
-		\DrawInputsA{c_ghost}{c_ghost_text}
+		\DrawInputsA{c_ghost}{c_ghost_text}{c_ghost_border}
 		\def \diOffset{4}
 		\DrawIn{\stYoff}{0.333}{3.222}{\DrawTableCell{0}{2}{5}}
 		\DrawIn{\stYoff}{3.333}{12.000}{\DrawTableCell{0}{2}{14}}
@@ -88,7 +88,7 @@
 	\def \stYBoundBoost{0.5}
 	\def \stYBoundBoostDown{0}
 	\def \stYAxisLabel{0}
-	\def \stLabel{(TEAM SCORES)}
+	\def \stLabel{Team scores}
 	\StreamInline{
 		\def \diOffset{4}
 		\DrawTableOutputz{0.333}{0}{2}{5}

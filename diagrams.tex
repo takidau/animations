@@ -1847,7 +1847,8 @@
 }
 
 \newcommand{\DrawTableDivider}[1] {
-	\DrawDivider{#1}{3.5}{3.5}
+	\pgfmathsetmacro{\dtdW}{\stMargin + 1}
+	\DrawDivider{#1}{\dtdW}{\dtdW}
 }
 
 \newcommand{\DrawEndOfStream}[1] {
@@ -1925,6 +1926,17 @@
 	\DrawState[#1]{\dtXstart}{\dtXend}{\stY - \oy}{\stY + \stH - \oy}{\dtText}
 }
 
+% Originally 2.25
+\ifdefined \stMargin
+\else
+	\def \stMargin{1.75}
+\fi
+\ifdefined \stPadding
+\else
+	\def \stPadding{1}
+\fi
+\pgfmathsetmacro{\stMaxMargin}{\stMargin + \stPadding}
+
 \newcommand{\StreamTableInline}[2] {
 	% Requires the following macros be predefined as input parameters
 	% \stX, \stY, \stW, \stH, \stYoff, \stDrawYAxis, \stYMinBase & \stYAxisLabel (both only if \stDrawYAxis is 1),
@@ -1946,7 +1958,7 @@
     	%    verbatim,
 	%]{\stSecTmp}{\stSec}
 	%\BoundingBox{\stX}{\stY}{\stW}{\stH}{1}{0}{c_blue}
-		
+
 	% Main bounding box
 	\if \DebugStreamTable 1	
 	\else
@@ -1966,14 +1978,14 @@
 	\else
 		\end{scope}
 		\begin{scope}
-		\clip (\stX - 3.5, \stY) rectangle (\stX, \stYH);
+		\clip (\stX - \stMaxMargin, \stY) rectangle (\stX, \stYH);
 	\fi	
 	\if \stDrawYAxis 1
 		\DrawYAxis{\stX}{1}
 		\if \stYAxisLabel 1
 			\node[s_legend,rotate=-90, c_proc_time] at (\stX - 0.75, \stY + \stH / 2) {Processing Time};	
 		\fi
-		\node[s_margin_data] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};		
+		\node[s_margin_data] at (\stX - \stMargin, \stY + \stH / 2) {\stLabel};		
 	\else
 		% The 69 is to make sure the height of the clock stays constant even with the
 		% Fira Sans font, which has a variable amount of upward and downward swoop.
@@ -1982,7 +1994,7 @@
 			\clip (\stX - 1.17, \stY - \stH) rectangle (\stX + 2, \stY + \stH);
 			\node[s_timepoint, rotate=0, c_proc_time, anchor=west] at (\stX - 1.6, \stY + \stH / 2) {69 12:\stMin:\stSec};
 		\end{scope}
-		\node[s_margin_op] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};
+		\node[s_margin_op] at (\stX - \stMargin, \stY + \stH / 2) {\stLabel};
 	\fi
 
 	% Right margin
@@ -1990,11 +2002,11 @@
 	\else
 		\end{scope}
 		\begin{scope}
-		\clip (\stXW, \stY) rectangle (\stXW + 3.5, \stYH);
+		\clip (\stXW, \stY) rectangle (\stXW + \stMaxMargin, \stYH);
 	\fi	
 	\if \stDrawYAxis 1
 		\DrawYAxis{\stXW}{0}
-		\node[s_margin_op] at (\stXW + 2.25, \stY + \stH / 2) {STREAM};
+		\node[s_margin_op] at (\stXW + \stMargin, \stY + \stH / 2) {STREAM};
 	\else
 		% The 69 is to make sure the height of the clock stays constant even with the
 		% Fira Sans font, which has a variable amount of upward and downward swoop.
@@ -2003,7 +2015,7 @@
 			\clip (\stXW - 0.3, \stY - \stH) rectangle (\stXW + 1.17, \stY + \stH);
 			\node[s_timepoint, rotate=0, c_proc_time, anchor=west] at (\stXW + 0.05, \stY + \stH / 2) {12:\stMin:\stSec\ \ 69};
 		\end{scope}
-		\node[s_margin_op] at (\stXW + 2.25, \stY + \stH / 2) {TABLE};
+		\node[s_margin_op] at (\stXW + \stMargin, \stY + \stH / 2) {TABLE};
 	\fi
 	
 	\if \DebugStreamTable 1

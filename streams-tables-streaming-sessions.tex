@@ -3,6 +3,7 @@
 % convert -density 600 classic-batch.pdf classic-batch-%02d.png
 % convert -delay 100 -loop 0 classic-batch*.png classic-batch.gif
 
+\def \stPadding{1.15}
 \input{diagrams}
 
 \def \FastRender{0}
@@ -61,9 +62,8 @@
 	}
 	
 	\def \stY{6.5}
-	\DrawDivider{6.5}{1}{3.5}
-	\node[s_margin_op] at (\stX - 2.25, \stY) {PARSE};		
-
+	\DrawDivider{6.5}{1}{\stMaxMargin}
+	\node[s_margin_op] at (\stX - \stMargin, \stY) {PARSE};		
 
 	\def \DebugStreamTable{0}
 	\def \stX{0}
@@ -88,8 +88,8 @@
 	}
 
 	\def \stY{4.5}
-	\DrawDivider{4.5}{1}{3.5}
-	\node[s_margin_op] at (\stX - 2.25, \stY) {WINDOW};		
+	\DrawDivider{4.5}{1}{\stMaxMargin}
+	\node[s_margin_op] at (\stX - \stMargin, \stY) {WINDOW};		
 
 	\def \DebugStreamTable{0}
 	\def \stX{0}
@@ -109,7 +109,6 @@
 		\DrawIn{\stYoff}{2}{20}{\DrawWindowedRate{2.444}{3.444}{2.05}{7}}
 
 		\DrawIn{\stYoff}{0}{1.222}{\DrawWindowedRate{3.666}{4.666}{1.222}{3}}
-		%\DrawIn{\stYoff}{1.222}{1.333}{\DrawTableCell{3.666}{4.666}{3}}
 		\DrawIn{\stYoff}{1.222}{20}{\DrawWindowedRate{3.666}{4.666}{1.27}{3}}
 
 		\DrawIn{\stYoff}{0}{1.777}{\DrawWindowedRate{3.666}{5.333}{1.777}{7}}
@@ -133,13 +132,6 @@
 
 		\DrawIn{\stYoff}{0}{4.000}{\DrawWindowedRate{6.666}{8.777}{4.000}{12}}
 		\DrawIn{\stYoff}{4.000}{20}{\DrawTableCell{6.666}{8.777}{12}}
-		%\DrawIn{\stYoff}{2.111}{12.000}{\DrawTableCell{2}{4}{18}}
-		
-		%\DrawIn{\stYoff}{1.666}{12.000}{\DrawTableCell{4}{6}{3}}
-
-		%\DrawIn{\stYoff}{2.333}{3.555}{\DrawTableCell{6}{8}{3}}
-		%\DrawIn{\stYoff}{3.666}{3.888}{\DrawTableCell{6}{8}{11}}
-		%\DrawIn{\stYoff}{4.000}{12.000}{\DrawTableCell{6}{8}{12}}
 	}
 	
 	\def \DebugStreamTable{0}
@@ -155,7 +147,6 @@
 	\StreamInline{
 		\def \diOffset{6.25}
 		\DrawTableOutputz{0.333}{0.444}{1.444}{5}
-		%\DrawTableOutputz{3.333}{0}{2}{14}
 
 		\DrawTableOutputz{0.666}{2.444}{3.444}{7}
 		\if \WithRetractions 1
@@ -184,14 +175,6 @@
 		\fi
 		\DrawIn{\stYoff}{3.222}{20}{\DrawWindowedOutputz{6.666}{8.444}{3.222}{11}}
 		\DrawIn{\stYoff}{4.000}{20}{\DrawWindowedOutputz{6.666}{8.777}{4.000}{12}}
-		%\DrawTableOutputz[c_retraction_back]{1.222 + .25}{3.666}{4.666}{-13}
-		%\DrawTableOutputz{2.111}{2}{4}{18}
-
-		%\DrawTableOutputz{1.666}{4}{6}{4}
-
-		%\DrawTableOutputz{2.333}{6}{8}{3}
-		%\DrawTableOutputz{3.666}{6}{8}{11}
-		%\DrawTableOutputz{4.000}{6}{8}{12}
 	}
 	
 	\DrawXAxis{8.5}{1}
@@ -205,7 +188,7 @@
 }{}
 }
 
-\newcommand{\FastFrames}{70,...,110}
+\newcommand{\FastFrames}{70}
 \newcommand{\AllFrames}{0,1,...,142}
 \RenderFrames
 
