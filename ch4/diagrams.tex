@@ -1,0 +1,2285 @@
+% NAME=streaming-wm && time convert -density 300 -delay 15 -loop 0 $NAME.pdf $NAME.gif && convert "$NAME.gif[-1]" $NAME-final.png
+
+\documentclass[usenames,dvipsnames,tikz,convert={outfile=\jobname.png}]{standalone}
+\usepackage{graphicx}
+\usepackage{balance}  % for  \balance command ON LAST PAGE  (only there!)
+\usepackage{color}
+\usepackage{listings}
+\usepackage{courier}
+%\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{textgreek}
+\usepackage{verbatim}
+\usepackage{setspace}
+\usepackage[outline]{contour}
+\usepackage{lmodern}
+\usepackage{ifthen}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{eurosym}
+
+\def \ShowTiming{0}
+\def \DisableTiming{0}
+
+% Annoying global flag used to trigger ghost choices
+\def \IsGhost{0}
+\ifdefined \NineIsLate
+\else
+	\def \NineIsLate{0}
+\fi
+\ifdefined \UsePerfectWatermark
+\else
+	\def \UsePerfectWatermark{0}
+\fi
+
+\ifdefined \StreamsTables
+\else
+	\def \StreamsTables{0}
+\fi
+
+%\if \StreamsTables 0
+	% Roboto
+	% http://www.tug.dk/FontCatalogue/robotoregular/
+%	\usepackage[sfdefault]{roboto}  %% Option 'sfdefault' only if the base font of the document is to be sans serif
+%	\usepackage[T1]{fontenc}
+
+% UWR Nimbus Sans
+% http://www.tug.dk/FontCatalogue/urwnimbussans/
+%\usepackage[scaled]{helvet}
+%\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+%\usepackage[T1]{fontenc}
+
+%\else
+	% Fira Sans
+	% http://www.tug.dk/FontCatalogue/firasansnewtxsf/
+	\usepackage[T1]{fontenc}
+	\usepackage[sfdefault,scaled=.85]{FiraSans}
+	\usepackage{newtxsf}
+%\fi
+
+\SetSymbolFont{letters}{bold}{OML}{cmbr}{bx}{it}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{tikz}
+\usetikzlibrary{calc} % for let
+\usetikzlibrary{shapes,snakes} % for let
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+
+\ifdefined \ColorScheme
+\else
+	\def \ColorScheme{1} % light
+\fi
+
+\definecolor{c_grey}{HTML}{CCCCCC}
+
+\ifdefined \OutputContour
+\else
+	\def \OutputContour{1pt}
+\fi
+
+\if \ColorScheme 1 % white
+	\definecolor{c_blue_base}{HTML}{7788EE} %FF2222}  %8899FF %4285F4}
+	\colorlet{c_blue}{c_blue_base!100!black}
+	\definecolor{c_red_base}{HTML}{FF848F} %FF8888} %EA4335}
+	\colorlet{c_red}{c_red_base!100!black}
+	\definecolor{c_yellow}{HTML}{FFCC22} % FBB405
+	\definecolor{c_green_base}{HTML}{33CC77} %34A853}
+	\colorlet{c_green}{c_green_base!100!black}
+
+	\definecolor{c_back_dark}{HTML}{FFFFFF}
+	\definecolor{c_back}{HTML}{FFFFFF}
+
+	\def \InputContour{0.65pt}
+	\definecolor{c_datum_back}{HTML}{505050} % orig={7BCFA9} %E57368}
+	\definecolor{c_datum_border}{HTML}{000000} % orig={7BCFA9} %E57368}
+	\tikzstyle{s_datum_back}=[c_datum_back] 
+	\definecolor{c_datum_back_ghost}{HTML}{CCCCCC}%E57368}
+	\definecolor{c_datum_text}{HTML}{FFFFFF}
+	\colorlet{c_state_back}{c_grey!60!black}%blue_light}
+
+	\definecolor{c_timeline}{HTML}{000000} %888888}%76A7FA}
+	\definecolor{c_ghost}{HTML}{CFCFCF} % BBBBBB
+	\definecolor{c_ghost_text}{HTML}{EEEEEE} % DDDDDD
+	\definecolor{c_ghost_border}{HTML}{999999}
+	\definecolor{c_ghost_arrow}{HTML}{777777}
+	\colorlet{c_legend}{black}
+	\tikzstyle{s_dropped}=[red!80!white,draw opacity=1] 
+	\definecolor{c_dropped_border}{HTML}{660000} 
+
+	%\colorlet{c_outlined_text}{black}%white!25!black}
+	%\definecolor{c_outlined_text_outline}{HTML}{EEEEEE}
+	\colorlet{c_outlined_text}{white}
+	\colorlet{c_outlined_text_outline}{white!25!black}
+	\colorlet{c_tomb}{black}
+	\definecolor{c_ideal}{rgb}{.8, .8, .8}
+	
+	\colorlet{c_bullet_draw}{black}
+	\colorlet{c_bullet_fill}{white!25!black}
+	
+	\colorlet{c_toggle_a}{white}
+	\colorlet{c_toggle_b}{RubineRed}
+\else % dark
+	\definecolor{c_blue}{HTML}{76A7FA}
+	\definecolor{c_red}{HTML}{ED9D97}
+	\definecolor{c_yellow}{HTML}{FBCB43}
+	\definecolor{c_green}{HTML}{7BCFA9}
+
+	\definecolor{c_back_dark}{HTML}{3D3D3D}
+	\definecolor{c_back}{HTML}{5D5D5D}
+
+	\def \InputContour{0pt}
+	\definecolor{c_datum_back}{HTML}{FFFFFF} % orig={7BCFA9} %E57368}
+	\definecolor{c_datum_border}{HTML}{000000}
+	\tikzstyle{s_datum_back}=[c_datum_back] 
+	\definecolor{c_datum_back_ghost}{HTML}{DDDDDD}%E57368}
+	\definecolor{c_datum_text}{rgb}{0, 0, 0}
+	\colorlet{c_state_back}{c_grey}%blue_light}
+
+	\definecolor{c_timeline}{HTML}{FFFFFF}%76A7FA}
+	\definecolor{c_ghost}{HTML}{666666}
+	\definecolor{c_ghost_text}{HTML}{3A3A3A}
+	\definecolor{c_ghost_border}{HTML}{3A3A3A}
+	\colorlet{c_ghost_arrow}{c_datum_back_ghost}
+	\colorlet{c_legend}{white}
+	\tikzstyle{s_dropped}=[red!60!white,draw opacity=.25] 
+	\definecolor{c_dropped_border}{HTML}{660000} 
+
+	\colorlet{c_outlined_text}{white}
+	\colorlet{c_outlined_text_outline}{white!25!black}
+	\colorlet{c_tomb}{white}
+	\definecolor{c_ideal}{rgb}{.5, .5, .5}
+
+	\colorlet{c_bullet_draw}{white!25!black}
+	\colorlet{c_bullet_fill}{white}
+	
+	\colorlet{c_toggle_a}{white}
+	\colorlet{c_toggle_b}{violet!60!white}
+\fi
+
+\colorlet{c_blue_light}{c_blue!60!white}
+\colorlet{c_yellow_light}{c_yellow!80!white}
+\colorlet{c_yellow_dark}{c_yellow!80!black}
+\definecolor{c_white}{HTML}{FFFFFF}
+
+\definecolor{c_back_light}{HTML}{7D7D7D}
+\colorlet{c_state_text}{c_white}%yellow_light}
+\colorlet{c_out_back}{c_blue}
+\colorlet{c_out_text}{c_yellow}
+
+\definecolor{c_trigger}{HTML}{FFFFFF}%76A7FA}
+\colorlet{c_retraction_back}{c_red}
+\colorlet{c_retraction_text}{c_red}
+
+\definecolor{c_proc_time_dark}{HTML}{6697EA}
+\colorlet{c_proc_time}{c_green}
+\definecolor{c_proc_time_light}{HTML}{86B7FF}
+\colorlet{c_event_time}{c_blue}
+
+\definecolor{c_watermark_dark}{HTML}{DD8D87}
+\colorlet{c_watermark}{c_green}
+\definecolor{c_watermark_light}{HTML}{FDADA7}
+\definecolor{c_output_watermark}{HTML}{CCCCFF}
+
+\colorlet{c_boundary}{c_proc_time}
+
+\colorlet{c_frances}{YellowOrange}
+\colorlet{c_tyler}{Orchid}
+
+\definecolor{amethyst}{rgb}{0.9, 0.7, 1}
+
+\colorlet{c_watermark_e}{c_watermark_light}
+\colorlet{c_watermark_e_out}{c_watermark_dark}
+\colorlet{c_watermark_f}{c_proc_time_light}
+\colorlet{c_watermark_f_out}{c_proc_time_dark}
+\colorlet{c_watermark_g}{c_yellow}
+\colorlet{c_perfect_watermark}{c_green} %{c_watermark!66!black}
+
+\tikzstyle{s_margin_op}=[s_timepoint, rotate=0, c_legend]
+\tikzstyle{s_margin_data}=[s_margin_op, font=\itshape]
+
+% Opacities
+\def \ostate{.222}%.111}%.333} %.7070}
+\ifdefined \oout
+\else
+	\def \oout{.444}%.333} %0.796875
+\fi
+\def \oretraction{.333} % 0.75
+\def \otrigger{.5}
+
+\def \ofadeA{.1} %.2
+\def \ofadeB{.05} %.1
+\def \ofadeC{.01} 
+
+\ifdefined \BackBorder
+\else
+	\def \BackBorder{c_back_dark}
+\fi
+
+\ifdefined \BackBorderWidth
+\else
+	\def \BackBorderWidth{1ex}
+\fi
+
+\newcommand{\TikzDiagram}[2][8cm] {
+\begin{tikzpicture}
+[color=white,show background rectangle, background rectangle/.style={fill=\BackBorder},/tikz/inner frame sep=\BackBorderWidth,font=\sffamily]
+	#2
+\end{tikzpicture}
+\newpage
+}
+
+\newcommand{\WindowBrace}[5] {
+	\draw [line width=1pt,gray] (\ox + #1, #2) -- (#1 - #4, #2);
+	\draw [line width=1pt,gray] (\ox + #1, #3) -- (#1 - #4, #3);
+	\draw [line width=1pt,gray] (\ox + #1 - #4, #2) -- (#1 - #4, #3);
+	\draw [line width=1pt,gray] (\ox + #1 - #4, {#2 - (#2 - #3) / 2}) -- (#1 - #4 - #4, {#2 - (#2 - #3) / 2});
+	\node [gray,font=\large] at (\ox + #1 - #4 - #4 - #4, {#2 - (#2 - #3) / 2}) {#5};
+}
+
+
+\tikzstyle{s_ideal}=[ dotted,line width=1.5pt,color=c_ideal]
+\tikzstyle{s_watermark}=[line width=1.5pt, solid, color=c_watermark]
+\tikzstyle{s_output_watermark}=[line width=1.5pt, solid, color=c_output_watermark, dotted]
+\tikzstyle{s_timepoint}=[font=\small]
+\tikzstyle{s_timeline}=[solid,line width=1.5pt,color=c_timeline]
+\tikzstyle{s_boundary}=[color=c_boundary, densely dashed]
+\tikzstyle{s_late}=[color=c_state_back,pattern=north west lines,pattern color=c_state_back]
+\tikzstyle{s_legend}=[font=\small,c_legend]
+\tikzstyle{s_tomb}=[color=c_tomb,densely dotted, line width=.5pt]
+\tikzstyle{s_tomb_late}=[color=c_tomb,densely dotted, line width=.5pt]
+	%\tikzstyle{s_tomb_late}=[color=white,densely dotted,pattern=crosshatch dots,pattern color=c_tomb] 
+
+\ifdefined \DrawDefaultLegend
+\else
+	\def \DrawDefaultLegend{1}
+\fi
+
+% Default origin to (0, 0)
+\ifdefined \ox
+\else
+	\def \ox{0}
+\fi
+\ifdefined \oy
+\else
+	\def \oy{0}
+\fi
+
+
+% Default to input version #1
+\ifdefined \InputVersion
+\else
+	\def \InputVersion{1}
+\fi
+
+% Default to showing late data
+\ifdefined \ShowLateData
+\else
+	\def \ShowLateData{1}
+\fi
+
+\ifdefined \InputVersionSet
+\else
+	\def \InputVersionSet{1}
+\fi
+
+\newcommand{\Version}[9] {
+	\if \InputVersionSet 1
+	\if \InputVersion 1
+		#1 % Standard v1
+	\else
+		\if \InputVersion 2
+			#2 % Standard v2 colored
+		\else
+			\if \InputVersion 3
+				#3 % Ingress Shift v1
+			\else
+				\if \InputVersion 4
+					#4 % Ingress Shift v2
+				\else
+					\if \InputVersion 5
+						#5 % SumA
+					\else
+						\if \InputVersion 6
+							#6 % SumB
+						\else
+							\if \InputVersion 7
+								#7 % Top
+							\else
+								\if \InputVersion 8
+									#8 % Input toggle
+								\else
+									\if \InputVersion 9
+										#9 % Percentile watermarks
+									\fi
+								\fi
+							\fi
+						\fi
+					\fi
+				\fi
+			\fi
+		\fi
+	\fi
+	\fi
+}
+
+\newcommand{\VersionMore}[5] {
+	\if \InputVersionSet 2
+		\if \InputVersion 1
+			#1 % Re-window key #1
+		\else
+			\if \InputVersion 2
+				#2 % Re-window key #2
+			\else
+				\if \InputVersion 3
+					#3 % Re-window global
+				\else
+					\if \InputVersion 4
+						#4 % Window-alignment key #1
+					\else
+						\if \InputVersion 5
+							#5 % Re-window key #2
+						\fi
+					\fi
+				\fi
+			\fi
+		\fi
+	\fi
+}
+
+\newcommand{\ResetMaxx} {
+\Version
+  {\def \maxx{9}}
+  {\def \maxx{9}}
+  {\def \maxx{10}}
+  {\def \maxx{10}}
+  {\def \maxx{9}}
+  {\def \maxx{9}}
+  {\def \maxx{9}}
+  {\def \maxx{9}}
+  {\def \maxx{9}}
+\VersionMore
+  {\def \maxx{10}}
+  {\def \maxx{10}}
+  {\def \maxx{10}}
+  {\def \maxx{10}}
+  {\def \maxx{10}}
+}
+\ResetMaxx  
+
+\ifdefined \maxy
+\else
+	\def \maxy{5}
+\fi
+\def \yoff{5}
+\def \scale{.9}
+\def \trioff{0.0265}
+
+\newcommand {\UserScoreAxes}[0] {
+	
+	% X Axis
+	\draw[color=c_event_time, line width=1.5pt] (\ox,\oy) -- (\ox + \maxx, \oy);
+	% X Axis Tick Marks
+	\foreach \x in {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23} {
+		\draw[color=c_event_time] (\ox + \x, \oy + .1) -- (\ox + \x, \oy - .1);
+		\node[s_timepoint,color=c_event_time] at (\ox + \x, \oy - .25) {12:0\x};
+	}
+	% X Axis Label
+	\node[s_legend,color=c_event_time] at (\ox + \maxx / 2, \oy - .666) {Event Time};
+
+	% Y Axis
+	\draw[c_proc_time, line width=1.5pt] (\ox, \oy - 0.0265) -- (\ox, \oy + \maxy);
+	% Y Axis Tick Marks
+	\foreach \y / \t in {1/06, 2/07, 3/08, 4/09, 5/10} {
+		\draw[c_proc_time] (\ox + .1, \oy + \y) -- (\ox - .1, \oy + \y);
+		\node[s_timepoint, rotate=90, c_proc_time] at (\ox - .25, \oy + \y) {12:\t};
+	}
+	% Y Axis Label
+	\node[s_legend,rotate=90, c_proc_time] at (\ox -.666, \oy + \maxy / 2) {Processing Time};	
+	
+	% Corner beautification
+	\fill[c_event_time, line width=0pt] (\ox - \trioff, \oy - \trioff) -- (\ox + \trioff, \oy + \trioff) -- (\ox + \trioff, \oy - \trioff) -- (\ox - \trioff, \oy - \trioff);
+}
+
+\newdimen \xdim
+\newdimen \maxxdim
+
+
+\newcommand {\DrawAxes}[0] {
+	
+	% X Axis
+	\draw[color=c_event_time, line width=1.5pt] (\ox,\oy) -- (\ox + \maxx, \oy);
+	% X Axis Tick Marks
+	\if \XAxisToTen 0
+		\foreach \x in {0,...,\maxx} {
+			\draw[color=c_event_time] (\ox + \x, \oy + .1) -- (\ox + \x, \oy - .1);
+			\node[s_timepoint,color=c_event_time] at (\ox + \x, \oy - .25) {12:0\x};
+		}
+	\else
+		\foreach \x / \t in {0/00, 1/01, 2/02, 3/03, 4/04, 5/05, 6/06, 7/07, 8/08, 9/09, 10/10} {
+			\draw[color=c_event_time] (\ox + \x, \oy + .1) -- (\ox + \x, \oy - .1);
+			\node[s_timepoint,color=c_event_time] at (\ox + \x, \oy - .25) {12:\t};
+		}
+	\fi
+	% X Axis Label
+	\contourlength{1pt}
+	\node[s_legend,c_event_time] at (\ox + \maxx / 2, \oy - .666) {Event Time};
+
+	% Y Axis
+	\draw[c_proc_time, line width=1.5pt] (\ox, \oy - 0.0265) -- (\ox, \oy + \maxy);
+	% Y Axis Tick Marks
+	\if \YAxisToEleven 0
+		\foreach \y / \t in {1/06, 2/07, 3/08, 4/09, 5/10} {
+			\draw[c_proc_time] (\ox + .1, \oy + \y) -- (\ox - .1, \oy + \y);
+			\node[s_timepoint, rotate=90, c_proc_time] at (\ox - .25, \oy + \y) {12:\t};
+		}
+	\else
+		\foreach \y / \t in {1/06, 2/07, 3/08, 4/09, 5/10, 6/11} {
+			\draw[c_proc_time] (\ox + .1, \oy + \y) -- (\ox - .1, \oy + \y);
+			\node[s_timepoint, rotate=90, c_proc_time] at (\ox - .25, \oy + \y) {12:\t};
+		}
+	\fi
+	% Y Axis Label
+	\node[s_legend,rotate=90, c_proc_time] at (\ox -.666, \oy + \maxy / 2) {Processing Time};	
+	
+	% Corner beautification
+	\fill[c_event_time, line width=0pt] (\ox - \trioff, \oy - \trioff) -- (\ox + \trioff, \oy + \trioff) -- (\ox + \trioff, \oy - \trioff) -- (\ox - \trioff, \oy - \trioff);
+}
+
+\contourlength{1pt}
+
+\newcommand {\DrawInputOld}[6] {
+	\filldraw[#1, draw=#6] (\ox + #2, \oy + #3) circle [radius=6pt];
+	\contourlength{\InputContour}
+	\node[#5,font=\bf\sffamily] at (\ox + #2, \oy + #3) {\contour{#6}{#4}};
+}
+
+\newcommand{\DrawInputNode}[5] {
+	\node[#4,font=\bf\sffamily,thick,#5,text opacity=0] at (\ox + #1, \oy + #2) {x};
+	\node[#4,font=\bf\sffamily,thick,draw opacity=0,fill opacity=0,text opacity=1] at (\ox + #1, \oy + #2) {#3};
+}
+
+\newcommand{\DrawInputNodeWonky}[5] {
+	\node[#4,font=\bf\sffamily,thick,#5] at ({\ox + #1}, \oy + #2) {#3};
+}
+
+\ifdefined \InputStyle
+\else
+	\def \InputStyle{0}
+\fi
+
+\newcommand {\DrawInput}[6][white] {
+	\if \InputStyle 0
+		\DrawInputOld{#2}{#3}{#4}{#5}{#6}{#1}
+	\else
+		\tikzstyle s_common=[fill=#2,draw=#6,text=#6]
+		\def \InputX{#3}
+		\def \InputY{#4}
+		\if \InputStyle 1
+			\DrawInputNodeWonky{\InputX}{\InputY}{#5}{s_common}{circle, inner sep=3pt}
+		\else
+			\if \InputStyle 2
+				\DrawInputNode{\InputX}{\InputY}{#5}{s_common}{rectangle, inner sep=4.5pt}
+			\else
+				\if \InputStyle 3
+					\DrawInputNode{\InputX}{\InputY}{#5}{s_common}{diamond, inner sep=2.5pt}
+				\else
+					\DrawInputNodeWonky{\InputX}{\InputY}{#5}{s_common}{rectangle, inner sep=4.5pt}
+				\fi
+			\fi
+		\fi
+	\fi
+}
+
+	% A inputs, in sorted order (by processing-time)
+	%\DrawInput{0.444}{.333}{5}
+	%\DrawInput{2.444}{.666}{7}
+	%\DrawInput{3.666}{1.222}{3}
+	%\DrawInput{3.888}{1.444}{4}
+	%\DrawInput{4.333}{1.666}{3}
+	%\DrawInput{3.111}{2.111}{8}
+	%\DrawInput{6.666}{2.333}{3}
+	%\DrawInput{1.444}{3.333}{9}
+	%\DrawInput{7.444}{3.666}{8}
+	%\DrawInput{7.777}{4.0}{1}
+
+\ifdefined \InputsAFourBump
+\else
+	\def \InputsAFourBump{0}
+\fi
+
+\ifdefined \InputsAEightBump
+\else
+	\def \InputsAEightBump{0}
+\fi
+
+\newcommand {\DrawInputsA}[4][0] {
+	% #1 = y offset
+	% #2 = back color
+	% #3 = text color
+	% #4 = border color
+	\DrawInput[#4]{#2}{0.444}{.333 + #1}{5}{#3}
+	\DrawInput[#4]{#2}{2.444}{.666 + #1}{7}{#3}
+	\DrawInput[#4]{#2}{3.111}{2.111 + #1 + \InputsAEightBump}{8}{#3}
+	\DrawInput[#4]{#2}{3.666}{1.222 + #1}{3}{#3}
+	%\DrawInput{#2}{3.888}{1.444 + #1}{4}{#3}
+	\DrawInput[#4]{#2}{4.333}{1.666 + #1 + \InputsAFourBump}{4}{#3}. % used to be 3
+	\DrawInput[#4]{#2}{6.666}{2.333 + #1}{3}{#3}
+	\DrawInput[#4]{#2}{7.444}{3.666 + #1 - \InputsAEightBump}{8}{#3}
+	\DrawInput[#4]{#2}{7.777}{4.0 + #1}{1}{#3}
+	\if \ShowLateData 1
+		\def \LateNineColor{#2}
+		\def \LateNineBorder{#4}
+		\if \IsGhost 0
+			\if \ShowLateness 1
+				\def \LateNineColor{s_dropped}
+				\def \LateNineBorder{c_dropped_border}
+			\else 
+				\if \NineIsLate 1
+					\def \LateNineColor{s_dropped}
+					\def \LateNineBorder{c_dropped_border}
+				\else
+				\fi
+			\fi
+		\fi
+		\DrawInput[\LateNineBorder]{\LateNineColor}{1.444}{3.333 + #1}{9}{#3}
+	\fi
+	\if \ShowLateness 1
+		\DrawInput[#4]{#2}{.888}{1.666 + #1}{6}{#3}
+	\fi	
+}
+
+	% B inputs, in sorted order (by processing-time)
+	%\DrawInput{#1}{2.444}{.888}{7}
+	%\DrawInput{#1}{3.666}{1.111}{3}
+	%\DrawInput{#1}{1.444}{1.333}{9}
+	%\DrawInput{#1}{3.111}{1.777}{8}
+	%\DrawInput{#1}{6.666}{1.999}{3}
+	%\DrawInput{#1}{0.444}{2.111}{5}
+	%\DrawInput{#1}{7.444}{2.555}{8}
+	%\DrawInput{#1}{3.888}{2.888}{4}
+	%\DrawInput{#1}{7.777}{3.222}{1}
+	%\DrawInput{#1}{4.333}{3.888}{3}
+
+\newcommand {\DrawInputsB}[3] {
+	% #1 = back color
+	% #2 = text color
+	% #3 = border color
+	\DrawInput[#3]{#1}{0.444}{2.111}{5}{#2}
+	\DrawInput[#3]{#1}{2.444}{.888}{7}{#2}
+	\DrawInput[#3]{#1}{3.111}{1.777}{8}{#2}
+	\DrawInput[#3]{#1}{3.666}{1.111}{3}{#2}
+	%\DrawInput[#3]{#1}{3.888}{2.888}{4}{#2}
+	\DrawInput[#3]{#1}{4.333}{3.888}{4}{#2} % used to be 3
+	\DrawInput[#3]{#1}{6.666}{2.000}{3}{#2}
+	\DrawInput[#3]{#1}{7.444}{2.555}{8}{#2}
+	\DrawInput[#3]{#1}{7.777}{3.222}{1}{#2}
+	\DrawInput[#3]{#1}{1.444}{1.333}{9}{#2}f
+}
+
+\tikzstyle{s_datum_ghost}=[color=c_datum_back_ghost,opacity=.333]
+
+\newcommand{\DrawShiftedInput}[2] {
+	\DrawInput{c_datum_back}{5 + #1}{#1}{#2}{c_datum_text}
+}
+
+\newdimen \deltaDim
+\newdimen \offDim
+
+\newcommand{\DrawIngressInput}[6] {
+	\def \xL{#3}
+	\def \xR{5 + #4}
+	\def \arrowOff{.3}
+
+	% Floating point calculations have to be done via
+	% dimensions, which have to be set using evaluated
+	% numbers, which appears to doable with \pgfmathparse
+	% and \pgfmathresult...
+	\pgfmathparse{\xR - \xL}
+	\deltaDim=\pgfmathresult pt
+	
+	\pgfmathparse{\arrowOff * 2}
+	\offDim=\pgfmathresult pt
+
+	\contourlength{\InputContour}
+	\DrawInput[c_ghost_border]{s_datum_ghost}{\xL}{#4}{#5}{c_datum_text}
+	\if \IsGhost 0
+		\ifthenelse{\lengthtest{\deltaDim > \offDim}}
+			{\draw[s_datum_ghost,-stealth,densely dotted,line width=.75pt,draw=c_ghost_arrow] (\ox + \xL + \arrowOff, \oy + #4) -- (\ox + \xR - \arrowOff, \oy + #4);}
+			{}
+		\DrawInput[#6]{#1}{\xR}{#4}{#5}{#2}
+	\fi % \IsGhost 0
+}
+
+\newcommand {\DrawInputsC}[3] {
+	% #1 = back color
+	% #2 = text color
+	% #3 = border color
+	\DrawIngressInput{#1}{#2}{0.444}{.333}{5}{#3}
+	\DrawIngressInput{#1}{#2}{2.444}{.666}{7}{#3}
+	\DrawIngressInput{#1}{#2}{3.666}{1.222}{3}{#3}
+	%\DrawIngressInput{#1}{#2}{3.888}{1.444}{4}{#3}
+	\DrawIngressInput{#1}{#2}{4.333}{1.666}{4}{#3} % used to be 3
+	\DrawIngressInput{#1}{#2}{3.111}{2.111}{8}{#3}
+	\DrawIngressInput{#1}{#2}{6.666}{2.333}{3}{#3}
+	\DrawIngressInput{#1}{#2}{1.444}{3.333}{9}{#3}
+	\DrawIngressInput{#1}{#2}{7.444}{3.666}{8}{#3}
+	\DrawIngressInput{#1}{#2}{7.777}{4.0}{1}{#3}
+}
+
+\newcommand {\DrawInputsD}[3] {
+	% #1 = back color
+	% #2 = text color
+	% #3 = border color
+	\DrawIngressInput{#1}{#2}{2.444}{.888}{7}{#3}
+	\DrawIngressInput{#1}{#2}{3.666}{1.111}{3}{#3}
+	\DrawIngressInput{#1}{#2}{1.444}{1.333}{9}{#3}
+	\DrawIngressInput{#1}{#2}{3.111}{1.777}{8}{#3}
+	\DrawIngressInput{#1}{#2}{6.666}{2.000}{3}{#3}
+	\DrawIngressInput{#1}{#2}{0.444}{2.111}{5}{#3}
+	\DrawIngressInput{#1}{#2}{7.444}{2.555}{8}{#3}
+	%\DrawIngressInput{#1}{#2}{3.888}{2.888}{4}{#3}
+	\DrawIngressInput{#1}{#2}{7.777}{3.222}{1}{#3}
+	\DrawIngressInput{#1}{#2}{4.333}{3.888}{4}{#3} % used to be 3
+}
+
+\newcommand{\DrawInputsE}[3] {
+	\def \InputStyle{3}
+	\DrawInputsA{#1}{#2}{#3}
+}
+
+\newcommand {\DrawInputsF}[2] {
+	\def \InputStyle{2}
+	\DrawInput{#1}{0.666}{0.777}{6}{#2}
+	%\DrawInput{#1}{1.444}{0.333}{8}{#2}
+	\DrawInput{#1}{2.666}{1.666}{1}{#2}
+	%\DrawInput{#1}{5.111}{1.666}{5}{#2}
+	\DrawInput{#1}{3.888}{2.888}{9}{#2}
+	\DrawInput{#1}{5.888}{2.111}{3}{#2}
+	\DrawInput{#1}{6.666}{2.000}{9}{#2}
+	\DrawInput{#1}{6.222}{2.555}{2}{#2}
+	\DrawInput{#1}{7.777}{3.222}{4}{#2}
+	\DrawInput{#1}{1.222}{1.333}{7}{#2}
+}
+
+\newcommand {\DrawInputsG}[4] {
+	\def \InputStyle{3}
+	\DrawInput{#1}{0.444}{1.000}{5}{#3} % A
+	\DrawInput{#1}{2.444}{2.5}{22}{#3} % A
+	\DrawInput{#1}{4.333}{2.675}{3}{#3} % A
+	\DrawInput{#1}{6.666}{4.37}{12}{#3} % A
+	\def \InputStyle{2}
+	\DrawInput{#2}{0.666}{1.8}{13}{#4} % B
+	\DrawInput{#2}{2.666}{3.255}{10}{#4} % B
+	\DrawInput{#2}{5.888}{3.333}{3}{#4} % B
+	\DrawInput{#2}{6.222}{3.61}{15}{#4} % B
+}
+
+\newcommand {\DrawInputsH}[2] {
+	%\DrawInput{#1}{0.333}{.222}{1}{#2}
+	%\DrawInput{#1}{0.777}{.444}{1}{#2}
+	%\DrawInput{#1}{1.555}{.555}{1}{#2}
+	%\DrawInput{#1}{0.555}{.666}{1}{#2}
+	%\DrawInput{#1}{3.333}{.888}{1}{#2}
+	%\DrawInput{#1}{5.222}{.8888}{1}{#2}
+	%\DrawInput{#1}{0.999}{.999}{1}{#2}
+	%\DrawInput{#1}{2.888}{1.111}{1}{#2}
+	%\DrawInput{#1}{4.888}{1.111}{1}{#2}
+	%\DrawInput{#1}{2.333}{1.222}{1}{#2}
+	%\DrawInput{#1}{1.777}{1.222}{1}{#2}
+	%\DrawInput{#1}{0.444}{1.333}{1}{#2}
+	%\DrawInput{#1}{5.444}{1.333}{1}{#2}
+	%\DrawInput{#1}{3.666}{1.555}{1}{#2}
+	%\DrawInput{#1}{4.777}{1.555}{1}{#2}
+	%\DrawInput{#1}{1.222}{1.666}{1}{#2}
+	%\DrawInput{#1}{5.777}{1.777}{1}{#2}
+	%\DrawInput{#1}{6.555}{1.888}{1}{#2}
+	%\DrawInput{#1}{0.888}{1.999}{1}{#2}
+	%\DrawInput{#1}{1.888}{2.111}{1}{#2}
+	%\DrawInput{#1}{4.222}{2.111}{1}{#2}
+	%\DrawInput{#1}{6.111}{2.111}{1}{#2}
+	%\DrawInput{#1}{3.111}{2.222}{1}{#2}
+	%\DrawInput{#1}{4.888}{2.222}{1}{#2}
+	%\DrawInput{#1}{4.111}{2.333}{1}{#2}
+	%\DrawInput{#1}{6.333}{2.555}{1}{#2}
+	%\DrawInput{#1}{5.888}{2.666}{1}{#2}
+	%\DrawInput{#1}{4.555}{2.666}{1}{#2}
+	%\DrawInput{#1}{2.222}{2.777}{1}{#2}
+	%\DrawInput{#1}{3.888}{2.777}{1}{#2}
+	%\DrawInput{#1}{7.111}{2.888}{1}{#2}
+	%\DrawInput{#1}{3.555}{3.000}{1}{#2}
+	%\DrawInput{#1}{2.888}{3.111}{1}{#2}
+	%\DrawInput{#1}{6.888}{3.444}{1}{#2}
+	%\DrawInput{#1}{3.444}{3.555}{1}{#2}
+	%\DrawInput{#1}{7.888}{3.555}{1}{#2}
+	%\DrawInput{#1}{7.333}{3.888}{1}{#2}
+	%\DrawInput{#1}{7.555}{4.333}{1}{#2}
+	%\DrawInput{#1}{7.222}{4.555}{1}{#2}
+	%\DrawInput{#1}{7.888}{4.777}{1}{#2}
+
+
+%----
+
+	\DrawInput{#1}{0.333}{.222}{1}{#2}
+	\DrawInput{#1}{0.555}{.666}{1}{#2}
+	\DrawInput{#1}{0.777}{.444}{1}{#2}
+	\DrawInput{#1}{1.555}{.555}{1}{#2}
+	\DrawInput{#1}{0.999}{.999}{1}{#2}
+	\DrawInput{#1}{0.444}{1.333}{1}{#2}
+	\DrawInput{#1}{1.222}{1.666}{1}{#2}
+	\DrawInput{#1}{1.888}{2.111}{1}{#2}
+	\DrawInput{#1}{0.888}{1.999}{1}{#2}
+	\DrawInput{#1}{1.777}{1.222}{1}{#2}
+
+	\DrawInput{#1}{2.333}{1.222}{1}{#2}
+	\DrawInput{#1}{2.888}{1.111}{1}{#2}
+	\DrawInput{#1}{3.333}{.888}{1}{#2}
+	\DrawInput{#1}{3.666}{1.555}{1}{#2}
+	\DrawInput{#1}{3.111}{2.222}{1}{#2}
+	\DrawInput{#1}{2.222}{2.777}{1}{#2}
+	\DrawInput{#1}{2.888}{3.111}{1}{#2}
+	\DrawInput{#1}{3.888}{2.777}{1}{#2}
+	\DrawInput{#1}{3.444}{3.555}{1}{#2}
+	\DrawInput{#1}{3.555}{3.000}{1}{#2}
+
+	\DrawInput{#1}{4.111}{2.333}{1}{#2}
+	\DrawInput{#1}{4.222}{2.111}{1}{#2}
+	\DrawInput{#1}{4.555}{2.666}{1}{#2}
+	\DrawInput{#1}{4.888}{2.222}{1}{#2}
+	\DrawInput{#1}{4.777}{1.555}{1}{#2}
+	\DrawInput{#1}{5.777}{1.777}{1}{#2}
+	\DrawInput{#1}{5.888}{2.666}{1}{#2}
+	\DrawInput{#1}{5.444}{1.333}{1}{#2}
+	\DrawInput{#1}{4.888}{1.111}{1}{#2}
+	\DrawInput{#1}{5.222}{.888}{1}{#2}
+
+
+	\DrawInput{#1}{6.111}{2.111}{1}{#2}
+	\DrawInput{#1}{6.555}{1.888}{1}{#2}
+	\DrawInput{#1}{6.333}{2.555}{1}{#2}
+	\DrawInput{#1}{6.888}{3.444}{1}{#2}
+	\DrawInput{#1}{7.888}{3.555}{1}{#2}
+	\DrawInput{#1}{7.333}{3.888}{1}{#2}
+	\DrawInput{#1}{7.111}{2.888}{1}{#2}
+	\DrawInput{#1}{7.555}{4.333}{1}{#2}
+	\DrawInput{#1}{7.888}{4.777}{1}{#2}
+	\DrawInput{#1}{7.222}{4.555}{1}{#2}
+
+}
+
+\newcommand {\DrawInputsI}[3] {
+	%\def \InputStyle{3}
+	\DrawInput[#3]{#1}{0.333}{.333}{5}{#2}
+	\DrawInput[#3]{#1}{1.555}{.666}{9}{#2}
+	\DrawInput[#3]{#1}{2.777}{.777}{7}{#2}
+	\DrawInput[#3]{#1}{3.222}{2.111}{8}{#2}
+	\DrawInput[#3]{#1}{3.999}{1.444}{4}{#2}
+	\DrawInput[#3]{#1}{4.444}{1.666}{3}{#2}
+	\DrawInput[#3]{#1}{4.777}{1.222}{3}{#2}
+	\DrawInput[#3]{#1}{6.666}{2.333}{3}{#2}
+	\DrawInput[#3]{#1}{7.444}{3.666}{8}{#2}
+	\DrawInput[#3]{#1}{7.777}{4.0}{1}{#2}
+}
+
+\newcommand {\DrawInputsJ}[3] {
+	%\def \InputStyle{2}
+	\DrawInput[#3]{#1}{0.333}{0.333}{6}{#2}
+	\DrawInput[#3]{#1}{1.222}{.666}{4}{#2}
+	\DrawInput[#3]{#1}{1.999}{0.3}{3}{#2}
+	\DrawInput[#3]{#1}{2.222}{.666}{4}{#2}
+	\DrawInput[#3]{#1}{2.888}{2.111}{9}{#2}
+	\DrawInput[#3]{#1}{3.95}{1.555}{8}{#2}
+	\DrawInput[#3]{#1}{5.5}{2.222}{7}{#2}
+	\DrawInput[#3]{#1}{5.888}{1.333}{1}{#2}
+	\DrawInput[#3]{#1}{7.000}{2.333}{5}{#2}
+	\DrawInput[#3]{#1}{7.444}{3.444}{2}{#2}
+	\DrawInput[#3]{#1}{8.333}{4.0}{6}{#2}
+}
+
+\newcommand {\DrawInputsK}[4] {
+	\def \InputStyle{3}
+	\DrawInput{#1}{1.333}{0.833}{1.0}{#3}
+	\DrawInput{#1}{2.555}{1.05}{1.0}{#3}
+	\DrawInput{#1}{5.333}{2.666}{3.0}{#3}
+	\DrawInput{#1}{8.777}{4.533}{2.1}{#3}
+
+	\def \InputStyle{2}
+	\DrawInput{#2}{3.888}{2.5}{3.5}{#4}
+	\DrawInput{#2}{4.95}{2.6}{1.0}{#4}
+	\DrawInput{#2}{6.888}{3.2}{1.4}{#4}
+	\DrawInput{#2}{9.333}{4.833}{2.3}{#4}
+}
+
+\newcommand {\DrawInputsL}[3] {
+	%\def \InputStyle{3}
+	\DrawInput[#3]{#1}{0.333}{.333}{5}{#2}
+	\DrawInput[#3]{#1}{1.555}{.666}{9}{#2}
+	
+	\DrawInput[#3]{#1}{2.777}{.777}{7}{#2}
+	\DrawInput[#3]{#1}{3.222}{2.111}{8}{#2}
+	
+	\DrawInput[#3]{#1}{4.000}{1.444}{4}{#2}
+	\DrawInput[#3]{#1}{4.444}{1.666}{3}{#2}
+	\DrawInput[#3]{#1}{4.777}{1.222}{3}{#2}
+	
+	\DrawInput[#3]{#1}{6.666}{2.333}{3}{#2}
+	\DrawInput[#3]{#1}{7.444}{3.666}{8}{#2}
+	\DrawInput[#3]{#1}{7.777}{4.0}{1}{#2}
+
+	\DrawInput[#3]{#1}{8.111}{4.111}{6}{#2}
+	\DrawInput[#3]{#1}{9.15}{4.555}{5}{#2}
+}
+
+\newcommand {\DrawInputsM}[3] {
+	%\def \InputStyle{2}
+	\DrawInput[#3]{#1}{0.333}{0.333}{6}{#2}
+	
+	\DrawInput[#3]{#1}{1.222}{.666}{4}{#2}
+
+	\DrawInput[#3]{#1}{2.000}{0.3}{3}{#2}
+	\DrawInput[#3]{#1}{2.222}{.666}{4}{#2}
+	\DrawInput[#3]{#1}{2.888}{2.111}{9}{#2}	
+
+	\DrawInput[#3]{#1}{3.95}{1.555}{8}{#2}
+	
+	\DrawInput[#3]{#1}{5.5}{2.222}{7}{#2}
+	\DrawInput[#3]{#1}{5.888}{1.333}{1}{#2}
+	
+	\DrawInput[#3]{#1}{7.000}{2.333}{5}{#2}
+	\DrawInput[#3]{#1}{7.444}{3.444}{2}{#2}
+	
+	\DrawInput[#3]{#1}{8.333}{4.0}{6}{#2}
+}
+
+\newcommand {\DrawInputsN}[4] {
+	\def \InputStyle{3}
+	\DrawInput{#1}{0.444}{1.000}{99}{#3} % A
+	\DrawInput{#1}{2.444}{2.5}{22}{#3} % A
+	\DrawInput{#1}{4.333}{2.675}{3}{#3} % A
+	\DrawInput{#1}{6.666}{4.37}{12}{#3} % A
+	\def \InputStyle{2}
+	\DrawInput{#2}{0.666}{1.8}{13}{#4} % B
+	\DrawInput{#2}{2.666}{3.255}{10}{#4} % B
+	\DrawInput{#2}{5.888}{3.333}{3}{#4} % B
+	\DrawInput{#2}{6.222}{3.61}{15}{#4} % B
+}
+
+
+\newcommand{\DrawGhostInputs} {
+	\def \IsGhost{1}
+	\Version
+	  {\DrawInputsA{c_ghost}{c_ghost_text}{c_ghost_border}}
+	  {\DrawInputsB{c_ghost}{c_ghost_text}{c_ghost_border}}
+	  {\DrawInputsC{c_ghost}{c_ghost_text}{c_ghost_border}}
+	  {\DrawInputsD{c_ghost}{c_ghost_text}{c_ghost_border}}
+	  {\DrawInputsE{c_ghost}{c_ghost_text}{g_ghost_border}}
+	  {\DrawInputsF{c_ghost}{c_ghost_text}}
+	  {\DrawInputsG{c_ghost}{c_ghost}{c_ghost_text}{c_ghost_text}}
+	  {}
+	  {\DrawInputsH{c_ghost}{c_ghost_text}}
+	\VersionMore
+	  {\DrawInputsI{c_ghost}{c_ghost_text}{c_ghost}}
+	  {\DrawInputsJ{c_ghost}{c_ghost_text}{c_ghost}}
+	  {\DrawInputsK{c_ghost}{c_ghost}{c_ghost_text}{c_ghost_text}}
+	  {\DrawInputsL{c_ghost}{c_ghost_text}{c_ghost_border}}
+	  {\DrawInputsM{c_ghost}{c_ghost_text}{c_ghost_border}}
+	\def \IsGhost{0}
+}
+	
+\newcommand {\DrawInputs} {
+	\Version
+	  {\DrawInputsA{c_datum_back}{c_datum_text}{c_datum_border}}
+	 % {\DrawInputsB{c_datum_text}{c_toggle_b}}
+	  {\DrawInputsB{c_toggle_b}{c_datum_text}{c_datum_border}}
+	  {\DrawInputsC{c_datum_back}{c_datum_text}{c_datum_border}}
+	  {\DrawInputsD{c_toggle_b}{c_datum_text}{c_datum_border}}
+	  {\DrawInputsE{c_watermark_e}{c_datum_text}{c_datum_border}}
+	  {\DrawInputsF{c_watermark_f}{c_datum_text}}
+	  {\DrawInputsG{c_datum_text}{c_datum_text}{c_watermark_e}{c_watermark_f}}
+	  {}
+	  {\DrawInputsH{c_datum_back}{c_datum_text}}
+	\VersionMore
+	  {\DrawInputsI{c_frances}{c_datum_text}{c_frances}}
+	  {\DrawInputsJ{c_tyler}{c_datum_text}{c_tyler}}
+	  {\DrawInputsK{c_frances}{c_tyler}{c_datum_text}{c_datum_text}}
+	  {\DrawInputsL{c_datum_back}{c_datum_text}{c_datum_border}}
+	  {\DrawInputsM{c_datum_back}{c_datum_text}{c_datum_border}}
+}
+
+\newcommand {\DrawMicroBatchBoundaries}[0] {
+	\DrawBatchBoundary{1}
+	%\DrawBatchBoundary{2}
+	\DrawBatchBoundary{3}
+	%\DrawBatchBoundary{4}
+	\DrawBatchBoundary{5}
+}
+
+\newcommand{\DrawBatchBoundary}[1] {
+	\draw[s_boundary] (\ox + 0, \oy + #1) -- (\ox + \maxx, \oy + #1);
+}
+
+\def \ShowJoints{1}
+
+\newcommand{\DrawPerfectWatermarkA}[1] {
+		\draw [-, s_watermark, #1] 
+			(\ox + 0.111, \oy + 0.01)
+			to [out=80,in=210] (\ox + 0.333, \oy +  .666) % 5
+			to [out=30, in=180] (\ox + 1.666, \oy +  3.7) % 7
+			to [out=0, in=180] (\ox + 7.7, \oy +  4.333) % 1
+			to [out=0, in=180] (\ox + 9.000, \oy +  4.37) % end
+		;
+}
+
+\newcommand{\DrawHeuristicWatermarkA}[1] {
+		\draw [-, s_watermark, #1] 
+			(\ox + 0.111, \oy + 0.01)
+			to [out=80,in=180] (\ox + 0.444, \oy +  .666) % 5
+			to [out=0, in=180] (\ox + 2.444, \oy +  .999) % 7
+			to [out=0, in=180] (\ox + 3.111, \oy +  2.444) % 8
+			to [out=0, in=180] (\ox + 6.555, \oy +  2.666) % 3 (\ox + rightmost)
+			to [out=0, in=180] (\ox + 7.333, \oy +  4.000) % 8
+			to [out=0, in=180] (\ox + 7.7, \oy +  4.333) % 1
+			to [out=0, in=180] (\ox + 9.000, \oy +  4.37) % end
+		;
+}
+
+\newcommand{\DrawHeuristicWatermarkAA}[1] {
+		\draw [-, s_watermark, #1] 
+			(\ox + -0.111, \oy + 0.01)
+			to [out=80,in=180] (\ox + 0.444, \oy +  .666) % 5
+			to [out=0, in=180] (\ox + 2.444, \oy +  .999) % 7
+			to [out=0, in=180] (\ox + 3.111, \oy +  2.444) % 8
+			to [out=0, in=180] (\ox + 6.555, \oy +  2.666) % 3 (\ox + rightmost)
+			to [out=0, in=180] (\ox + 7.333, \oy +  4.000) % 8
+			to [out=0, in=180] (\ox + 7.7, \oy +  4.333) % 1
+			to [out=0, in=180] (\ox + 9.000, \oy +  4.37) % end
+		;
+}
+
+
+\ifdefined \UsePerfectWatermark
+\else
+	\def \UsePerfectWatermark{0}
+\fi
+
+\ifdefined \UseHeuristicWatermark
+\else
+	\def \UseHeuristicWatermark{1}
+\fi
+
+\ifdefined \DottedPerfectWatermark
+\else
+	\def \DottedPerfectWatermark{0}
+\fi
+
+\ifdefined \DottedHeuristicWatermark
+\else
+	\def \DottedHeuristicWatermark{0}
+\fi
+
+\ifdefined \FlushLeftWatermark
+\else
+	\def \FlushLeftWatermark{0}
+\fi
+
+\newcommand {\DrawWatermarkA}[1][c_watermark] {
+	\if \UsePerfectWatermark 1
+		\if \DottedPerfectWatermark 0
+			\DrawPerfectWatermarkA{c_perfect_watermark, dashed}
+		\fi
+	\fi
+
+	\if \UseHeuristicWatermark 1
+		\if \DottedHeuristicWatermark 0
+			\if \FlushLeftWatermark 1
+				\DrawHeuristicWatermarkAA{#1}
+			\else
+				\DrawHeuristicWatermarkA{#1}
+			\fi
+		\fi
+	\fi
+	
+	\if \UsePerfectWatermark 1
+		\if \DottedPerfectWatermark 1
+			\DrawPerfectWatermarkA{c_perfect_watermark, dotted}
+		\fi
+	\fi
+
+	\if \UseHeuristicWatermark 1
+		\if \DottedHeuristicWatermark 1
+			\if \FlushLeftWatermark 1
+				\DrawHeuristicWatermarkAA{c_watermark, dotted}
+			\else
+				\DrawHeuristicWatermarkA{c_watermark, dotted}
+			\fi
+		\fi
+	\fi
+}
+
+\newcommand {\DrawWatermarkB}[1][c_watermark] {
+	\draw [-, s_watermark, #1] 
+		(\ox + 0.111, \oy + 0.01)
+		to [out=80,in=180] (\ox + 1.444, \oy +  1.666) % 9
+		to [out=0, in=180] (\ox + 3.111, \oy +  2.111) % 8
+		to [out=0, in=180] (\ox + 3.888, \oy +  3.222) % 4
+		to [out=0, in=180] (\ox + 7.333, \oy +  3.333) % 8
+		to [out=0, in=180] (\ox + 7.666, \oy +  3.555) % 1
+		to [out=0, in=225] (\ox + 10.000, \oy +  5.4) % end
+	;
+}
+
+\newcommand{\DrawIdealWatermark}[1][s_ideal] {
+	\draw [-,#1] (\ox + \yoff, \oy + 0) -- (\ox + \maxx, \oy +  \maxx - \yoff);
+}
+
+\newcommand{\WatermarkJoint}[4][.55pt]{
+	\filldraw[draw=#2,fill=#2] (\ox + #3, \oy + #4) circle [radius=#1];
+}
+
+\newcommand{\DrawOutputWatermarkE}[2] {
+	\draw [-, #1, #2] 
+		(\ox + 0.111, \oy + 0.01)
+		to [out=80,in=180] (\ox + 0.444, \oy +  0.666) % 5
+	;
+	\draw [#1, #2] (\ox + 0.444, \oy + 0.666) -- (\ox + 0.444, \oy + 1.000);
+	\draw [#1, #2] (\ox + 0.444, \oy + 0.963) -- (\ox + 2.000, \oy + 0.963);
+	\draw [-, #1, #2] 
+		(\ox + 2.000, \oy + 0.963)
+		to [out=10,in=180] (\ox + 2.444, \oy +  1.00) % 7
+	;
+	\draw [#1, #2] (\ox + 2.444, \oy + 1.000) -- (\ox + 2.444, \oy + 2.505);
+	\draw [#1, #2] (\ox + 2.444, \oy + 2.478) -- (\ox + 4.000, \oy + 2.478);
+	\draw [-, #1, #2] 
+		(\ox + 4.000, \oy + 2.478)
+		to [out=4,in=188] (\ox + 4.333, \oy +  2.505) % 3
+	;
+	\draw [#1, #2] (\ox + 4.333, \oy + 2.505) -- (\ox + 4.333, \oy + 2.675);
+	\draw [#1, #2] (\ox + 4.333, \oy + 2.655) -- (\ox + 6.000, \oy + 2.655);
+	\draw [-, #1, #2] 
+		(\ox + 6.000, \oy + 2.655)
+		to [out=0,in=180] (\ox + 6.333, \oy +  2.663) % 3 #2
+		to [out=4,in=195] (\ox + 6.666, \oy +  2.685) % 3 #2
+	;
+	\draw [#1, #2] (\ox + 6.666, \oy + 2.685) -- (\ox + 6.666, \oy + 4.37);
+	\draw [#1, #2] (\ox + 6.666, \oy + 4.337) -- (\ox + 8.000, \oy + 4.337);
+	\draw [-, #1, #2] 
+		(\ox + 8.000, \oy + 4.337)
+		to [out=2,in=180] (\ox + 9.000, \oy + 4.37)
+	;
+
+	\if \ShowJoints 1
+		\WatermarkJoint{#2}{0.444}{0.666}
+		\WatermarkJoint{#2}{2.000}{0.963}
+		\WatermarkJoint{#2}{2.444}{1.000}
+		\WatermarkJoint{#2}{4.000}{2.478}
+		\WatermarkJoint{#2}{4.333}{2.505}
+		\WatermarkJoint{#2}{6.666}{2.685}
+	\fi
+}
+
+\newcommand{\DrawOutputWatermarkF}[2] {
+	\draw [-, #1, #2] 
+		(\ox + 0.111, \oy + 0.01)
+		to [out=80,in=231] (\ox + 0.666, \oy +  1.333) % 6
+	;
+	\draw [#1, #2] (\ox + 0.666, \oy + 1.333) -- (\ox + 0.666, \oy + 1.77);
+	\draw [#1, #2] (\ox + 0.666, \oy + 1.775) -- (\ox + 2.000, \oy + 1.77);	
+	\draw [-, #1, #2] 
+		(\ox + 2.000, \oy + 1.77)
+		to [out=22, in=198] (\ox + 2.666, \oy +  2.043) % 1
+	;	
+	\draw [#1, #2] (\ox + 2.666, \oy + 2.043) -- (\ox + 2.666, \oy + 3.253);	
+	\draw [#1, #2] (\ox + 2.666, \oy + 3.223) -- (\ox + 4.000, \oy + 3.223);	
+	\draw [-, #1, #2] 
+		(\ox + 4.000, \oy + 3.223)
+		to [out=0, in=183] (\ox + 5.888, \oy +  3.293) % 3
+	;	
+	\draw [#1, #2] (\ox + 5.888, \oy + 3.293) -- (\ox + 5.888, \oy + 3.333);	
+	\draw [#1, #2] (\ox + 5.888, \oy + 3.3) -- (\ox + 6.000, \oy + 3.3);	
+	\draw [-, #1, #2] 
+		(\ox + 6.000, \oy + 3.3)
+		to [out=0, in=183] (\ox + 6.222, \oy +  3.308) % 3
+	;	
+	\draw [#1, #2] (\ox + 6.222, \oy + 3.3) -- (\ox + 6.222, \oy + 3.61);	
+	\draw [#1, #2] (\ox + 6.222, \oy + 3.585) -- (\ox + 8.000, \oy + 3.585);	
+	\draw [-, #1, #2] 
+		(\ox + 8.000, \oy + 3.585)
+		to [out=11, in=180] (\ox + 9.000, \oy +  3.777) % end
+	;	
+
+	\if \ShowJoints 1
+		\WatermarkJoint{#2}{0.666}{1.333}
+		\WatermarkJoint{#2}{0.666}{1.77}
+		\WatermarkJoint{#2}{2.000}{1.77}
+		\WatermarkJoint{#2}{2.666}{2.043}
+		\WatermarkJoint{#2}{5.888}{3.293}
+		\WatermarkJoint{#2}{6.000}{3.3}
+		\WatermarkJoint{#2}{6.222}{3.308}
+		\WatermarkJoint{#2}{6.222}{3.585}
+		\WatermarkJoint{#2}{8.000}{3.585}
+	\fi
+}
+
+
+\newcommand {\DrawWatermarkE}[2] {
+	\DrawWatermarkA[#1]
+	\DrawOutputWatermarkE{s_output_watermark}{#2}
+}
+
+\newcommand {\DrawWatermarkF}[2] {
+	\DrawWatermarkB[#1]
+	\DrawOutputWatermarkF{s_output_watermark}{#2}
+}
+
+
+\newcommand{\DrawInputWatermarkG}[2] {
+	\draw [-, #1, #2] 
+		(\ox + 0.111, \oy + 0.01)
+		to [out=80,in=240] (\ox + 0.238, \oy +  0.555)
+	;
+	\draw [-, #1, #2] 
+		(\ox + 0.238, \oy + 0.555)
+		to [out=72,in=231] (\ox + 0.666, \oy +  1.333) % 6
+	;
+	\draw [#1, #2] (\ox + 0.666, \oy + 1.333) -- (\ox + 0.666, \oy + 1.77);
+	\draw [#1, #2] (\ox + 0.666, \oy + 1.775) -- (\ox + 2.000, \oy + 1.77);	
+	\draw [-, #1, #2] 
+		(\ox + 2.000, \oy + 1.77)
+		to [out=22, in=203] (\ox + 2.444, \oy +  1.963) % 1
+	;	
+	\draw [#1, #2] (\ox + 2.444, \oy + 1.963) -- (\ox + 2.444, \oy + 2.478);
+	\draw [#1, #2] (\ox + 2.444, \oy + 2.478) -- (\ox + 2.666, \oy + 2.478);
+	\draw [#1, #2] (\ox + 2.666, \oy + 2.478) -- (\ox + 2.666, \oy + 3.223);	
+	\draw [#1, #2] (\ox + 2.666, \oy + 3.223) -- (\ox + 4.000, \oy + 3.223);	
+	\draw [-, #1, #2] 
+		(\ox + 4.000, \oy + 3.223)
+		to [out=0, in=183] (\ox + 5.888, \oy +  3.293) % 3
+	;	
+	\draw [#1, #2] (\ox + 5.888, \oy + 3.293) -- (\ox + 5.888, \oy + 3.333);	
+	\draw [#1, #2] (\ox + 5.888, \oy + 3.3) -- (\ox + 6.000, \oy + 3.3);	
+	\draw [-, #1, #2] 
+		(\ox + 6.000, \oy + 3.3)
+		to [out=0, in=183] (\ox + 6.222, \oy +  3.308) % 3
+	;	
+	\draw [#1, #2] (\ox + 6.222, \oy + 3.3) -- (\ox + 6.222, \oy + 3.585);	
+	\draw [#1, #2] (\ox + 6.222, \oy + 3.585) -- (\ox + 6.666, \oy + 3.585);	
+
+	\draw [#1, #2] (\ox + 6.666, \oy + 3.585) -- (\ox + 6.666, \oy + 4.337);
+	\draw [#1, #2] (\ox + 6.666, \oy + 4.337) -- (\ox + 8.000, \oy + 4.337);
+	\draw [-, #1, #2] 
+		(\ox + 8.000, \oy + 4.337)
+		to [out=2,in=180] (\ox + 9.000, \oy + 4.37)
+	;
+
+	\if \ShowJoints 1
+		\WatermarkJoint{#2}{0.238}{0.555}
+		\WatermarkJoint{#2}{0.666}{1.333}
+		\WatermarkJoint{#2}{0.666}{1.77}
+		\WatermarkJoint{#2}{2.000}{1.77}
+		\WatermarkJoint{#2}{2.444}{1.963}
+		\WatermarkJoint{#2}{2.444}{2.478}
+		\WatermarkJoint{#2}{2.666}{2.478}
+		\WatermarkJoint{#2}{2.666}{3.223}
+		\WatermarkJoint{#2}{4.000}{3.223}
+		\WatermarkJoint{#2}{5.888}{3.293}
+		\WatermarkJoint{#2}{6.222}{3.585}
+		\WatermarkJoint{#2}{6.666}{3.585}
+		\WatermarkJoint{#2}{6.666}{4.337}
+		\WatermarkJoint{#2}{8.000}{4.337}
+	\fi
+}
+
+\newcommand{\DrawOutputWatermarkG}[2] {
+	\draw [-, #1, #2] 
+		(\ox + 0.111, \oy + 0.01)
+		to [out=80,in=240] (\ox + 0.238, \oy +  0.555)
+	;
+	\draw [-, #1, #2] 
+		(\ox + 0.238, \oy + 0.555)
+		to [out=72,in=231] (\ox + 0.444, \oy +  0.996) % 6
+	;
+	\draw [#1, #2] (\ox + 0.444, \oy + 0.996) -- (\ox + 0.444, \oy + 1.76);
+	\draw [#1, #2] (\ox + 0.444, \oy + 1.76) -- (\ox + 2.000, \oy + 1.76);	
+	\WatermarkJoint[1.075pt]{#2}{2.000}{1.76}
+	\draw [-, #1, #2] 
+		(\ox + 2.000, \oy + 1.76)
+		to [out=22, in=203] (\ox + 2.444, \oy +  1.963) % 1
+	;	
+	\WatermarkJoint[1.075pt]{#2}{2.444}{1.963}
+	\draw [#1, #2] (\ox + 2.444, \oy + 1.963) -- (\ox + 2.444, \oy + 3.223);
+	\draw [#1, #2] (\ox + 2.444, \oy + 3.223) -- (\ox + 4.000, \oy + 3.223);	
+	\draw [-, #1, #2] 
+		(\ox + 4.000, \oy + 3.223)
+		to [out=0, in=183] (\ox + 4.333, \oy +  3.225) % 3
+	;	
+	\WatermarkJoint[1.075pt]{#2}{4.333}{3.225}
+	\draw [#1, #2] (\ox + 4.333, \oy + 3.225) -- (\ox + 4.333, \oy + 3.333);	
+	\draw [#1, #2] (\ox + 4.333, \oy + 3.3) -- (\ox + 6.000, \oy + 3.3);	
+	\draw [-, #1, #2] 
+		(\ox + 6.000, \oy + 3.3)
+		to [out=0, in=183] (\ox + 6.222, \oy +  3.308) % 3
+	;	
+	\WatermarkJoint[1.075pt]{#2}{6.222}{3.308}
+	\draw [#1, #2] (\ox + 6.222, \oy + 3.308) -- (\ox + 6.222, \oy + 4.37);	
+
+	\draw [#1, #2] (\ox + 6.222, \oy + 4.337) -- (\ox + 8.000, \oy + 4.337);
+	\draw [-, #1, #2] 
+		(\ox + 8.000, \oy + 4.337)
+		to [out=2,in=180] (\ox + 9.000, \oy + 4.37)
+	;
+
+	\if \ShowJoints 1
+		\WatermarkJoint{#2}{0.238}{0.555}
+		\WatermarkJoint{#2}{0.666}{1.333}
+		\WatermarkJoint{#2}{0.666}{1.77}
+		\WatermarkJoint{#2}{2.000}{1.77}
+		\WatermarkJoint{#2}{2.444}{1.963}
+		\WatermarkJoint{#2}{2.444}{2.478}
+		\WatermarkJoint{#2}{2.666}{2.478}
+		\WatermarkJoint{#2}{2.666}{3.223}
+		\WatermarkJoint{#2}{4.000}{3.223}
+		\WatermarkJoint{#2}{5.888}{3.293}
+		\WatermarkJoint{#2}{6.222}{3.585}
+		\WatermarkJoint{#2}{6.666}{3.585}
+		\WatermarkJoint{#2}{6.666}{4.337}
+		\WatermarkJoint{#2}{8.000}{4.337}
+	\fi
+}
+
+\newcommand {\DrawWatermarkG} {
+	\DrawInputWatermarkG{s_watermark,draw opacity=1,line width=2.5pt}{white}
+	\DrawOutputWatermarkG{s_watermark,draw opacity=1,line width=2.5pt,densely dotted}{c_green}
+	\DrawOutputWatermarkE{s_output_watermark,draw opacity=1, line width=1.5pt}{c_watermark_e_out}
+	\DrawOutputWatermarkF{s_output_watermark,draw opacity=1, line width=1.5pt}{c_watermark_f_out}
+}
+
+\newcommand {\DrawWatermarkH}[1][c_watermark] {
+	\draw [-, s_watermark, #1, dotted] 
+		(\ox + 0.111, \oy + 0.01)
+		to [out=80,in=180] (\ox + 1.444, \oy +  .777) 
+		to [out=0, in=210] (\ox + 3.111, \oy +  1.333) 
+		to [out=30, in=180] (\ox + 5.444, \oy +  1.888)
+		to [out=0, in=210] (\ox + 7.333, \oy +  3.222)
+		to [out=30, in=190] (\ox + 8, \oy +  3.375)
+		to [out=10, in=210] (\ox + 9.333, \oy +  4.4)
+	;
+
+	\draw [-, s_watermark, #1, densely dotted] 
+		(\ox + 0.111, \oy + 0.01)
+		to [out=80,in=180] (\ox + 1.444, \oy +  1.444) 
+		to [out=0, in=210] (\ox + 3.111, \oy +  2.666) 
+		to [out=30, in=180] (\ox + 5.444, \oy +  3.111)
+		to [out=0, in=210] (\ox + 7.333, \oy +  3.999)
+		to [out=30, in=180] (\ox + 8, \oy +  4.2)
+		to [out=0, in=210] (\ox + 9.333, \oy +  4.8)
+	;
+
+	\draw [-, s_watermark, #1] 
+		(\ox + 0.111, \oy + 0.01)
+		to [out=80,in=180] (\ox + 1.111, \oy +  2.333) 
+		to [out=0, in=210] (\ox + 2.666, \oy +  3.555) 
+		to [out=30, in=190] (\ox + 5.444, \oy +  4.111)
+		to [out=10, in=210] (\ox + 7.333, \oy +  4.777)
+		to [out=30, in=190] (\ox + 8, \oy +  5.05)
+		to [out=10, in=200] (\ox + 9.111, \oy +  5.3)
+	;
+}
+
+\newcommand{\DrawWatermarkIJK}[1] {
+		\draw [-, s_watermark, #1] 
+			(\ox + 0.111, \oy + 0.01)
+			to [out=80,in=180] (\ox + 0.444, \oy +  .666) % 5
+			to [out=0, in=180] (\ox + 2.444, \oy +  .999) % 7
+			to [out=0, in=180] (\ox + 3.111, \oy +  2.444) % 8
+			to [out=0, in=180] (\ox + 6.555, \oy +  2.666) % 3 (\ox + rightmost)
+			to [out=0, in=180] (\ox + 7.333, \oy +  4.000) % 8
+			to [out=0, in=180] (\ox + 7.7, \oy +  4.333) % 1
+			to [out=0, in=205] (\ox + 9.000, \oy +  4.6) % end
+			to [out=25, in=220] (\ox + 10.000, \oy +  5.4) % end
+		;
+}
+
+\newcommand{\DrawWatermarkLM}[1] {
+		\draw [-, s_watermark, #1] 
+			(\ox - 0.333, \oy + 0.01)
+			to [out=80,in=220] (\ox + 0.111, \oy +  .555) % 5
+			to [out=40,in=205] (\ox + 0.444, \oy +  .777) % 5
+			to [out=25,in=205] (\ox + 1.000, \oy +  1.000) % 5
+			to [out=25, in=220] (\ox + 2.444, \oy +  2.222) % 7
+			to [out=40, in=200] (\ox + 3.111, \oy +  2.555) % 8
+			to [out=20, in=205] (\ox + 6.555, \oy +  3.666) % 3 (\ox + rightmost)
+			to [out=25, in=220] (\ox + 7.333, \oy +  4.222) % 8
+			to [out=40, in=205] (\ox + 7.7, \oy +  4.444) % 1
+			to [out=25, in=205] (\ox + 9.000, \oy +  4.8) % end
+			to [out=25, in=220] (\ox + 10.000, \oy +  5.4) % end
+		;
+}
+
+\newcommand{\DrawWatermark}[1][c_watermark] {
+ 	\Version
+	  {\DrawWatermarkA[#1]}
+	  {\DrawWatermarkB[#1]}
+	  {\DrawIdealWatermark[s_watermark,c_perfect_watermark,dashed]}
+	  {\DrawIdealWatermark[s_watermark,c_perfect_watermark,dashed]}
+	  {\DrawWatermarkE{c_watermark_e}{c_watermark_e_out}}
+	  {\DrawWatermarkF{c_watermark_f}{c_watermark_f_out}}
+	  {\DrawWatermarkG}
+	  {}
+	  {\DrawWatermarkH[#1]}
+	\VersionMore
+	  {\DrawWatermarkIJK{#1}}
+	  {\DrawWatermarkIJK{#1}}
+	  {\DrawWatermarkIJK{#1}}
+	  {\DrawWatermarkLM{#1}}
+	  {\DrawWatermarkLM{#1}}
+}
+
+\newcommand {\DrawBatchWatermarkAtTo}[3][c_watermark] {
+	\draw [->, s_watermark, #1] (\ox + 0, \oy +  #2) -- (\ox + #3, \oy +  #2 + #3 / 8 * .125);
+}
+
+\newcommand{\DrawTerminatedWatermark}[3][c_watermark] {
+	\DrawBatchWatermarkAtTo[#1]{#2}{#3};
+	\draw [#1,s_watermark, ->] (\ox + #3, \oy +  #2 + #3 / 8 * .125) -- (\ox + 8, \oy +  #2 + #3 / 8 * .125);
+}
+
+\newcommand {\DrawBatchWatermarkAt}[2][c_watermark] {
+	\DrawBatchWatermarkAtTo[#1]{#2}{8}
+}
+
+\newcommand {\DrawGlobalBatchWatermark}[1][c_watermark] {
+	\DrawBatchWatermarkAt[#1]{4.25}
+}
+
+\newcommand {\DrawMicroBatchWatermarks}[1][c_watermark] {
+	\DrawBatchWatermarkAt[#1]{4}
+	\DrawBatchWatermarkAt[#1]{3}
+	\DrawTerminatedWatermark[#1,-]{2}{7}
+	\DrawTerminatedWatermark[#1,-]{1}{6}
+}
+
+\newcommand{\WatermarkLegend}[5][0] {
+    % #1 = extra offset
+    % #2 = x
+    % #3 = y
+    % #4 = text
+    % #5 = style 
+    
+    \node[s_legend] at (#2, #3) {#4:};
+    \draw [#5, -] (#2 + 2 + #1, #3) -- (#2 + 4 + #1, #3);  
+    %\node[s_legend] at (\ox + 2.5, \oy +  -1.55) {Ideal watermark:};
+    %\draw [s_ideal, -] (\ox + 4.5, \oy +  -1.55) -- (\ox + 6.5, \oy +  -1.55);
+}
+
+\newcommand{\DrawIdealWatermarkLegend}[1] {
+		\node[s_legend] at (\ox + 2.5, \oy +  #1) {Ideal watermark:};
+		\draw [s_ideal, -] (\ox + 4.5, \oy +  #1) -- (\ox + 6.5, \oy +  #1);
+}
+
+\newcommand{\DrawHeuristicWatermarkLegend}[2] {
+		\node[s_legend] at (\ox + 2.5, \oy +  #1) {Heuristic watermark:};
+		\draw [s_watermark, -, #2] (\ox + 4.5, \oy + #1) -- (\ox + 6.5, \oy + #1);
+}
+
+\newcommand{\DrawPerfectWatermarkLegend}[2] {
+		\node[s_legend] at (\ox + 2.5, \oy +  #1) {Perfect watermark:};
+		\draw [s_watermark, -, c_perfect_watermark, #2] (\ox + 4.5, \oy + #1) -- (\ox + 6.5, \oy + #1);
+}
+
+\newcounter{LegendIndex}
+
+\newcommand{\DrawWatermarks}[2][\DrawWatermark] {
+	\begin{scope}
+	% Blocker
+	\clip (\ox + 0.01, \oy) rectangle (\ox + \maxx, \oy +  #2);
+
+	% Ideal watermark line
+	\DrawIdealWatermark;
+	
+	#1
+	
+	\end{scope}
+
+	% Watermark s_legends
+	\if \DrawDefaultLegend 1
+		\setcounter{LegendIndex}{0}
+
+		\def \wy{-1.15}
+
+		\if \UsePerfectWatermark 1
+			\if \DottedPerfectWatermark 1
+				\DrawPerfectWatermarkLegend{\wy - \value{LegendIndex} * .4}{dotted}
+			\else
+				\DrawPerfectWatermarkLegend{\wy - \value{LegendIndex} * .4}{dashed}
+			\fi
+			\stepcounter{LegendIndex}
+		\fi		
+		
+		\if \UseHeuristicWatermark 1
+			\if \DottedHeuristicWatermark 1
+				\DrawHeuristicWatermarkLegend{\wy - \value{LegendIndex} * .4}{dotted}
+			\else
+				\DrawHeuristicWatermarkLegend{\wy - \value{LegendIndex} * .4}{}
+			\fi
+			\stepcounter{LegendIndex}
+		\fi
+
+		\DrawIdealWatermarkLegend{\wy - \value{LegendIndex} * .4}
+	\fi
+
+}
+
+\contourlength{1pt}
+
+\def \DrawTriggerLine{1}
+
+\ifdefined \DrawTriggerLineBottom
+\else
+	\def \DrawTriggerLineBottom{0}
+\fi
+
+\newcommand {\DrawCustomOutput}[9][] {
+	% arguments: 
+	% #1 = extra box formatting
+	% #2 = x1
+	% #3 = x2
+	% #4 = y1
+	% #5 = y2
+	% #6 = text
+	% #7 = box color
+	% #8 = border + text formatting
+	% #9 = opacity
+	\fill[#7,#9,line width=.5cm] (\ox + #2, \oy +  #4) rectangle (\ox + #3, \oy +  #5);
+	\draw[#7,#1] (\ox + #2, \oy +  #4) rectangle (\ox + #3, \oy +  #5);
+	\if \DrawTriggerLine 1
+		\if \DrawTriggerLineBottom 1
+			\def \dcoTriggerY{#4}
+		\else
+			\def \dcoTriggerY{#5}
+		\fi
+		\draw[#7,#1,c_proc_time,-] (\ox + #2, \oy +  \dcoTriggerY) -- (\ox + #3, \oy +  \dcoTriggerY);
+	\fi
+	\contourlength{\OutputContour}
+	\node[#8,font=\bf\sffamily\normalsize] at ({\ox + #2 + ((#3) - (#2)) / 2}, \oy +  #5 - .25) {\contour{#8!25!black}{#6}}; 
+	\if \ShowTiming 1
+		\if \DisableTiming 0
+			\contourlength{\OutputContour}
+			\node[#8,font=\bf\sffamily\scriptsize,c_proc_time] at ({\ox + #2 + (#3 - #2) / 2}, \oy +  #5 - .5) {\contour{#8!25!black}{\Timing}}; 
+		\fi
+	\fi
+}
+
+\def \ShowLateness{0}
+\def \latey{.1}
+\newcommand{\DrawLatenessHorizonText}[3]{
+		\contourlength{0.66pt}
+		\node[font=\bf\sffamily\scriptsize,c_outlined_text] at (\ox + #2 + \lateness, \oy +  #3 +.52) {\contour{c_outlined_text_outline}{[12:0#1, 12:0#2)}};
+		\node[font=\bf\sffamily\scriptsize,c_outlined_text] at (\ox + #2 + \lateness, \oy +  #3 +.3) {\contour{c_outlined_text_outline}{Lateness Horizon}};
+}
+
+\newdimen \lateXDim
+\newdimen \maxXDim
+
+\newcommand {\DrawState}[6][\ostate] {
+	\def \DrawTriggerLine{0}
+	\DrawCustomOutput{#2}{#3}{#4}{#5}{#6}{c_state_back}{c_state_text}{opacity=#1} 
+	\def \DrawTriggerLine{1}
+	\if \ShowLateness 1
+	
+		\pgfmathparse{#3 + \lateness}
+		\lateXDim=\pgfmathresult pt
+	
+		\maxXDim=\maxx pt
+
+		\ifthenelse{\lengthtest{\lateXDim > \maxXDim}}
+			{\def \lateX{\maxx}}
+			{\def \lateX{#3 + \lateness}}
+	
+		\draw [s_timeline] (\ox + #3 + \lateness, \oy +  #5 - \latey) -- (\ox + #3 + \lateness, \oy + #5 + \latey);
+		\DrawLatenessHorizonText{#2}{#3}{#5}
+		%\DrawCustomOutput{#3}{#3 + 1}{#4}{#5}{}{s_late}{c_state_text}{opacity=#1} 
+	\fi
+}
+
+\tikzstyle{s_delay_delta}=[color=c_timeline,densely dotted, line width=.6pt]
+\tikzstyle{s_delay_delta_end}=[s_delay_delta, line width=.5pt, solid]
+
+\newcommand{\DrawDelayDelta}[3]{
+	%\pgfmathparse{#3 + \lateness}
+	%\lateXDim=\pgfmathresult pt
+	
+	%\maxXDim=\maxx pt
+
+	%\ifthenelse{\lengthtest{\lateXDim > \maxXDim}}
+	%	{\def \lateX{\maxx}}
+	%	{\def \lateX{#3 + \lateness}}
+	
+	\def \dddX{#1}
+	\def \dddYmin{#2}
+	\def \dddYmax{#3}
+	
+	\pgfmathsetmacro{\dddYdelta}{\dddYmax - \dddYmin}
+	\pgfmathsetmacro{\dddYdeltaMin}{(\dddYdelta * 60) / 60)}
+	\pgfmathsetmacro{\dddYdeltaSec}{Mod(\dddYdelta * 60, 60)}	
+	\pgfmathprintnumberto[fixed,int trunc,verbatim]{\dddYdeltaMin}{\dddDeltaMin}
+	\pgfmathprintnumberto[fixed,int trunc,verbatim]{\dddYdeltaSec}{\dddDeltaSec}
+	\ifthenelse{\equal{\dddDeltaMin}{0}}
+		{\def \dddMin{}}
+		{\def \dddMin{\dddDeltaMin m\ }}	
+	\ifthenelse{\equal{\dddDeltaSec}{0}}
+		{\def \dddSec{}}
+		{\def \dddSec{\dddDeltaSec s}}	
+	\ifthenelse{\equal{\dddDeltaMin}{0} \AND \equal{\dddDeltaSec}{0}}
+		{\def \dddMin{0s}}
+		{}	
+
+	\pgfmathsetmacro{\dddYmid}{\dddYmin + (\dddYdelta / 2)}
+
+	
+	\draw [s_delay_delta] (\ox + \dddX, \oy +  \dddYmin) -- (\ox + \dddX, \oy + \dddYmax);
+	\draw [s_delay_delta_end] (\ox + \dddX - \latey, \oy +  \dddYmin) -- (\ox + \dddX + \latey, \oy + \dddYmin);
+	\draw [s_delay_delta_end] (\ox + \dddX - \latey, \oy +  \dddYmax) -- (\ox + \dddX + \latey, \oy + \dddYmax);
+	\contourlength{0.66pt}
+	\node[font=\bf\sffamily\scriptsize,c_outlined_text,anchor=west] at (\ox + \dddX + 0.01, \oy + \dddYmid) {\contour{c_outlined_text_outline}{\dddMin\dddSec\ delay}};
+
+}
+
+\def \DefaultOutputBack{c_out_back}
+\newcommand {\DrawOutput}[6][\DefaultOutputBack] {
+	\DrawCustomOutput{#2}{#3}{#4}{#5}{#6}{#1}{c_out_text}{opacity=\oout} 
+}
+
+\newcommand {\DrawOutputz}[7][\DefaultOutputBack] {
+	\def \ShowTiming{1}
+	\def \Timing{#7}
+	\DrawOutput[#1]{#2}{#3}{#4}{#5}{#6}
+	\def \ShowTiming{0}
+}
+
+\newcommand {\DrawTrigger}[5] {
+	\DrawCustomOutput{#1}{#2}{#3}{#4}{#5\phantom{---------------}}{white,densely dashed, line width=1pt,draw opacity=1}{white,text opacity=1}{opacity=0} 
+}
+
+\newcommand{\offx}[1]{#1 - .04}
+\newcommand{\offy}[1]{#1 + .04}
+
+\newcommand{\DrawRetraction}[5]{
+	\DrawCustomOutput{#1}{#2}{#3}{#4}{-#5    }{c_retraction_back}{c_retraction_text}{opacity=\oretraction}
+}
+
+\newcommand {\DrawRetractionz}[6] {
+	\def \ShowTiming{1}
+	\def \Timing{#6}
+	\DrawRetraction{#1}{#2}{#3}{#4}{#5}
+	\def \ShowTiming{0}
+}
+
+\definecolor{c_unused}{HTML}{123456}
+\newcommand{\DrawTombstone}[4]{
+	\def \DrawTriggerLine{0}
+	\DrawCustomOutput[s_tomb]{#1}{#2}{#3}{#4}{}{c_tomb}{c_unused}{opacity=0}
+	\def \DrawTriggerLine{1}
+	\draw [s_tomb_late] (\ox + #2, \oy +  #4) -- (\ox + #2 + \lateness, \oy +  #4);
+	\draw [s_tomb_late] (\ox + #2 + \lateness, \oy +  #4 - \latey) -- (\ox + #2 + \lateness, \oy + #4 + \latey);
+	\DrawLatenessHorizonText{#1}{#2}{#4}
+}
+
+\newcommand{\DrawTimeline}[2]{
+	\begin{scope}
+	% Never draw outside max boundaries
+	\clip (\ox, \oy) rectangle (\ox + \maxx, \oy + \maxy);
+	\draw [s_timeline,#1] (\ox + 0, \oy +  #2) -- (\ox + \maxx, \oy +  #2);
+	\end{scope}
+}
+
+\def \ShowWatermarks{1}
+\ifdefined \ShowIdealWatermarkOnly
+\else
+	\def \ShowIdealWatermarkOnly{0}
+\fi
+
+\ifdefined \DiagramName
+\else
+	\def \DiagramName{}
+\fi
+
+\ifdefined \BackRectBorderWidth
+\else
+	\def \BackRectBorderWidth{0pt}
+\fi
+
+\ifdefined \BackRectBorderColor
+\else
+	\def \BackRectBorderColor{c_back_light}
+\fi
+
+\newcommand{\BackRect}[0] {
+	\if \DrawDefaultLegend 1
+		\def \ExtraHeight{1}
+	\else
+		\def \ExtraHeight{0}
+	\fi
+	\fill[c_back_dark,draw=\BackRectBorderColor,line width=\BackRectBorderWidth] (\ox - 1.333, \oy - 1 - \ExtraHeight) rectangle (\ox + \maxx + 1, \oy + \maxy + 1);
+	\node [c_legend,font=\large] at (\ox + \maxx / 2 - .1666, \oy + \maxy + .5) {\DiagramName};
+}
+
+\ifdefined \DrawBackRect
+\else
+	\def \DrawBackRect{0}
+\fi
+
+\newcommand{\GamingInline}[4][c_timeline] {
+	\if \DrawBackRect 1	
+		\BackRect
+	\fi
+	\if \ShowWatermarks 1
+		\DrawWatermarks{#2} 
+	\fi
+	\if \ShowIdealWatermarkOnly 1
+		\DrawIdealWatermarkLegend{-1.15}
+		\DrawIdealWatermark
+	\fi
+	\begin{scope}
+		\clip (\ox + 0.01, \oy) rectangle (\ox + \maxx, \oy +  #2);
+		\DrawInputs
+	\end{scope}
+	\begin{scope}
+		\clip (\ox + 0.01, \oy +  5) rectangle (\ox + \maxx, \oy +  #2);
+		\DrawGhostInputs
+	\end{scope}
+	#3
+	#4
+	\DrawTimeline{#1}{#2}
+}
+
+\ifdefined \XAxisToTen
+\else
+	\def \XAxisToTen{0}
+\fi
+
+\ifdefined \YAxisToEleven
+\else
+	\def \YAxisToEleven{0}
+\fi
+
+\ifdefined \OutputOverTimeline
+\else
+	\def \OutputOverTimeline{0}
+\fi
+
+\ifdefined \ClipInputs
+\else
+	\def \ClipInputs{0}
+\fi
+
+\newcommand{\TriggersInline}[3][c_timeline] {
+	\if \DrawBackRect 1	
+		\BackRect
+	\fi
+	\if \ShowWatermarks 1
+		\DrawWatermarks{#2} 
+	\fi
+	\if \ShowIdealWatermarkOnly 1
+		\DrawIdealWatermarkLegend{-1.15}
+		\DrawIdealWatermark
+	\fi
+	\begin{scope}
+		\if \ClipInputs 1
+			\clip (\ox + 0.01, \oy) rectangle (\ox + \maxx, \oy +  #2);
+		\fi
+		\DrawInputs
+	\end{scope}
+	\begin{scope}
+		\clip (\ox + 0.01, \oy +  5) rectangle (\ox + \maxx, \oy +  #2);
+		\DrawGhostInputs
+	\end{scope}
+	\DrawAxes{\XAxisToTen} 
+
+	\if \OutputOverTimeline 0
+		#3
+	\fi
+	\DrawTimeline{#1}{#2}
+	\if \OutputOverTimeline 1
+		#3
+	\fi
+}
+
+\ifdefined \ShowFrame
+\else
+	\def \ShowFrame{0}
+\fi
+
+\ifdefined \frame
+\else
+	\def \frame{n/a}
+\fi
+
+\ifdefined \FrameDebugX
+\else
+	\def \FrameDebugX{-2}
+\fi
+
+\ifdefined \FrameDebugY
+\else
+	\def \FrameDebugY{-0.666}
+\fi
+
+\newcommand{\TriggersMulti}[1] {
+\TikzDiagram[7cm]{
+	\if \ShowFrame 1
+		\node[fill=c_back_dark,draw=c_red,text=c_red,rectangle,font=\scriptsize,solid] at (\FrameDebugX, \FrameDebugY) {\frame : \offset};
+	\fi
+  #1
+}
+}
+
+\newcommand{\BoundingBox}[7] {
+        % #1 = x
+        % #2 = y
+        % #3 = w
+        % #4 = h
+        % #5 = fill opacity
+        % #6 = draw opacity
+        % #7 = bordercolor
+        \def \px{#1}
+        \def \py{#2}
+        \def \pw{#3}
+        \def \ph{#4}
+        \def \pFillOpacity{#5}
+        \def \pDrawOpacity{#6}
+        \def \pline{#7}
+	\fill[fill=c_back_dark,draw=\pline,line width=1pt,densely dashed,opacity=\pFillOpacity,draw opacity=\pDrawOpacity] (\px, \py) rectangle (\px + \pw, \py + \ph);
+}
+
+
+\newdimen \dimYMinBase
+\newdimen \dimZero
+
+\newcommand {\DrawYAxis}[2] {
+	\def \dyaX{#1}
+	\pgfmathprintnumberto[fixed,int trunc,verbatim]{\stYMinBase}{\stYMinBaseInt}
+	\pgfmathsetmacro{\stYMinBaseMod}{\stYMinBase - \stYMinBaseInt}
+	\pgfmathsetmacro{\stYMinBase}{\stYMinBase}
+	\dimYMinBase=\stYMinBase pt
+	\dimZero=0 pt
+	\ifthenelse{\lengthtest{\dimYMinBase < \dimZero}}
+		{
+			\pgfmathsetmacro{\stYMinBaseMod}{-\stYMinBaseMod}
+			\def \dyaExtendDown{1}
+		}
+		{\def \dyaExtendDown{0}}
+	\pgfmathsetmacro{\dyaY}{\stInputY + \stYMinBaseMod}
+	\pgfmathsetmacro{\stYMinBase}{\stYMinBaseInt}
+	\def \dyaLabelOnLeft{#2}
+	\def \dyaLabelOffset{0.25}
+	\def \dyaLabelRotate{-90}
+	\if \dyaLabelOnLeft 1
+		\pgfmathsetmacro{\dyaLabelOffset}{-\dyaLabelOffset}
+		%\pgfmathsetmacro{\dyaLabelRotate}{-\dyaLabelRotate}
+	\fi
+	\def \dyaH{20}
+	% Y Axis
+	\if \dyaExtendDown 1
+		\draw[c_proc_time, line width=1.5pt] (\dyaX, \dyaY - 0.0265 - \stYMinBaseMod) -- (\dyaX, \dyaY + \dyaH);
+	\else
+		\draw[c_proc_time, line width=1.5pt] (\dyaX, \dyaY - 0.0265) -- (\dyaX, \dyaY + \dyaH + \stYMinBaseMod);
+	\fi	
+	% Y Axis Tick Marks
+	\foreach \y in {0,...,\dyaH} {
+		\draw[c_proc_time] (\dyaX + .1, \dyaY + \y) -- (\dyaX - .1, \dyaY + \y);
+		\pgfmathsetmacro{\dyaMinBase}{\y + \stYMinBase}
+		\pgfmathsetmacro{\dyaHour}{\dyaMinBase<0?"11":"12"}
+		\pgfmathsetmacro{\dyaMinBase}{\dyaMinBase<0?\dyaMinBase+60:\dyaMinBase}
+		\pgfmathsetmacro{\dyaMin}{mod(\dyaMinBase,60)<10?"0":{},int(mod(\dyaMinBase,60))}
+		\node[s_timepoint, rotate=\dyaLabelRotate, c_proc_time] at (\dyaX + \dyaLabelOffset, \dyaY + \y) {\dyaHour:\dyaMin};
+	}	
+	% Y Axis Label
+	%\node[s_legend,rotate=90, c_proc_time] at (\dyaX -.666, \dyaY + \stH / 2) {Processing Time};	
+	
+	% Corner beautification
+	%\fill[c_event_time, line width=0pt] (\dyaX - \trioff, \dyaY - \trioff) -- (\dyaX + \trioff, \dyaY + \trioff) -- (\dyaX + \trioff, \dyaY - \trioff) -- (\dyaX - \trioff, \dyaY - \trioff);
+}
+
+
+\newcommand {\DrawYAxisOrig}[2] {
+	\def \dyaX{#1}
+	\def \dyaLabelOnLeft{#2}
+	\def \dyaLabelOffset{0.25}
+	\def \dyaLabelRotate{-90}
+	\if \dyaLabelOnLeft 1
+		\pgfmathsetmacro{\dyaLabelOffset}{-\dyaLabelOffset}
+		%\pgfmathsetmacro{\dyaLabelRotate}{-\dyaLabelRotate}
+	\fi
+	\def \dyaH{20}
+	% Y Axis
+	\draw[c_proc_time, line width=1.5pt] (\dyaX, \stInputY - 0.0265) -- (\dyaX, \stInputY + \dyaH);
+	% Y Axis Tick Marks
+	\foreach \y in {0,...,\dyaH} {
+		\draw[c_proc_time] (\dyaX + .1, \stInputY + \y) -- (\dyaX - .1, \stInputY + \y);
+		\pgfmathsetmacro{\dyaMinBase}{\y + \stYMinBase}
+		\pgfmathsetmacro{\dyaHour}{\dyaMinBase<0?"11":"12"}
+		\pgfmathsetmacro{\dyaMinBase}{\dyaMinBase<0?\dyaMinBase+60:\dyaMinBase}
+		\pgfmathsetmacro{\dyaMin}{mod(\dyaMinBase,60)<10?"0":{},int(mod(\dyaMinBase,60))}
+		\node[s_timepoint, rotate=\dyaLabelRotate, c_proc_time] at (\dyaX + \dyaLabelOffset, \stInputY + \y) {\dyaHour:\dyaMin};
+	}	
+	% Y Axis Label
+	%\node[s_legend,rotate=90, c_proc_time] at (\dyaX -.666, \stInputY + \stH / 2) {Processing Time};	
+	
+	% Corner beautification
+	%\fill[c_event_time, line width=0pt] (\dyaX - \trioff, \stInputY - \trioff) -- (\dyaX + \trioff, \stInputY + \trioff) -- (\dyaX + \trioff, \stInputY - \trioff) -- (\dyaX - \trioff, \stInputY - \trioff);
+}
+
+\newcommand{\DrawXAxis}[2] {
+	\def \dxaY{#1}
+	\def \dxaLabelOnTop{#2}
+	\if \dxaLabelOnTop 1
+		\pgfmathsetmacro{\dxaLabelY}{\dxaY + 0.25}
+	\else
+		\pgfmathsetmacro{\dxaLabelY}{\dxaY - 0.25}
+		% X Axis Label
+		\node[s_legend,color=c_event_time] at (\stX + \stW / 2, \dxaY - 0.75) {Event Time};
+	\fi
+	% X Axis
+	\draw[color=c_event_time, line width=1.5pt] (\stX,\dxaY) -- (\stXW, \dxaY);
+	% X Axis Tick Marks
+	\foreach \x in {0,...,\stXW} {
+		\draw[color=c_event_time] (\stX + \x, \dxaY + .1) -- (\stX + \x, \dxaY - .1);
+		\pgfmathsetmacro{\dxaMin}{mod(\x,60)<10?"0":{},int(mod(\x,60))}
+		\node[s_timepoint,color=c_event_time] at (\stX + \x, \dxaLabelY) {12:\dxaMin};
+	}
+}
+
+\newcommand{\DrawDivider}[4][dotted] {
+	\def \ddY{#2}
+	\def \ddExtraLeft{#3}
+	\def \ddExtraRight{#4}
+	\def \ddLineStyle{#1}
+	\draw[color=c_state_back, line width=0.5pt, \ddLineStyle] (\stX - \ddExtraLeft, \ddY) -- (\stXW + \ddExtraRight, \ddY);
+}
+
+\newcommand{\DrawTableDivider}[1] {
+	\DrawDivider{#1}{3.5}{3.5}
+}
+
+\newcommand{\DrawEndOfStream}[1] {
+	\tikzstyle s_deoi_line=[densely dotted,color=c_proc_time]
+	\def \deoiYoff{#1}
+	\def \deoiY{\oy + \deoiYoff}
+	\DrawDivider[s_deoi_line]{\deoiY}{0}{0}
+	\node[fill=c_back_dark,draw=c_proc_time,text=c_proc_time,rectangle,font=\scriptsize,densely dotted] at (\stX + \stW / 2, \deoiY) {END OF INPUT};
+}
+
+\newcommand{\DrawBytesRow}[2] {
+	\def \dbrYoff{#1}
+	\def \dbrText{#2}
+	\contourlength{0.4pt} 
+	\node[font=\bf\ttfamily\tiny,thick,draw opacity=0,fill opacity=0,text opacity=1,c_datum_text] at (\dbX, \dbY + \dbrYoff) {\contour{c_datum_border}{\dbrText}};
+}
+
+\newcommand{\DrawBytes}[6][c_datum_border] {
+	\def \dbBackColor{#1}
+	\def \dbX{#2}
+	\def \dbY{#3 + \stInputY + 2}
+	\def \dbTextA{#4}
+	\def \dbTextB{#5}
+	\def \dbTextC{#6}
+	\def \dbW{.25}
+	\def \dbH{.26}
+	\filldraw[line width=0.333pt,\dbBackColor,draw=c_datum_back] (\dbX - \dbW, \dbY - \dbH) rectangle (\dbX + \dbW, \dbY + \dbH);
+	\DrawBytesRow{0.15}{\dbTextA}
+	\DrawBytesRow{0}{\dbTextB}
+	\DrawBytesRow{-0.15}{\dbTextC}
+}
+
+\tikzstyle{s_bytes}=[fill=c_datum_back] 
+\tikzstyle{s_bytes_dropped}=[fill=red!60!white,draw opacity=.25] 
+
+\newcommand{\DrawBytesA} {
+	\DrawBytes{0.444}{.333}{0100}{1101}{1010}
+	\DrawBytes{2.444}{.666}{1000}{0101}{0001}
+	\DrawBytes{3.111}{2.111 + \InputsAEightBump}{0110}{0011}{1101}
+	\DrawBytes{3.666}{1.222}{1011}{0100}{0100}
+	%\DrawBytes{3.888}{1.444}{1101}{1000}{0000}
+	\DrawBytes{4.333}{1.666 + \InputsAFourBump}{0001}{1110}{1000}
+	\DrawBytes{6.666}{2.333}{1010}{1111}{0110}
+	\DrawBytes{7.444}{3.666 - \InputsAEightBump}{1000}{0001}{0001}
+	\DrawBytes{7.777}{4.000}{0000}{0100}{0000}
+	\if \NineIsLate 1
+		\DrawBytes[s_bytes_dropped]{1.444}{3.333}{0101}{1100}{1110}
+	\else
+		\DrawBytes{1.444}{3.333}{0101}{1100}{1110}
+	\fi
+}
+
+\newcommand {\DrawCurrency}[5][0] {
+	\def \dcW{#1}
+	\def \dcX{#2}
+	\def \dcY{#3}
+	\colorlet{c_dc_text_color}{#4}
+	\def \dcText{#5}
+	\if \dcW 0
+		\filldraw[c_bullet_fill, draw=c_bullet_draw] (\ox + \dcX, \oy + \dcY) circle [radius=2pt];
+	\else
+		\fill[c_state_back,opacity=\ostate,line width=.5cm] (\ox + \dcX, \oy +  \dcY - 0.25) rectangle (\ox + \dcX + \dcW, \oy +  \dcY + 0.25);
+		\draw[c_bullet_fill] (\ox + \dcX, \oy +  \dcY - 0.25) rectangle (\ox + \dcX + \dcW, \oy +  \dcY + 0.25);
+	\fi
+	\contourlength{1pt}
+	\node[c_dc_text_color,font=\bf\sffamily\normalsize,text width=2cm] at ({\ox + \dcX + 1 + .15}, \oy + \dcY) {\contour{c_state_text!25!black}{\dcText}}; 	
+}
+
+\newcommand{\DrawTableCell}[4][\ostate] {
+	\def \dtXstart{#2}
+	\def \dtXend{#3}
+	\def \dtText{#4}
+	% DrawTableCell's Y coordinates are given relative to the viewport, not
+	% the origin, so we have to subtract out the origin.
+	\DrawState[#1]{\dtXstart}{\dtXend}{\stY - \oy}{\stY + \stH - \oy}{\dtText}
+}
+
+\newcommand{\StreamTableInline}[2] {
+	% Requires the following macros be predefined as input parameters
+	% \stX, \stY, \stW, \stH, \stYoff, \stDrawYAxis, \stYMinBase & \stYAxisLabel (both only if \stDrawYAxis is 1),
+	% \stLabel
+        \def \stDebugColor{#1}
+        \pgfmathsetmacro{\stXW}{\stX + \stW}
+        \pgfmathsetmacro{\stYH}{\stY + \stH}
+        \pgfmathsetmacro{\stYShift}{\oyBase - \stY}
+        \def \stDrawingCommands{#2}
+        \pgfmathsetmacro{\stInputY}{\stY - \stYoff}
+        \pgfmathsetmacro{\oy}{\oyBase - \stYoff}
+        	\pgfmathsetmacro{\stSecTmp}{int(mod(\stYoff, 1) * 60)}
+	\pgfmathsetmacro{\stSec}{mod(\stSecTmp,60)<10?"0":{},int(mod(\stSecTmp,60))}
+	\pgfmathsetmacro{\stMinTmp}{int(\stYMinBase + int(\stYoff))}
+	\pgfmathsetmacro{\stMin}{mod(\stMinTmp,60)<10?"0":{},int(mod(\stMinTmp,60))}
+	%\pgfmathprintnumberto[
+	%    fixed,
+	%    precision=0,
+    	%    verbatim,
+	%]{\stSecTmp}{\stSec}
+	%\BoundingBox{\stX}{\stY}{\stW}{\stH}{1}{0}{c_blue}
+		
+	% Main bounding box
+	\if \DebugStreamTable 1	
+	\else
+		\begin{scope}
+		\clip (\stX, \stY - \stYBoundBoostDown) rectangle (\stXW, \stYH + \stYBoundBoost);
+	\fi
+
+	\if \stDrawYAxis 1
+	\else
+		\DrawTableCell[0]{\stX}{\stXW}{}
+	\fi
+
+	\stDrawingCommands
+
+	% Left margin
+	\if \DebugStreamTable 1
+	\else
+		\end{scope}
+		\begin{scope}
+		\clip (\stX - 3.5, \stY) rectangle (\stX, \stYH);
+	\fi	
+	\if \stDrawYAxis 1
+		\DrawYAxis{\stX}{1}
+		\if \stYAxisLabel 1
+			\node[s_legend,rotate=-90, c_proc_time] at (\stX - 0.75, \stY + \stH / 2) {Processing Time};	
+		\fi
+		\node[s_margin_data] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};		
+	\else
+		% The 69 is to make sure the height of the clock stays constant even with the
+		% Fira Sans font, which has a variable amount of upward and downward swoop.
+		% We block it out with a clip.
+		\begin{scope}
+			\clip (\stX - 1.17, \stY - \stH) rectangle (\stX + 2, \stY + \stH);
+			\node[s_timepoint, rotate=0, c_proc_time, anchor=west] at (\stX - 1.6, \stY + \stH / 2) {69 12:\stMin:\stSec};
+		\end{scope}
+		\node[s_margin_op] at (\stX - 2.25, \stY + \stH / 2) {\stLabel};
+	\fi
+
+	% Right margin
+	\if \DebugStreamTable 1
+	\else
+		\end{scope}
+		\begin{scope}
+		\clip (\stXW, \stY) rectangle (\stXW + 3.5, \stYH);
+	\fi	
+	\if \stDrawYAxis 1
+		\DrawYAxis{\stXW}{0}
+		\node[s_margin_op] at (\stXW + 2.25, \stY + \stH / 2) {STREAM};
+	\else
+		% The 69 is to make sure the height of the clock stays constant even with the
+		% Fira Sans font, which has a variable amount of upward and downward swoop.
+		% We block it out with a clip.
+		\begin{scope}
+			\clip (\stXW - 0.3, \stY - \stH) rectangle (\stXW + 1.17, \stY + \stH);
+			\node[s_timepoint, rotate=0, c_proc_time, anchor=west] at (\stXW + 0.05, \stY + \stH / 2) {12:\stMin:\stSec\ \ 69};
+		\end{scope}
+		\node[s_margin_op] at (\stXW + 2.25, \stY + \stH / 2) {TABLE};
+	\fi
+	
+	\if \DebugStreamTable 1
+	\else
+		\end{scope}
+	\fi
+	
+	% Table dividers
+	\if \stDrawYAxis 1
+	\else
+		\DrawTableDivider{2}
+		\DrawTableDivider{2.5}
+	\fi
+	
+}
+
+
+\newcommand{\StreamInline}[1] {
+	\def \stDrawYAxis{1}
+	\StreamTableInline{c_blue}{#1}
+}
+
+\newcommand{\TableInline}[6] {
+	\def \stDrawYAxis{0}
+	\def \stYAxisLabel{0}
+	\StreamTableInline{c_green}{#1}
+}
+
+\newcommand{\RenderFrames} {
+	\if \FastRender 0
+		\RenderFramesImpl{\AllFrames}
+	\else
+		\RenderFramesImpl{\FastFrames}
+	\fi
+}
+
+\newcommand{\RenderFramesImpl}[1] {
+\foreach \frame [evaluate=\frame as \offsetTmp using \frame/9] in #1 {
+	\pgfmathprintnumberto[fixed,precision=3,verbatim]{\offsetTmp}{\offset}
+	\pgfmathprintnumberto[fixed,int trunc,verbatim]{\offsetTmp}{\offsetInt}
+	\pgfmathsetmacro{\offsetDecimal}{\offset - \offsetInt}
+	\ifthenelse{\equal{\offsetDecimal}{0.556}
+			\OR \equal{\offsetDecimal}{0.667}
+			\OR \equal{\offsetDecimal}{0.778}
+			\OR \equal{\offsetDecimal}{0.889}}
+		{\pgfmathsetmacro{\offset}{\offset - 0.001}}
+		{}
+	\Frame{\offset}
+}
+}
+
+\newcommand {\GamingDiagram}[4][c_timeline] {
+\TriggersMulti{
+	\GamingInline[#1]{#2}{#3}{#4}
+}
+}
+
+\newcommand {\TriggersDiagram}[3][c_timeline] {
+\TriggersMulti{
+	\TriggersInline[#1]{#2}{#3}
+}
+}
+
+\ifdefined \FastRender
+\else
+	\def \FastRender{0}
+\fi
+
+\newcommand{\DrawInitialFrame}[1] {
+        \if \FastRender 0
+		#1
+        \fi
+}
+
+\newcommand{\DrawFinalFrames}[2][19] {
+        #2
+        \if \FastRender 0
+	\foreach \i in {2,...,#1} {
+		#2
+	}
+        \fi
+	
+}
+
+\ifdefined \JointLeftTitle
+\else
+	\def \JointLeftTitle{Ordering \#1}
+\fi
+
+\ifdefined \JointLeftPerfectWatermark
+\else
+	\def \JointLeftPerfectWatermark{0}
+\fi
+
+\newcommand{\JointLeft}[1]{
+  \if \JointLeftPerfectWatermark 1
+	\def \UsePerfectWatermark{1}
+	\def \UseHeuristicWatermark{0}
+  \else
+	\def \UsePerfectWatermark{0}
+	\def \UseHeuristicWatermark{1}
+  \fi
+  \def \InputVersion{\JointLeftInput}
+  \def \ox{0}
+  \def \oy{0}
+  \def \DiagramName{\JointLeftTitle}
+  #1
+}
+
+\ifdefined \JointRightTitle
+\else
+	\def \JointRightTitle{Ordering \#2}
+\fi
+
+\ifdefined \JointRightNineIsLate
+\else
+	\def \JointRightNineIsLate{0}
+\fi
+
+\ifdefined \JointRightPerfectWatermark
+\else
+	\def \JointRightPerfectWatermark{0}
+\fi
+
+\newcommand{\JointRight}[1]{
+  \if \JointRightPerfectWatermark 1
+	\def \UsePerfectWatermark{1}
+	\def \UseHeuristicWatermark{0}
+  \else
+	\def \UsePerfectWatermark{0}
+	\def \UseHeuristicWatermark{1}
+  \fi
+  \def \InputVersion{\JointRightInput}
+  %\def \ox{0}
+  %\def \oy{-\maxy / 2 - 1}
+ % \def \ox{\maxx + 2.55}
+  %\def \ox{\maxx + 2.3} % Overlapping
+  %\def \ox{\maxx + 2.65}
+  \def \ox{\maxx + 2.0}%2.69}
+  \def \oy{0}
+  \def \DiagramName{\JointRightTitle}
+  \def \NineIsLate{\JointRightNineIsLate}
+  #1
+}
+	
+\newcommand{\JointFrame}[2] {
+\TriggersMulti{
+
+  \JointLeft{#1}
+  \JointRight{#2}
+
+  \def \wmx{\maxx - .1} 
+  \def \wmy{-1.4}
+  \def \xa{\maxx + .5 - 1.39} % 2.55
+  \def \xa{\maxx + .5 - 1.32} % 2.69
+  \def \wa{4}
+  \def \xb{\xa + \wa}
+  \def \xm{{\xa + (\wa / 2)}}
+
+  % Measuring guides
+  %\draw [-, s_watermark, color=white] (\xa, -1.2) -- (\xb, -1.2);
+  %\draw [-, s_watermark, color=white] (\xm, -1.25) -- (\xm, -1.15);
+  \if \ShowJointLegend 1
+  	\if \UsePerfectWatermark 1
+		\WatermarkLegend[-.5]{\wmx}{\wmy}{Perfect Watermark}{s_watermark,c_perfect_watermark}
+	\else
+		\WatermarkLegend[-.5]{\wmx}{\wmy}{Heuristic Watermark}{s_watermark}
+	\fi
+	\WatermarkLegend[-.5]{\wmx}{\wmy - .4}{Ideal Watermark}{s_ideal}
+  \fi
+}
+}
+
+\newcommand{\SetJointVars}[2] {
+%\def \ShowJointLegend{#1}
+\def \ShowJointLegend{0}
+\def \ShowLateData{#2}
+\def \ShowAlignmentHelpers{0}
+\def \DrawDefaultLegend{#1}
+\def \BackRectBorderColor{c_back_dark}
+\def \BackRectBorderWidth{0pt}
+\def \DrawBackRect{0}
+%\def \BackBorder{c_back}
+\def \BackBorder{c_back_dark}
+%\def \BackBorderWidth{2ex}
+\def \BackBorderWidth{0pt}
+\def \DrawBackRect{1}
+\def \ShowWatermarks{#1}
+}
+
+\newdimen \targetY
+\newdimen \currentY
+
+\newcommand{\DrawAt}[3]{
+  % #1 = current y
+  % #2 = target y
+  % #3 = commands
+  \currentY=#1 pt
+  \targetY=#2 pt
+  \ifthenelse{\lengthtest{\targetY > \currentY}}
+    {}
+    {#3}
+}
+
+\newdimen \currentY
+\newdimen \startY
+\newdimen \endY
+
+\newcommand{\DrawIn}[4]{
+  % #1 = current y
+  % #2 = start y (inclusive)
+  % #3 = end y (inclusive)
+  % #4 = commands
+  \ifdefined \diOffset
+  \else
+  	\def \diOffset{0}
+  \fi
+  \pgfmathsetmacro{\diCurrent}{#1}
+  \pgfmathsetmacro{\diStart}{#2+\diOffset}
+  \pgfmathsetmacro{\diEnd}{#3+\diOffset}
+  \currentY=\diCurrent pt
+  \startY=\diStart pt
+  \endY=\diEnd pt
+  \ifthenelse{\lengthtest{\startY > \currentY}}
+    {\def \AfterStart{0}}
+    {\def \AfterStart{1}}
+   \ifthenelse{\lengthtest{\currentY > \endY}}
+    {\def \BeforeEnd{0}} % after
+    {\def \BeforeEnd{1}}
+    \if \AfterStart 1
+    	\if \BeforeEnd 1
+		#4
+	\fi
+    \fi
+}
+
+\newcommand{\DrawWindowedRate}[4] {
+	\def \dwrXstart{#1}
+	\def \dwrXend{#2}
+	\def \dwrY{#3}
+	\def \dwrText{#4}
+	\def \dwrDelta{.25}
+	\DrawState[\ostate]{\dwrXstart}{\dwrXend}{\dwrY - \dwrDelta}{\dwrY + \dwrDelta}{\dwrText}
+}
+
+\newcommand{\DrawWindowedOutputz}[5][\DefaultOutputBack]{
+	\def \proBack{#1}
+	\def \proY{#4}
+	\def \proDelta{.25}
+	\def \proXA{#2}
+	\def \proXB{#3}
+	\def \proVal{#5}
+	%\DrawIn{\stYoff}{\proYBottom}{12.0}{
+	\DrawOutputz[\proBack]{\proXA}{\proXB}{\proY - \proDelta}{\proY + \proDelta}{\proVal}{}
+	%}
+}
+
+\newcommand{\DrawTableOutputz}[5][\DefaultOutputBack]{
+	\def \proBack{#1}
+	\def \proY{#2}
+	\def \proYBottom{#2 - 0.5}
+	\def \proXA{#3}
+	\def \proXB{#4}
+	\def \proVal{#5}
+	\DrawIn{\stYoff}{\proY}{12.0}{\DrawOutputz[\proBack]{\proXA}{\proXB}{\proYBottom}{\proY}{\proVal}{}}
+}

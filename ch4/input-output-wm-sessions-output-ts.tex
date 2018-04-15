@@ -1,0 +1,337 @@
+\input{diagrams-chernyak-output-ts}
+\def \ShowLateData{0}
+\def \ShowAlignmentHelpers{0}
+\def \FastRender{0}
+\def \DrawDefaultLegend{0}
+\def \oout{.1} % More transparency for outputs, since we're using bolder colors
+\def \BackRectBorderWidth{2pt}
+\def \BackBorder{c_back}
+\def \DrawBackRect{1}
+\def \OutputOverTimeline{1}
+%\newcommand{\BendArrow}[1] {
+
+
+\newcommand{\sumA}[1]{
+  \def \InputVersion{5}
+  \def \ox{0}
+  \def \oy{\maxy / 2 + 1.5}
+  \def \DefaultOutputBack{c_watermark_e}
+  \def \DiagramName{Frank (Mobile)}
+  #1
+  \draw [->, s_watermark, color=c_back_light, line width=10pt] (\ox + 2 - .1666 / 2, \oy - 1) -- (\ox + 2 - .1666 / 2, \oy - 6) -- (\ox + 4.5 - .1666 / 2, \oy - 6);
+}
+
+\newcommand{\sumB}[1]{
+  \def \InputVersion{6}
+  %\def \ox{0}
+  %\def \oy{-\maxy / 2 - 1}
+  \def \ox{\maxx + 3.5}
+  \def \oy{\maxy / 2 + 1.5}
+  \def \DefaultOutputBack{c_watermark_f}
+  \def \DiagramName{Julie (Console)}
+  #1
+  \draw [->, s_watermark, color=c_back_light, line width=10pt] (\ox + 7 - .333 + .1666 /2, \oy - 1) -- (\ox + 7 - .333 + .1666 / 2, \oy - 6) -- (\ox + 4.5 - .333 + .1666 / 2, \oy - 6);
+}
+	
+\newcommand{\topp}[1]{
+  \def \InputVersion{7}
+  \def \ox{\maxx / 2 + 2 - .1666 - .1666 / 2}
+  \def \oy{-\maxy / 2 - 1.5}
+  \def \DefaultOutputBack{c_watermark_g}
+  \def \DiagramName{Avg Session Lengths}
+  #1
+  
+  % Alignment helpers
+  \if \ShowAlignmentHelpers 1
+    \draw [-, s_watermark, color=white, line width=2pt] (\ox - 1.333, \oy + 2) -- (\ox - 1.333 - .5, \oy + 2);
+    \draw [-, s_watermark, color=white, line width=2pt] (\ox + \maxx + 1 + .5, \oy + 2) -- (\ox + \maxx + 1, \oy + 2);
+
+    \draw [-, s_watermark, color=white, line width=2pt] (\ox - 1.333, \oy + \maxy + 2) -- (\ox - 1.333 + 5, \oy + \maxy + 2);
+    \draw [-, s_watermark, color=white, line width=2pt] (\ox + \maxx + 1 - 5, \oy + \maxy + 2) -- (\ox + \maxx + 1, \oy + \maxy + 2);
+  \fi
+
+}
+
+\def \midx{\maxx + 1}
+\def \midy{\maxy / 2}
+
+\newcommand{\DrawOutputMarker}[2]{
+	\node[circle,fill opacity=1,fill=c_yellow,draw opacity=1,draw=c_yellow,inner sep=2pt] at (\ox + #1, \oy + #2) {};
+}
+
+\newcommand{\junkfun}[6] {
+        \def \MinX{#1}
+        \def \MinY{#2}
+        \def \MaxX{#3}
+        \def \MaxY{#4}
+        \def \CurY{#6}
+        
+        %\CurDim=\CurY pt
+        %\MaxDim=\MaxY pt
+        %\ifthenelse{\lengthtest{\CurDim > \MaxDim}}
+         % {
+        %  	\def \CurX{\MaxX}
+	%	\def \CurY{\MaxY}
+	 %}{
+	 % }
+        
+	\DrawOutputMarker{\MinX}{\MinY}
+	\draw [line width=1pt,c_yellow] (\ox + \MinX, \oy + \CurY) -- (\ox + \MinX, \oy + \MinY);
+	\DrawInput{black,fill opacity=1}{\MaxX)}{\MaxY}{#5}{c_yellow,draw opacity=1,text opacity=1}
+}
+
+\newdimen \CurDim
+\newdimen \MaxDim
+
+\newcommand{\DrawMarkedOutput}[6]{
+        \def \MinX{#1}
+        \def \MinY{#2}
+        %\def \MaxX{#3}
+        \def \MaxX{#1}
+        \def \MaxY{#4}
+        \def \CurY{#6}
+        \def \CurX{\MinX + ((\MaxX - \MinX) * (\CurY - \MinY) / (\MaxY - \MinY))}
+        
+        \CurDim=\CurY pt
+        \MaxDim=\MaxY pt
+        \ifthenelse{\lengthtest{\CurDim > \MaxDim}}
+        {
+          	\def \CurX{\MaxX}
+		\def \CurY{\MaxY}
+	}{}
+        
+	\DrawOutputMarker{\MinX}{\MinY}
+	\draw [line width=1pt,c_yellow] ({\ox + \CurX}, \oy + \CurY) -- (\ox + \MinX, \oy + \MinY);
+	\DrawInput{black,fill opacity=1}{\CurX}{\CurY}{#5}{c_yellow,draw opacity=1,text opacity=1}
+	%\DrawInputNodeWonky{\InputX}{\InputY}{#4}{s_common}{rectangle, inner sep=4.5pt}
+	%\node[fill=black,fill opacity=1,draw=c_yellow,draw opacity=1,text opacity=1,text=c_yellow,draw opacity=1,text opacity=1,font=\bf\sffamily,thick,c_yellow,draw opacity=1,text opacity=1] at (\ox + #1, \oy + #2) {#3};
+}
+
+\newcommand{\DrawStatex}[6]{
+	\DrawState{#1}{#2}{#3}{#4}{}
+	\DrawInput{black!50!white}{#6}{#4}{#5}{\DefaultOutputBack!50!white}
+}
+
+
+\newcommand{\Frame}[5][c_timeline] {
+\TriggersMulti{
+  %\draw [->, s_watermark, color=white] (\midx - 0.5, \midy - 2.5) -- (\midx + 1.25, \midy - .5);
+
+  \sumA{\TriggersInline{#2}{a
+  	\def \InputStyle{3}
+	
+
+	%%%%
+	% \DrawIn{#2}{Y_START}{Y_END}{\DrawStatex{X_LEFT}{X_RIGHT}{Y_LOW}{#2}{VALUE}{X_VALUE}}	
+	%%%%
+
+ 	\DrawIn{#2}{0.333}{0.833}{\DrawStatex{0.444}{1.444}{0.000}{#2}{1.0}{0.444}}
+	
+	\DrawIn{#2}{0.666}{2.110}{\DrawStatex{2.444}{3.444}{0.000}{#2}{1.0}{2.444}}
+	\DrawIn{#2}{1.222}{1.665}{\DrawStatex{3.666}{4.666}{0.000}{#2}{1.0}{2.444}}
+	\DrawIn{#2}{1.666}{2.110}{\DrawStatex{3.666}{5.333}{0.000}{#2}{1.7}{2.444}}
+	\DrawIn{#2}{2.111}{2.600}{\DrawStatex{2.444}{5.333}{0.000}{#2}{2.9}{2.444}}
+	
+	\DrawIn{#2}{2.333}{3.665}{\DrawStatex{6.666}{7.666}{0.000}{#2}{1.0}{6.666}}
+	\DrawIn{#2}{3.666}{3.999}{\DrawStatex{6.666}{8.444}{0.000}{#2}{1.8}{6.666}}
+	\DrawIn{#2}{4.000}{4.350}{\DrawStatex{6.666}{8.777}{0.000}{#2}{2.1}{6.666}}
+	
+	\DrawAt{#2}{0.833}{
+		\DrawOutput{0.444}{1.4444}{0.000}{0.833}{}
+		\DrawInput{black}{0.444}{0.833}{1.0}{c_watermark_e}
+	}
+
+	\DrawAt{#2}{2.6}{
+		\DrawOutput{2.444}{5.333}{0.000}{2.6}{}
+		\DrawInput{black}{2.444}{2.6}{2.9}{c_watermark_e}
+	}
+
+	\DrawAt{#2}{4.35}{
+		\DrawOutput{6.666}{8.7777}{0.000}{4.35}{}
+		\DrawInput{black}{6.666}{4.35}{2.1}{c_watermark_e}
+	}
+  }}
+  \sumB{\TriggersInline{#2}{
+  	\def \InputStyle{2}	
+	%%%%
+	% \DrawIn{#2}{Y_START}{Y_END}{\DrawStatex{X_LEFT}{X_RIGHT}{Y_LOW}{#2}{VALUE}{X_VALUE}}	
+	%%%%
+	
+	\DrawIn{#2}{0.777}{1.332}{\DrawStatex{0.666}{1.666}{0.000}{#2}{1.0}{0.666}}	
+	\DrawIn{#2}{1.333}{1.85}{\DrawStatex{0.666}{2.222}{0.000}{#2}{1.6}{0.666}}	
+	
+	\DrawIn{#2}{1.666}{3.15}{\DrawStatex{2.666}{3.666}{0.000}{#2}{1.0}{2.666}}
+	
+	\DrawIn{#2}{2.888}{3.25}{\DrawStatex{3.888}{4.888}{0.000}{#2}{1.0}{3.888}}
+	
+	\DrawIn{#2}{2.0}{2.110}{\DrawStatex{6.666}{7.666}{0.000}{#2}{1.0}{6.666}}
+	\DrawIn{#2}{2.111}{2.554}{\DrawStatex{5.888}{7.666}{0.000}{#2}{1.8}{5.888}}
+	\DrawIn{#2}{2.555}{3.55}{\DrawStatex{5.888}{7.666}{0.000}{#2}{1.8}{5.888}}
+	
+	\DrawIn{#2}{3.222}{4.0}{\DrawStatex{7.777}{8.777}{0.000}{#2}{1.0}{7.777}}
+
+	\DrawAt{#2}{1.85}{
+		\DrawOutput{0.666}{2.222}{0.000}{1.85}{}
+	}
+	
+	\DrawAt{#2}{3.15}{
+		\DrawOutputz{2.666}{3.666}{0.000}{3.15}{}
+	}
+	
+	\DrawAt{#2}{3.25}{
+		\DrawOutputz{3.888}{4.888}{0.000}{3.25}{}
+	}
+	
+	\DrawAt{#2}{3.55}{
+		\DrawOutputz{5.888}{7.666}{0.000}{3.55}{}
+	}
+
+	
+	\DrawAt{#2}{4}{
+		\DrawOutputz{7.777}{8.777}{0.000}{4}{}
+	}
+
+	% For 2nd plot (Tyler) draw resulting final session lengths
+
+
+	\DrawAt{#2}{1.85}{
+		\DrawInput{black}{0.666}{1.85}{1.6}{c_watermark_f}
+	}
+		
+	\DrawAt{#2}{3.15}{
+		\DrawInput{black}{2.666}{3.15}{1.0}{c_watermark_f}
+	}
+	
+	\DrawAt{#2}{3.25}{
+		\DrawInput{black}{3.888}{3.25}{1.0}{c_watermark_f}
+	}
+	
+	\DrawAt{#2}{3.55}{
+		\DrawInput{black}{5.888}{3.55}{1.8}{c_watermark_f}
+	}
+	
+	\DrawAt{#2}{4.0}{
+		\DrawInput{black}{7.777}{4.0}{1.0}{c_watermark_f}
+	}
+
+        #4
+  }}
+  \topp{\TriggersInline{#2}{
+        \def \InputStyle{4}
+	\DrawIn{#2}{0.777}{1.8}{\DrawStatex{0}{2}{0.000}{#2}{1.0}{1.8}}	
+    	\DrawAt{#2}{1.8}{
+   	  	\DrawOutput{0}{2}{0.000}{1.8}{}
+		\DrawMarkedOutput{1.8}{1.8}{1.8}{3.5}{1.3}{#2}
+	}
+
+	\DrawIn{#2}{2.444}{2.666}{\DrawStatex{2}{4}{0.000}{#2}{2.9}{3.8}}
+	\DrawIn{#2}{2.667}{3.150}{\DrawStatex{2}{4}{0.000}{#2}{2.0}{3.8}}	
+	\DrawIn{#2}{3.151}{3.250}{\DrawStatex{2}{4}{0.000}{#2}{1.6}{3.8}}	
+    	\DrawAt{#2}{3.255}{
+	    	\DrawOutput{2}{4}{0.000}{3.251}{}
+		\DrawMarkedOutput{3.8}{3.251}{3.8}{4.4}{1.6}{#2}
+	}
+
+	%\DrawIn{#2}{2.6}{3.24}{\DrawStatex{4}{6}{0.000}{#2}{2.9}{5.8}}	
+	%\DrawIn{#2}{3.25}{3.333}{\DrawStatex{4}{6}{0.000}{#2}{2.0}{5.8}}	
+    	\DrawAt{#2}{3.333}{
+		\DrawOutput{4}{6}{0.000}{3.333}{}
+		\DrawMarkedOutput{5.8}{3.333}{5.8}{4.5}{1.8}{#2}
+	}
+
+	\DrawIn{#2}{4.000}{4.369}{\DrawStatex{6}{8}{0.000}{#2}{1.0}{7.8}}	
+    	\DrawAt{#2}{4.37}{
+		\DrawOutput{6}{8}{0.000}{4.37}{}
+		\DrawMarkedOutput{7.8}{4.37}{7.8}{5.2}{1.6}{#2}
+	}
+	
+	%\DrawIn{#2}{3.8}{4.4}{\DrawStatex{8}{9}{0.000}{#2}{}{9.8}}	
+	%\DrawAt{#2}{4.4}{
+	%	\DrawOutput{8}{9}{0.000}{4.4}{}
+	%}
+
+  	#5
+  }}
+  
+  \def \wmx{\maxx + .5}
+  \def \wmy{-5.9}
+  \WatermarkLegend[0.5]{\wmx}{\wmy}{Mobile Scores - Input Watermark}{s_watermark,c_watermark_e}
+  \WatermarkLegend[0.5]{\wmx}{\wmy - .4}{Mobile Scores - Output Watermark}{s_output_watermark,c_watermark_e}
+  \WatermarkLegend[0.5]{\wmx}{\wmy - .8}{Console Scores - Input Watermark}{s_watermark,c_watermark_f}
+  \WatermarkLegend[0.5]{\wmx}{\wmy - 1.2}{Console Scores - Output Watermark}{s_output_watermark,c_watermark_f}
+  \WatermarkLegend[0.5]{\wmx}{\wmy - 1.6}{Top Teams - Input Watermark}{s_watermark,c_watermark_g,line width=2pt}
+  %\WatermarkLegend[0.5]{\wmx}{\wmy - 2.0}{Top Teams - Output Watermark}{s_watermark,white,densely dotted,line width=2pt}
+  %\WatermarkLegend[0.5]{\wmx}{\wmy - 2.0}{Top Teams - Output Watermark}{s_output_watermark,c_datum_back}
+}
+}
+
+\newcommand{\FrameA}[1] {
+\Frame{#1}{}{}{}
+}
+
+\FrameA{.01}
+\if \FastRender 0
+\FrameA{.111}
+\FrameA{.222}
+\FrameA{.333}
+\FrameA{.444}
+\FrameA{.555}
+\FrameA{.666}
+\FrameA{.777}
+\FrameA{.888}
+\fi
+\FrameA{1.000}
+\if \FastRender 0
+\FrameA{1.111}
+\FrameA{1.222}
+\FrameA{1.333}
+\FrameA{1.444}
+\FrameA{1.555}
+\FrameA{1.666}
+\FrameA{1.777}
+\FrameA{1.888}
+\FrameA{2.000}
+\FrameA{2.111}
+\FrameA{2.222}
+\FrameA{2.333}
+\FrameA{2.444}
+\FrameA{2.555}
+\FrameA{2.666}
+\FrameA{2.777}
+\FrameA{2.888}
+\fi % \FastRender 0
+\FrameA{3.000}
+\if \FastRender 0
+\FrameA{3.111}
+\FrameA{3.222}
+\FrameA{3.333}
+\FrameA{3.444}
+\FrameA{3.555}
+\FrameA{3.666}
+\FrameA{3.777}
+\FrameA{3.888}
+\FrameA{4.000}
+\FrameA{4.111}
+\FrameA{4.222}
+\FrameA{4.333}
+\FrameA{4.444}
+\FrameA{4.555}
+\FrameA{4.666}
+\FrameA{4.777}
+\FrameA{4.888}
+\FrameA{5.000}
+\fi % FastRender 0
+
+\newcommand{\FrameV} {
+\Frame[c_back]{5.222}{
+  }{
+  }{
+  }
+}
+\FrameV
+\if \FastRender 0
+	\FrameV
+	\FrameV
+	\DrawFinalFrames{\FrameV}
+\fi
+\end{document}
