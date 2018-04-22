@@ -193,10 +193,12 @@
     		  % -- (10, 1)
       	           % -- cycle;
 	         %\draw [lblue](1,0.99) -- (10, 3.24);	     
-	% \draw [lblue] (1,1.3) -- (3,3.8) -- (3,1.3) -- (5, 3.8) -- (5,1.3) -- (7, 3.8) -- (7, 1.3) -- (9, 3.8) -- (9, 1.3) -- (10, 2.55);
-	 \draw [lred] (1,1.0) -- (10,3.8) ;
-	 \path [fill=lred, fill opacity=0.6] (1,1.0) -- (10,3.8) -- (10,1.0) -- (1, 1.0) ;
-
+	\draw [lblue] (1,1.3) -- (3,3.8) -- (3,1.3) -- (5, 3.8) -- (5,1.3) -- (7, 3.8) -- (7, 1.3) -- (9, 3.8) -- (9, 1.3) -- (10, 2.55);
+	% \draw [lblue] (1,1.0) -- (3,3.8) -- (3,1.0) -- (5,3.8) -- (5, 1.0) -- (7, 3.8) -- (7, 1.0) -- (9, 3.8) -- (9, 1.0) -- (10, 1.9) ;
+	 \path [fill=lblue, fill opacity=0.6] (1,1.3) -- (3,3.8) -- (3,1.3) -- (5, 3.8) -- (5,1.3) -- (7, 3.8) -- (7, 1.3) -- (9, 3.8) -- (9, 1.3) -- (10, 2.55) -- (10,1.0) -- (1, 1.0) ;
+	 \draw [lred]  (1,1) -- (3,1.2) -- (5,1.1) -- (7,1.3) -- (9, 1.1) -- (10, 1.2);
+	 \path [fill=lred, fill opacity=0.6] (1,1) -- (3,1.2) -- (5,1.1) -- (7,1.3) -- (9, 1.1) -- (10, 1.2) -- (10, 1) -- (1, 1);
+	         
 	\draw[thick,->] (1,1) -- (10.2,1);
 	\node at (6,0.5) {Processing Time};
 	\draw[thick,->] (1,1) -- (1,4.6) node[anchor=north west] {Watermark Delay};
@@ -207,10 +209,10 @@
 		 \normalsize
 
 	\draw (10.4,2.1) -- (10.4,3.5) -- (13.8,3.5) -- (13.8,2.1) -- (10.4,2.1);
-	\fill[lred!40!white] (10.5,3) rectangle (10.7,3.1);
-	\node at (12.25,3.05) {\small System Watermark Delay};
-	%\fill[lred!40!white] (10.5,2.5) rectangle (10.7,2.6);
-	%\node at (12.25,2.55) {\small System Watermark Delay};
+	\fill[lblue!40!white] (10.5,3) rectangle (10.7,3.1);
+	\node at (12.25,3.05) {\small Data Watermark Delay};
+	\fill[lred!40!white] (10.5,2.5) rectangle (10.7,2.6);
+	\node at (12.25,2.55) {\small System Watermark Delay};
 		 
 	%\foreach \y in {0,1,2,3,4}
    	%	 \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east] {$\y$};
