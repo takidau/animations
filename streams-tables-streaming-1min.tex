@@ -18,6 +18,15 @@
 	\DrawOutput{\stX}{\stX + \stW}{6 + \stInputY}{6.5 + \stInputY}{51}
 }
 
+\newcommand{\DrawTimedDelay}[4] {
+	\def \domdYoff{#1}
+	\def \domdX{#2}
+	\def \domdY{#3}
+	\def \domdH{#4}
+	\DrawIn{\domdYoff}{\domdY}{\domdY + \domdH - 0.001}{\DrawDelayDelta{\domdX}{\domdY}{\stYoff - 4}}
+	\DrawIn{\domdYoff}{\domdY + \domdH}{20}{\DrawDelayDelta{\domdX}{\domdY}{\domdY + \domdH}}
+}
+
 \newcommand{\BatchDiagram}[3] {
 \TriggersMulti{
 	\def \stYoff{#1}
@@ -91,6 +100,17 @@
 	\def \stLabel{Team scores}
 	\StreamInline{
 		\def \diOffset{4}
+		\definecolor{c_light}{HTML}{F6F6F6} % BBBBBB
+		\definecolor{c_light_text}{HTML}{EEEEEE} % DDDDDD
+		\definecolor{c_light_border}{HTML}{EEEEEE}
+
+		\begin{scope}
+			\clip (\stX, \stY) rectangle (\stXW, \stYH);
+			\DrawInputsA{c_light}{c_light_text}{c_light_border}
+		\end{scope}
+
+		%\DrawIn{\Yoff}{0.333}{2.222}{
+		%}
 		\DrawTableOutputz{1 + 0.333}{0}{2}{5}
 		\DrawTableOutputz{1 + 3.333}{0}{2}{14}
 
@@ -101,6 +121,20 @@
 
 		\DrawTableOutputz{1 + 2.333}{6}{8}{3}
 		\DrawTableOutputz{1 + 3.666}{6}{8}{12}
+
+		\DrawTimedDelay{\stYoff}{0.444}{0.333}{1}
+		\DrawTimedDelay{\stYoff}{2.444}{0.666}{1}
+		\DrawTimedDelay{\stYoff}{3.111}{2.111}{1}
+		\DrawTimedDelay{\stYoff}{3.666}{1.222}{0.444}
+		\DrawTimedDelay{\stYoff}{4.333}{1.666}{1}
+		\DrawTimedDelay{\stYoff}{6.666}{2.333}{1}
+		\DrawTimedDelay{\stYoff}{7.444}{3.666}{1}
+		\DrawTimedDelay{\stYoff}{7.777}{4.0}{0.666}
+		\DrawTimedDelay{\stYoff}{1.444}{3.333}{1}
+
+		%\DrawIn{\stYoff}{0.333}{1.222}{\DrawDelayDelta{0.444}{0.333}{0.3333 + \stYoff - 4.333}}
+		%\DrawIn{\stYoff}{1.333}{20}{\DrawDelayDelta{0.444}{0.333}{1.3333}}
+
 	}
 	
 	\DrawXAxis{6.5}{1}
@@ -114,7 +148,7 @@
 }{}
 }
 
-\newcommand{\FastFrames}{35,...,45,60,61,...,70}
+\newcommand{\FastFrames}{79}
 \newcommand{\AllFrames}{0,1,...,124}
 \RenderFrames
 
