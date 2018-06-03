@@ -88,7 +88,7 @@
 	%\filldraw[c_bullet_fill, draw=c_bullet_draw] (\ox + \aXstart, \oy + \aY) circle [radius=2pt];
 	
 	\contourlength{0.66pt}
-	\node[font=\bf\sffamily\scriptsize,c_outlined_text_outline] at (\ox + \aXstart + \aXshift, \oy + \aY) {\contour{c_outlined_text}{\aText}};
+	\node[font=\bf\sffamily\normalsize,c_outlined_text_outline] at (\ox + \aXstart + \aXshift, \oy + \aY) {\contour{c_outlined_text}{\aText}};
 	
 }
 	
@@ -126,20 +126,25 @@
 \fi
 
 \if \AlignedVersion 1
-	\def \ArrowText{2 panes}
+	\def \ArrowText{AB}
 \else
-	\def \ArrowText{1 pane}
+	\def \ArrowText{X}
 \fi
 
 \TriggersMulti{
-  \sumA{\TriggersInline{\TimelineYoff}{a
+  \sumA{\TriggersInline{\TimelineYoff}{
+	\if \AlignedVersion 1
+		\def \ArrowText{A \& B}
+	\else
+		\def \ArrowText{A}
+	\fi
 	\DrawIn{\Yoff}{0.333}{0.555}{\DrawState{0}{2}{0.000}{\Yoff}{5}}	
 	\DrawIn{\Yoff}{0.666}{1.78}{\DrawState{0}{2}{0.000}{\Yoff}{14}}	
 	\DrawArrowOutput{\Yoff}{\LeftArrow}{0}{2}{1.78}{14}{\ArrowText}
 
 	\DrawIn{\Yoff}{0.777}{2.000}{\DrawState{2}{4}{0.000}{\Yoff}{7}}	
 	\DrawIn{\Yoff}{2.111}{2.85}{\DrawState{2}{4}{0.000}{\Yoff}{15}}	
-	\DrawArrowOutput{\Yoff}{\LeftArrow}{2}{4}{2.85}{15}{\ArrowText}
+	\DrawArrowOutput{\Yoff}{\LeftArrow}{2}{4}{2.85}{15}{\ArrowText}\
 
 	\DrawIn{\Yoff}{1.222}{1.333}{\DrawState{4}{6}{0.000}{\Yoff}{3}}	
 	\DrawIn{\Yoff}{1.333}{1.555}{\DrawState{4}{6}{0.000}{\Yoff}{7}}	
@@ -156,6 +161,11 @@
 	\DrawArrowOutput{\Yoff}{\LeftArrow}{8}{10}{5.444}{11}{\ArrowText}
   }}
   \sumB{\TriggersInline{\TimelineYoff}{
+	\if \AlignedVersion 1
+		\def \ArrowText{A \& B}
+	\else
+		\def \ArrowText{B}
+	\fi
 	\if \AlignedVersion 1
 		\DrawIn{\Yoff}{0.333}{0.555}{\DrawState{2}{0}{0.000}{\Yoff}{6}}	
 		\DrawIn{\Yoff}{0.666}{1.000}{\DrawState{2}{0}{0.000}{\Yoff}{10}}	

@@ -109,10 +109,10 @@
 	\tikzstyle{s_dropped}=[red!80!white,draw opacity=1] 
 	\definecolor{c_dropped_border}{HTML}{660000} 
 
-	%\colorlet{c_outlined_text}{black}%white!25!black}
-	%\definecolor{c_outlined_text_outline}{HTML}{EEEEEE}
-	\colorlet{c_outlined_text}{white}
-	\colorlet{c_outlined_text_outline}{white!25!black}
+	\colorlet{c_outlined_text}{black}%white!25!black}
+	\definecolor{c_outlined_text_outline}{HTML}{EEEEEE}
+	%\colorlet{c_outlined_text}{white}
+	%\colorlet{c_outlined_text_outline}{white!25!black}
 	\colorlet{c_tomb}{black}
 	\definecolor{c_ideal}{rgb}{.8, .8, .8}
 	
@@ -243,11 +243,11 @@
 \tikzstyle{s_ideal}=[ dotted,line width=1.5pt,color=c_ideal]
 \tikzstyle{s_watermark}=[line width=1.5pt, solid, color=c_watermark]
 \tikzstyle{s_output_watermark}=[line width=1.5pt, solid, color=c_output_watermark, dotted]
-\tikzstyle{s_timepoint}=[font=\small]
+\tikzstyle{s_timepoint}=[font=\normalsize]
 \tikzstyle{s_timeline}=[solid,line width=1.5pt,color=c_timeline]
 \tikzstyle{s_boundary}=[color=c_boundary, densely dashed]
 \tikzstyle{s_late}=[color=c_state_back,pattern=north west lines,pattern color=c_state_back]
-\tikzstyle{s_legend}=[font=\small,c_legend]
+\tikzstyle{s_legend}=[font=\normalsize,c_legend]
 \tikzstyle{s_tomb}=[color=c_tomb,densely dotted, line width=.5pt]
 \tikzstyle{s_tomb_late}=[color=c_tomb,densely dotted, line width=.5pt]
 	%\tikzstyle{s_tomb_late}=[color=white,densely dotted,pattern=crosshatch dots,pattern color=c_tomb] 
@@ -1449,11 +1449,11 @@
 		\draw[#7,#1,c_proc_time,-] (\ox + #2, \oy +  \dcoTriggerY) -- (\ox + #3, \oy +  \dcoTriggerY);
 	\fi
 	\contourlength{\OutputContour}
-	\node[#8,font=\bf\sffamily\normalsize] at ({\ox + #2 + ((#3) - (#2)) / 2}, \oy +  #5 - .25) {\contour{#8!25!black}{#6}}; 
+	\node[#8,font=\bf\sffamily\large] at ({\ox + #2 + ((#3) - (#2)) / 2}, \oy +  #5 - .25) {\contour{#8!25!black}{#6}}; 
 	\if \ShowTiming 1
 		\if \DisableTiming 0
 			\contourlength{\OutputContour}
-			\node[#8,font=\bf\sffamily\scriptsize,c_proc_time] at ({\ox + #2 + (#3 - #2) / 2}, \oy +  #5 - .5) {\contour{#8!25!black}{\Timing}}; 
+			\node[#8,font=\bf\sffamily\small,c_proc_time] at ({\ox + #2 + (#3 - #2) / 2}, \oy +  #5 - .5) {\contour{#8!25!black}{\Timing}}; 
 		\fi
 	\fi
 }
