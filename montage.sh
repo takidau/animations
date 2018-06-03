@@ -18,6 +18,6 @@ function Montage() {
     CMD="$CMD -geometry +2+2 -tile $TILE $NAME-montage-$TILE.png"
     echo $CMD
     $($CMD)
+    cp "$NAME-montage-$TILE.png" "$NAME-montage.png"
 }
-
 
