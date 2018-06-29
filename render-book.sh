@@ -90,8 +90,8 @@ function do_render() {
     echo "----------------------------------------"
     echo "$NAME → $FIG"
     echo "----------------------------------------"
-    #render_gif $NAME
-    #render_mp4 $NAME
+    render_gif $NAME
+    render_mp4 $NAME
     render_montage $NAME
 }
 
@@ -99,19 +99,15 @@ function render() {
     NAME=$1
     FIG=$2
     echo "$NAME → $FIG"
-    do_render $NAME $FIG #&> $NAME.render.log
+    do_render $NAME $FIG &> $NAME.render.log
     copy $NAME $FIG $TILE
 }
 
-# Too little X 210 211 302 0402 0403 0404
-# Too much everything 304 305 306 0408 0409
-# Too much X 0701 0813 0814
-
 function render_thread1() {
-    #render batch-fixed 0205
-    #render streaming-per-record 0206
-    #render streaming-2min-aligned 0207
-    #render streaming-2min-delay 0208
+    render batch-fixed 0205
+    render streaming-per-record 0206
+    render streaming-2min-aligned 0207
+    render streaming-2min-delay 0208
     XTRIM=100
     render streaming-wm-joint 0210
     render streaming-speculative-late-joint 0211
@@ -162,9 +158,10 @@ function render_thread4() {
     YTRIM=10
     render window-alignment-aligned 0408
     render window-alignment-unaligned 0409
+    render window-sizes 0410
     XTRIM=50
     YTRIM=50
-    render sessions-bounded 0410
+    render sessions-bounded 0411
     render streams-tables-classic-batch 0604
     render streams-tables-batch-fixed 0606
     render streams-tables-streaming-per-record 0608
@@ -213,4 +210,3 @@ copy streams-tables-classic-batch 0807 #
 copy streams-tables-batch-fixed 0808 #
 copy streams-tables-streaming-per-record 0809 #
 copy streams-tables-streaming-wm 0810 #
-
