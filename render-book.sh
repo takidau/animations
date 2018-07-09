@@ -114,6 +114,7 @@ function render_thread1() {
     XTRIM=10
     YTRIM=10
     render ch3/input-output-wm-sessions 0305
+    render ch3/motivation 0301
     XTRIM=50
     YTRIM=50
     echo "Thread #1 done"
@@ -193,11 +194,6 @@ function render_thread6() {
 }
 
 mkdir -p book
-XTRIM=10
-YTRIM=10
-render ch3/motivation 0301
-exit
-
 render_thread1 &
 render_thread2 &
 render_thread3 &
@@ -207,11 +203,11 @@ render_thread6 &
 wait
 
 echo
-copy classic-batch 0603 #
-copy batch-fixed 0605 #
-copy streaming-per-record 0607 #
-copy streams-tables-streaming-speculative-late 0702 #
-copy streams-tables-classic-batch 0807 #
-copy streams-tables-batch-fixed 0808 #
-copy streams-tables-streaming-per-record 0809 #
-copy streams-tables-streaming-wm 0810 #
+copy classic-batch 0603
+copy batch-fixed 0605
+copy streaming-per-record 0607
+copy streams-tables-streaming-speculative-late 0702
+copy streams-tables-classic-batch 0807
+copy streams-tables-batch-fixed 0808
+copy streams-tables-streaming-per-record 0809
+copy streams-tables-streaming-wm 0810
