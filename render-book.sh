@@ -193,6 +193,11 @@ function render_thread6() {
 }
 
 mkdir -p book
+XTRIM=10
+YTRIM=10
+render ch3/motivation 0301
+exit
+
 render_thread1 &
 render_thread2 &
 render_thread3 &
