@@ -2273,7 +2273,7 @@
 	\def \proXB{#3}
 	\def \proVal{#5}
 	%\DrawIn{\stYoff}{\proYBottom}{12.0}{
-	\DrawOutputz[\proBack]{\proXA}{\proXB}{\proY - \proDelta}{\proY + \proDelta}{\proVal}{}
+	\DrawIn{\stYoff}{\proY - \proDelta}{20}{\DrawOutputz[\proBack]{\proXA}{\proXB}{\proY - \proDelta}{\proY + \proDelta}{\proVal}{}}
 	%}
 }
 

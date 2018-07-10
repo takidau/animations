@@ -102,7 +102,7 @@
 		\def \diOffset{6.25}
 		\DrawIn{\stYoff}{-0.222}{0.333}{\DrawWindowedRate{0.444}{1.444}{0.333}{5}}
 		\DrawIn{\stYoff}{0.333}{2.777}{\DrawTableCell{0.444}{1.444}{5}}
-		\DrawIn{\stYoff}{2.777}{20}{\DrawWindowedRate{0.444}{1.444}{2.83}{-5}}
+		\DrawIn{\stYoff}{2.777}{20}{\DrawWindowedRate{0.444}{1.444}{2.83}{5}}
 
 		\DrawIn{\stYoff}{0}{0.666}{\DrawWindowedRate{2.444}{3.444}{0.666}{7}}
 		\DrawIn{\stYoff}{0.666}{2.000}{\DrawTableCell{2.444}{3.444}{7}}
@@ -117,18 +117,18 @@
 
 		\DrawIn{\stYoff}{0}{2.555}{\DrawWindowedRate{2.444}{5.333}{2.555}{22}}
 		\DrawIn{\stYoff}{2.555}{2.777}{\DrawTableCell{2.444}{5.333}{22}}
-		\DrawIn{\stYoff}{2.777}{20}{\DrawWindowedRate{2.444}{5.333}{2.83}{-22}}
+		\DrawIn{\stYoff}{2.777}{20}{\DrawWindowedRate{2.444}{5.333}{2.83}{22}}
 
 		\DrawIn{\stYoff}{0}{3.333}{\DrawWindowedRate{0.444}{5.333}{3.333}{36}}
 		\DrawIn{\stYoff}{3.333}{20}{\DrawTableCell{0.444}{5.333}{36}}
 
 		\DrawIn{\stYoff}{0}{2.333}{\DrawWindowedRate{6.666}{7.666}{2.333}{3}}
 		\DrawIn{\stYoff}{2.333}{2.777}{\DrawTableCell{6.666}{7.666}{3}}
-		\DrawIn{\stYoff}{2.666}{20}{\DrawWindowedRate{6.666}{7.666}{2.71}{-3}}
+		\DrawIn{\stYoff}{2.666}{20}{\DrawWindowedRate{6.666}{7.666}{2.71}{3}}
 
 		\DrawIn{\stYoff}{0}{3.222}{\DrawWindowedRate{6.666}{8.444}{3.222}{11}}
 		\DrawIn{\stYoff}{3.222}{3.444}{\DrawTableCell{6.666}{8.444}{11}}
-		\DrawIn{\stYoff}{3.444}{20}{\DrawWindowedRate{6.666}{8.444}{3.49}{-11}}
+		\DrawIn{\stYoff}{3.444}{20}{\DrawWindowedRate{6.666}{8.444}{3.49}{11}}
 
 		\DrawIn{\stYoff}{0}{4.000}{\DrawWindowedRate{6.666}{8.777}{4.000}{12}}
 		\DrawIn{\stYoff}{4.000}{20}{\DrawTableCell{6.666}{8.777}{12}}
@@ -145,36 +145,36 @@
 	\def \stYAxisLabel{0}
 	\def \stLabel{Team totals}
 	\StreamInline{
-		\def \diOffset{6.25}
-		\DrawTableOutputz{0.333}{0.444}{1.444}{5}
+		\def \diOffset{6.5}
+		\DrawWindowedOutputz{0.444}{1.444}{0.333}{5}
 
-		\DrawTableOutputz{0.666}{2.444}{3.444}{7}
+		\DrawWindowedOutputz{2.444}{3.444}{0.666}{7}
 		\if \WithRetractions 1
-			\DrawIn{\stYoff}{1.222}{20}{\DrawWindowedOutputz[c_retraction_back]{3.666}{4.666}{1.27}{-3}}
+			\DrawWindowedOutputz[c_retraction_back]{3.666}{4.666}{1.27}{-3}
 		\fi
-		\DrawTableOutputz{1.222}{3.666}{4.666}{3}
+		\DrawWindowedOutputz{3.666}{4.666}{1.222}{3}
 		\if \WithRetractions 1
-			\DrawIn{\stYoff}{2}{20}{\DrawWindowedOutputz[c_retraction_back]{3.666}{5.333}{2.05}{-7}}
-			\DrawIn{\stYoff}{2}{20}{\DrawWindowedOutputz[c_retraction_back]{2.444}{3.444}{2.05}{-7}}
+			\DrawWindowedOutputz[c_retraction_back]{3.666}{5.333}{2.05}{-7}
+			\DrawWindowedOutputz[c_retraction_back]{2.444}{3.444}{2.05}{-7}
 		\fi
-		\DrawIn{\stYoff}{1.777}{20}{\DrawWindowedOutputz{3.666}{5.333}{1.777}{7}}
+		\DrawWindowedOutputz{3.666}{5.333}{1.777}{7}
 		\if \WithRetractions 1
-			\DrawIn{\stYoff}{2.777}{20}{\DrawWindowedOutputz[c_retraction_back]{2.444}{5.333}{2.83}{-22}}
-			\DrawIn{\stYoff}{2.777}{20}{\DrawWindowedOutputz[c_retraction_back]{0.444}{1.444}{2.83}{-5}}
+			\DrawWindowedOutputz[c_retraction_back]{2.444}{5.333}{2.83}{-22}
+			\DrawWindowedOutputz[c_retraction_back]{0.444}{1.444}{2.83}{-5}
 		\fi
-		\DrawIn{\stYoff}{2.555}{20}{\DrawWindowedOutputz{2.444}{5.333}{2.555}{22}}
-		\DrawIn{\stYoff}{3.333}{20}{\DrawWindowedOutputz{0.444}{5.333}{3.333}{36}}
-
-		\if \WithRetractions 1
-			\DrawIn{\stYoff}{2.666}{20}{\DrawWindowedOutputz[c_retraction_back]{6.666}{7.666}{2.71}{-3}}
-		\fi
-		\DrawIn{\stYoff}{2.333}{20}{\DrawWindowedOutputz{6.666}{7.666}{2.333}{3}}
+		\DrawWindowedOutputz{2.444}{5.333}{2.555}{22}
+		\DrawWindowedOutputz{0.444}{5.333}{3.333}{36}
 
 		\if \WithRetractions 1
-			\DrawIn{\stYoff}{3.444}{20}{\DrawWindowedOutputz[c_retraction_back]{6.666}{8.444}{3.49}{-11}}
+			\DrawWindowedOutputz[c_retraction_back]{6.666}{7.666}{2.71}{-3}
 		\fi
-		\DrawIn{\stYoff}{3.222}{20}{\DrawWindowedOutputz{6.666}{8.444}{3.222}{11}}
-		\DrawIn{\stYoff}{4.000}{20}{\DrawWindowedOutputz{6.666}{8.777}{4.000}{12}}
+		\DrawWindowedOutputz{6.666}{7.666}{2.333}{3}
+
+		\if \WithRetractions 1
+			\DrawWindowedOutputz[c_retraction_back]{6.666}{8.444}{3.49}{-11}
+		\fi
+		\DrawWindowedOutputz{6.666}{8.444}{3.222}{11}
+		\DrawWindowedOutputz{6.666}{8.777}{4.000}{12}
 	}
 	
 	\DrawXAxis{8.5}{1}
@@ -188,7 +188,7 @@
 }{}
 }
 
-\newcommand{\FastFrames}{54,...,60}
+\newcommand{\FastFrames}{58,...,106}
 \newcommand{\AllFrames}{0,1,...,142}
 \RenderFrames
 
