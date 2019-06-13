@@ -104,32 +104,32 @@ function render() {
 }
 
 function render_thread1() {
-    render batch-fixed 0205
-    render streaming-per-record 0206
-    render streaming-2min-aligned 0207
-    render streaming-2min-delay 0208
+    #render batch-fixed 0205
+    #render streaming-per-record 0206
+    #render streaming-2min-aligned 0207
+    #render streaming-2min-delay 0208
     XTRIM=100
-    render streaming-wm-joint 0210
+    #render streaming-wm-joint 0210
     render streaming-speculative-late-joint 0211
     XTRIM=10
     YTRIM=10
-    render ch3/input-output-wm-sessions 0305
-    render ch3/motivation 0301
+    #render ch3/input-output-wm-sessions 0305
+    #render ch3/motivation 0301
     XTRIM=50
     YTRIM=50
     echo "Thread #1 done"
 }
 
 function render_thread2() {
-    render classic-batch 0203
-    render streaming-speculative-late-allowed-lateness-1min 0212
-    render streaming-speculative-late-discarding 0213
-    render streaming-speculative-late-retracting 0214
+    #render classic-batch 0203
+    #render streaming-speculative-late-allowed-lateness-1min 0212
+    #render streaming-speculative-late-discarding 0213
+    #render streaming-speculative-late-retracting 0214
     XTRIM=100
-    render streaming-wm-joint 0302
+    #render streaming-wm-joint 0302
     XTRIM=10
     YTRIM=10
-    render ch3/input-output-wm-input-only 0304
+    #render ch3/input-output-wm-input-only 0304
     XTRIM=50
     YTRIM=50
     echo "Thread #2 done"
@@ -138,57 +138,57 @@ function render_thread2() {
 function render_thread3() {
     XTRIM=10
     YTRIM=10
-    render ch3/input-output-wm-sessions-output-ts 0306
+    #render ch3/input-output-wm-sessions-output-ts 0306
     XTRIM=50
     XTRIM=50
-    render streaming-wm-percentile 0310
+    #render streaming-wm-percentile 0310
     DELAY=7
-    render input-toggle 0401
+    #render input-toggle 0401
     DELAY=15
     XTRIM=100
-    render streaming-speculative-late-toggle-joint 0402
-    render proc-time-discarding-joint 0403
-    render ingress-time-joint 0404
+    #render streaming-speculative-late-toggle-joint 0402
+    #render proc-time-discarding-joint 0403
+    #render ingress-time-joint 0404
     XTRIM=50
     echo "Thread #3 done"
 }
 
 function render_thread4() {
-    render sessions-boxed 0407
+    #render sessions-boxed 0407
     XTRIM=10
     YTRIM=10
-    render window-alignment-aligned 0408
-    render window-alignment-unaligned 0409
-    render window-sizes 0410
+    #render window-alignment-aligned 0408
+    #render window-alignment-unaligned 0409
+    #render window-sizes 0410
     XTRIM=50
     YTRIM=50
-    render sessions-bounded 0411
-    render streams-tables-classic-batch 0604
-    render streams-tables-batch-fixed 0606
-    render streams-tables-streaming-per-record 0608
+    #render sessions-bounded 0411
+    #render streams-tables-classic-batch 0604
+    #render streams-tables-batch-fixed 0606
+    #render streams-tables-streaming-per-record 0608
     echo "Thread #4 done"
 }
 
 function render_thread5() {
-    render streaming-wm 0609
-    render streams-tables-streaming-wm 0610
-    render streaming-speculative-late 0611
-    render streams-tables-streaming-speculative-late 0612
+    #render streaming-wm 0609
+    #render streams-tables-streaming-wm 0610
+    #render streaming-speculative-late 0611
+    #render streams-tables-streaming-speculative-late 0612
     XTRIM=30
-    render streams-tables-gbk 0701
+    #render streams-tables-gbk 0701
     XTRIM=50
-    render streams-tables-streaming-wm-late 0811
+    #render streams-tables-streaming-wm-late 0811
     echo "Thead #5 done"
 }
 
 function render_thread6() {
-    render streams-tables-streaming-1min 0812
-    render streams-tables-sql-validity-windows 0901
+    #render streams-tables-streaming-1min 0812
+    #render streams-tables-sql-validity-windows 0901
     XTRIM=30
-    render streams-tables-streaming-sessions-no-retractions 0813
-    render streams-tables-streaming-sessions 0814
-    render streams-tables-sql-temporal-join 0902
-    render streams-tables-sql-temporal-join-wm 0903
+    #render streams-tables-streaming-sessions-no-retractions 0813
+    #render streams-tables-streaming-sessions 0814
+    #render streams-tables-sql-temporal-join 0902
+    #render streams-tables-sql-temporal-join-wm 0903
     XTRIM=50
     echo "Thead #6 done"
 }
@@ -201,7 +201,7 @@ render_thread4 &
 render_thread5 &
 render_thread6 &
 wait
-
+exit
 echo
 copy classic-batch 0603
 copy batch-fixed 0605
