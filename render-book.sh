@@ -109,8 +109,8 @@ function render_thread1() {
     #render streaming-2min-aligned 0207
     #render streaming-2min-delay 0208
     XTRIM=100
-    #render streaming-wm-joint 0210
-    render streaming-speculative-late-joint 0211
+    render streaming-wm-joint 0210
+    #render streaming-speculative-late-joint 0211
     XTRIM=10
     YTRIM=10
     #render ch3/input-output-wm-sessions 0305
@@ -126,7 +126,7 @@ function render_thread2() {
     #render streaming-speculative-late-discarding 0213
     #render streaming-speculative-late-retracting 0214
     XTRIM=100
-    #render streaming-wm-joint 0302
+    render streaming-wm-joint 0302
     XTRIM=10
     YTRIM=10
     #render ch3/input-output-wm-input-only 0304
